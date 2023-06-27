@@ -5,8 +5,6 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-/* const fetch = (...args) =>
-  import('node-fetch').then(({ default: fetch }) => fetch(...args)); */
 import newsRoute from './routes/news.js';
 import weatherRoute from './routes/weather.js';
 

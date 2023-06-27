@@ -13,6 +13,23 @@
 </template>
 
 <script setup>
+//date conversion
+/* const date = new Date('2023-06-27T14:00:00-05:00');
+
+const currentDay = (date) => {
+  const dayValue = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  return dayValue[date.getDay()];
+};
+
+const dayMonth = (date) => {
+  const monthValue = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  return monthValue[date.getMonth()] + " " + date.getDate();
+}
+
+console.log(
+  currentDay(date), dayMonth(date)
+); */
+
 import { RouterLink, RouterView } from 'vue-router'
 import locationInput from '../components/locationInput.vue'
 </script>
