@@ -18,13 +18,11 @@ HTML/CSS: The app's structure and styling are implemented using HTML and CSS, en
 
 Geographic Location API: https://www.geonames.org/ API to fetch location data based on user input. Returns latitude and longitude for use in weather search (for accuracy).
 
-Weather API: https://www.weatherbit.io/ API to fetch real-time weather data. The API provides access to various weather parameters, such as temperature, humidity, wind speed, and forecast information.
+Weather API: https://www.weather.gov API to fetch real-time weather data. The API provides access to various weather parameters with daily/hourly forecast information.
 
 Air Quality API: https://docs.airnowapi.org/ API providing forecast and real-time observed air quality information across the United States.
 
 News API: https://newsapi.org/ API to fetch articles and news headlines from many different sources and blogs across the web.
-
-Sentiment Analysis & Document Summary and Analytics API: https://www.meaningcloud.com/ API to analyze key concepts and sentiment of the news articles and blogs provided by the news API.
 
 Hosted at: https://weather-app-e871.onrender.com/ 
 
@@ -33,10 +31,8 @@ Hosted at: https://weather-app-e871.onrender.com/
 ~~Use GeoLocation for inital load of weather data,~~
 Set up airnow api and functionality
 Seperate get endpoints to send weather and news data seperatly,
-Implement meaningcloud API for news article summary and anaylisis,
 Add conditional styles to weather/news buttons when active,
 Add nighttime color styling and ability to switch automatically based on local time
-
 
 
 ## Project Setup

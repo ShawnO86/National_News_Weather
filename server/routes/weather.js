@@ -30,7 +30,6 @@ app.get('/:city?/:lat?/:long?', async (req, res) => {
         console.log("Geo error", e)
     }
 });
-
 //celsius to fahrenheit
 const cToF = (deg) => {
     return deg * 1.8 + 32;
@@ -53,7 +52,6 @@ const hourFormat = (date) => {
     const t = new Date(date)
     return get12HourFormat(t.getHours())
 };
-
 const getGeoData = async (req) => {
     let geoData = ''
     if (req.params.city !== 'no') {
@@ -87,7 +85,6 @@ const getGeoData = async (req) => {
         }
     }
 };
-
 const getZoneData = async (lat, long) => {
     const getForcastURL = await fetch(`https://api.weather.gov/points/${lat},${long}`);
     const zoneId = await fetch(`https://api.weather.gov/zones/county?point=${lat},${long}`);
@@ -111,7 +108,6 @@ const getZoneData = async (lat, long) => {
         console.log("forecast URL error:", e);
     }
 };
-
 const getDailyForcastData = async (url) => {
     const forcastURL = await fetch(url);
     const forecast = [];
@@ -138,7 +134,6 @@ const getDailyForcastData = async (url) => {
         console.log("Forcast data error: ", e)
     }
 };
-
 const getHourlyForcastData = async (url) => {
     const forcastURL = await fetch(url);
     const forecastArr = [];
@@ -162,7 +157,6 @@ const getHourlyForcastData = async (url) => {
         console.log("Hourly Forecast data error: ", e);
     }
 };
-
 const getAirQuality = async (lat, long) => {
     const aqiURL = await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${long}&distance=50&API_KEY=${aqiKey}`);
     const aqiArr = []
@@ -182,7 +176,6 @@ const getAirQuality = async (lat, long) => {
         console.log("AQI data error: ", e);
     }
 }
-
 const getAlertData = async (zone) => {
     const alertURL = await fetch(`https://api.weather.gov/alerts/active?zone=${zone}`)
     let alertArr = []
