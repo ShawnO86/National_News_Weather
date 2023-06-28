@@ -85,8 +85,12 @@ const getZoneData = async (lat, long) => {
             zoneId: zoneJson.features[0].properties.id,
             county: zoneJson.features[0].properties.name
         }
-        await getDailyForcastData(projectData.zoneData.dailyForecastURL);
-        await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
+        while(projectData.weatherData.dailyForecast === undefined) {
+            await getDailyForcastData(projectData.zoneData.dailyForecastURL);
+        }
+        while(projectData.weatherData.hourlyForecast === undefined) {
+            await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
+        }
         await getAlertData(projectData.zoneData.zoneId);
     } catch (e) {
         console.log("forecast URL error:", e);
@@ -107,7 +111,8 @@ const getDailyForcastData = async (url) => {
                 precip: day.probabilityOfPrecipitation.value == null ? 0 + '%' : day.probabilityOfPrecipitation.value + '%',
                 dewpoint: cToF(day.dewpoint.value) + "F",
                 humidity: day.relativeHumidity.value + "%",
-                wind: day.windSpeed + " " + day.windDirection,
+                windSpeed: day.windSpeed,
+                windDirection: day.windDirection,
                 icon: day.icon,
                 shortDesc: day.shortForecast,
                 detailDesc: day.detailedForecast
@@ -121,24 +126,22 @@ const getDailyForcastData = async (url) => {
 
 const getHourlyForcastData = async (url) => {
     const forcastURL = await fetch(url)
-    let forecast = []
+    let forecastArr = []
     try {
         const forcastData = await forcastURL.json()
-        let forcastDataArr = forcastData.properties.periods;
-        //only need 24 hours
-        forcastDataArr.slice(0, 23)
-        forcastDataArr.forEach(hour => {
-            forecast.push({
+        forcastData.properties.periods.forEach(hour => {
+            forecastArr.push({
                 time: hour.startTime,
                 temp: hour.temperature + hour.temperatureUnit,
                 precip: hour.probabilityOfPrecipitation.value == null ? 0 + '%' : hour.probabilityOfPrecipitation.value + '%',
                 humidity: hour.relativeHumidity.value + "%",
-                wind: hour.windSpeed + " " + hour.windDirection,
+                windSpeed: hour.windSpeed,
+                windDirection: hour.windDirection,
                 icon: hour.icon,
                 shortDesc: hour.shortForecast
             })
         })
-        projectData.weatherData.hourlyForecast = forecast;
+        projectData.weatherData.hourlyForecast = forecastArr;
     } catch (e) {
         console.log("Hourly Forecast data error: ", e);
     }
@@ -146,17 +149,21 @@ const getHourlyForcastData = async (url) => {
 
 const getAlertData = async (zone) => {
     const alertURL = await fetch(`https://api.weather.gov/alerts/active?zone=${zone}`)
+    let alertArr = []
     try {
         const alertData = await alertURL.json();
-        projectData.weatherData.alert = {
-            alertHeadline: alertData.features[0].properties.headline,
-            alertAreas: "The Following Counties are Affected: " + alertData.features[0].properties.areaDesc,
-            alertTextDesc: alertData.features[0].properties.description,
-            alertStartTime: alertData.features[0].properties.effective,
-            alertEndTime: alertData.features[0].properties.expires,
-        }
+        alertData.features.forEach(alertItem => {
+            alertArr.push({
+                alertHeadline: alertItem.properties.headline,
+                alertAreas: "The Following Counties are Affected: " + alertItem.properties.areaDesc,
+                alertTextDesc: alertItem.properties.description,
+                alertStartTime: alertItem.properties.effective,
+                alertEndTime: alertItem.properties.expires,
+            })
+        })
+        projectData.weatherData.alerts = alertArr;
     } catch (e) {
-        console.log("Alert Data error: ", e)
+        console.log("Alert Data error: ", e);
     }
 };
 
