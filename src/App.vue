@@ -32,6 +32,11 @@ console.log(
 
 import { RouterLink, RouterView } from 'vue-router'
 import locationInput from '../components/locationInput.vue'
+
+function setLocation() {
+  
+}
+
 </script>
 
 <style>

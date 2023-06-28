@@ -22,13 +22,17 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static(__dirname + '/dist'));
 
+//routes/weather.js
 app.use('/weather', weatherRoute);
+//routes/news.js
 app.use('/news', newsRoute);
 
+//serve production files
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/dist/index.html');
 });
 
+//health check
 app.get("/hello", (_req, res) => {
   res.json({ message: "Hello, world!" });
 });
