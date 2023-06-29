@@ -1,6 +1,5 @@
 <template>
   <form @submit.prevent="sendInput">
-    <label for="locationInput">Location Search</label>
     <input
       type="text"
       name="locationInput"
@@ -31,3 +30,33 @@ function sendInput() {
   }
 }
 </script>
+
+<style scoped>
+form {
+  display: flex;
+  flex-flow: wrap;
+  padding: 1rem 0;
+  gap: 0 1rem;
+  min-width: 30rem;
+}
+
+input,
+button {
+  margin-top: 0.5rem;
+  border-radius: 0.25rem;
+  padding: 0.6rem 0.25rem;
+}
+
+input {
+  flex: 3;
+}
+
+button {
+  flex: 1;
+  cursor: pointer;
+}
+
+input::placeholder {
+  padding-left: 1rem;
+}
+</style>
