@@ -32,6 +32,7 @@ app.get('/headlines/:category', async (req, res) => {
 // host/news/summary?url=''
 app.get('/summary', async (req, res) => {
     await getArticleSummary(req.query.url);
+    await getSentiment(req.query.url)
     try {
         res.send(articleSummary)
     } catch (e) {
@@ -85,8 +86,63 @@ const getArticleSummary = async (url) => {
         redirect: 'follow',
     })
         .then(response => response.json())
-        .then(result => articleSummary.summary = result.summary)
+        .then(result => 
+            articleSummary.summary = result
+            )
         .catch(error => console.log('error', error));
+}
+
+const describeScore = (score) => {
+    let polarity = ''
+    switch(score) {
+        case 'P+':
+            polarity = "Strong Positive";
+            break;
+        case 'P':
+            polarity = "Positive";
+            break;
+        case 'NEU':
+            polarity = "Neutral";
+            break;
+        case 'N':
+            polarity = "Negative";
+            break;
+        case 'N+':
+            polarity = "Strong Negative";
+            break;
+        case 'NONE':
+            polarity = "No Polarity"
+            break;
+    }
+    return polarity;
+}
+
+const capitalize = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+const getSentiment = async (url) => {
+    const formdata = new FormData();
+    formdata.append("key", meaningcloudKey);
+    formdata.append("url", url);
+    formdata.append("lang", "en");
+
+    await fetch("https://api.meaningcloud.com/sentiment-2.1", {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+    })
+    .then(response => response.json())
+    .then(result => 
+        articleSummary.sentiment = {
+            polarity: describeScore(result.score_tag),
+            agreement: capitalize(result.agreement.toLowerCase()),
+            subjectivity: capitalize(result.subjectivity.toLowerCase()),
+            confidence: result.confidence + "%",
+            irony: result.irony === "NONIRONIC" ? "Not Ironic" : capitalize(result.irony.toLowerCase()),
+        }
+        )
+    .catch(error => console.log('error', error));
 }
 
 export default app;
