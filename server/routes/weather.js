@@ -20,6 +20,7 @@ const projectData = {
     weatherData: {}
 };
 
+// host/weather/city(optional)/lat(optional)/long(optional)
 app.get('/:city?/:lat?/:long?', async (req, res) => {
     await getGeoData(req);
     await getZoneData(projectData.zoneData.lat, projectData.zoneData.long)
@@ -52,6 +53,7 @@ const hourFormat = (date) => {
     const t = new Date(date)
     return get12HourFormat(t.getHours())
 };
+
 const getGeoData = async (req) => {
     let geoData = ''
     if (req.params.city !== 'no') {

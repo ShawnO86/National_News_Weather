@@ -14,14 +14,28 @@ app.use(bodyParser.urlencoded({
 }));
 
 const newsKey = process.env.newsapi_key;
+const meaningcloudKey = process.env.meaningcloud_key
 const newsContent = {};
+const articleSummary = {};
 
-app.get('/:category', async (req, res) => {
+// host/news/headlines/category
+app.get('/headlines/:category', async (req, res) => {
+
     await getTopHeadlineData(req.params.category);
     try {
         res.send(newsContent)
     } catch (e) {
-        console.log("Geo error", e)
+        console.log("news get error", e)
+    }
+});
+
+// host/news/summary?url=''
+app.get('/summary', async (req, res) => {
+    await getArticleSummary(req.query.url);
+    try {
+        res.send(articleSummary)
+    } catch (e) {
+        console.log("summary get error", e)
     }
 });
 
@@ -51,12 +65,28 @@ const getTopHeadlineData = async (category) => {
                 })
             }
         })
-        console.log(newsData)
+        //console.log(newsData)
         newsContent.amount = newsArr.length
         newsContent.news = newsArr
     } catch (e) {
         console.log("News Data Error: ", e)
     }
 };
+
+const getArticleSummary = async (url) => {
+    const formdata = new FormData();
+    formdata.append("key", meaningcloudKey);
+    formdata.append("url", url);
+    formdata.append("sentences", 5);
+
+    await fetch("https://api.meaningcloud.com/summarization-1.0", {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow',
+    })
+        .then(response => response.json())
+        .then(result => articleSummary.summary = result.summary)
+        .catch(error => console.log('error', error));
+}
 
 export default app;
