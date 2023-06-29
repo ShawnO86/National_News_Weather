@@ -4,7 +4,9 @@ Weather web app built using Node.js, Express.js, Vue.js, and bundled with Vite.
 
 Users can search for any location by entering a city name or ZIP code. The app will retrieve the weather data for the specified location and display it on the interface.
 
-Weather information for the selected location includes temperature, humidity, wind speed, UV index, rain chance, sunrise/sunset times, and weather conditions (e.g., sunny, cloudy, rainy) in a 7-day forecast.
+Weather information for the entered location includes temperature, humidity, wind speed/direction, rain chance, dewpoint, sunrise/sunset times, weather conditions (e.g., sunny, cloudy, rainy), and air quality in a 7-day forecast, current conditions, and hourly forecast for the next 24 hours.
+
+News information will include top headlines. The user will have ability to switch categories based on what's available in the newsapi and an option to summarize and get sentiment analysis on the article (using the meaningcloud api and thier Natural Language Processing techniques) without having to go to the url to read through it. The summarization will include the overall meaning of the document, extracting the most relevent sentences. The analysis will include the sentiment, identification of opinions and facts(and the polarity of them), irony detection, identification of opposing opinions, and contradictory or ambiguous messages. The user can also just go to the article directly through a url.
 
 The app is designed to be responsive, adapting to different screen sizes and devices.
 
@@ -24,15 +26,20 @@ Air Quality API: https://docs.airnowapi.org/ API providing forecast and real-tim
 
 News API: https://newsapi.org/ API to fetch articles and news headlines from many different sources and blogs across the web.
 
+Article summarization API: https://www.meaningcloud.com/ API to perform extractive summarization of the supplied article url.
+
 Hosted at: https://weather-app-e871.onrender.com/ 
 
 ### TO DO: 
-~~Use current weather endpoint for weather by the hour + severe weather alerts for header area,~~
-~~Use GeoLocation for inital load of weather data,~~
-Set up airnow api and functionality
-Seperate get endpoints to send weather and news data seperatly,
-Add conditional styles to weather/news buttons when active,
-Add nighttime color styling and ability to switch automatically based on local time
+Use Vue composition API instead of options,
+Have option to use GeoLocation for inital load of weather data,
+~~Set up weather.gov api calls~~
+~~Set up airnow api and functionality~~
+~~Set up newsapi call~~
+~~Set up meaningcloud api call (needs to use POST req)~~
+~~Seperate get endpoints to send weather and news data seperatly,~~
+Connditional styles to weather/news buttons when active,
+Nighttime color styling and ability to switch automatically based on local time
 
 
 ## Project Setup
@@ -47,7 +54,7 @@ npm install
 npm run dev
 ```
 
-### Start server to serve index.html and css/js frontend with custom API
+### Start express server
 
 ```sh
 npm run serve
@@ -57,12 +64,6 @@ npm run serve
 
 ```sh
 npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
