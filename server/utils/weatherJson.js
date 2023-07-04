@@ -1,7 +1,9 @@
 import fetch from "node-fetch";
+import dotenv from 'dotenv';
 import WeatherData from './weatherData.js';
 import {cToF, get12HourFormat, dateFormat, hourFormat} from './weatherUtils.js'
 
+dotenv.config();
 const geoKey = process.env.geonames_key;
 const aqiKey = process.env.aqi_key;
 const projectData = new WeatherData();
@@ -56,6 +58,7 @@ const getZoneData = async () => {
         projectData.zoneData.zoneId = zoneJson.features[0].properties.id;
         projectData.zoneData.county = zoneJson.features[0].properties.name;
 
+        //need while loop because weather.gov api sometimes needs multiple calls before it returns anything.
         while (projectData.weatherData.dailyForecast === undefined) {
             await getDailyForcastData(projectData.zoneData.dailyForecastURL);
         }
