@@ -37,7 +37,6 @@ form {
   flex-flow: wrap;
   padding: 1rem 0;
   gap: 0 1rem;
-  min-width: 30rem;
 }
 
 input,
