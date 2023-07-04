@@ -1,6 +1,5 @@
 import express from "express";
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,15 +15,13 @@ const port = process.env.PORT || 8081;
 dotenv.config();
 app.use(morgan('tiny'));
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/dist'));
 
-//routes/weather.js
+//routes /weather.js
 app.use('/weather', weatherRoute);
-//routes/news.js
+//routes /news.js
 app.use('/news', newsRoute);
 
 //serve production files

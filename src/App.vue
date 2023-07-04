@@ -19,11 +19,13 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
 
 ref()
+
+/* for hourly forecast: have sun move with hours for daytime and then have moon come in for night with some type of slider to change the hour.*/
 </script>
 
 <style>
 :root {
-
+  --someColors: idk;
 }
 *,
 *::before,
