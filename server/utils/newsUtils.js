@@ -7,7 +7,7 @@ export const dateFormat = (date) => {
 
 export const describeScore = (score) => {
     let polarity = ''
-    switch(score) {
+    switch (score) {
         case 'P+':
             polarity = "Strong Positive";
             break;
@@ -32,4 +32,4 @@ export const describeScore = (score) => {
 
 export const capitalize = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
-  }
+}

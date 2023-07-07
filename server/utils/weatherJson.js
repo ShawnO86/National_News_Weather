@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import dotenv from 'dotenv';
 import WeatherData from './weatherData.js';
-import {cToF, get12HourFormat, dateFormat, hourFormat} from './weatherUtils.js'
+import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime } from './weatherUtils.js'
 
 dotenv.config();
 const geoKey = process.env.geonames_key;
@@ -46,6 +46,18 @@ export const getGeoData = async (city, lat, long) => {
     return projectData;
 };
 
+const getAstroData = async (date) => {
+    const astroURL = await fetch(`https://api.sunrise-sunset.org/json?lat=${projectData.zoneData.lat}&lng=${projectData.zoneData.long}&date=${date}`);
+    try {
+        const astroData = await astroURL.json();
+        const sunrise = astroData.results.sunrise;
+        const sunset = astroData.results.sunset;
+        return {sunrise: sunrise, sunset: sunset}
+    } catch (e) {
+        console.log("Astro data error: ", e);
+    }
+}
+
 //gets urls for forcasts, zone data, and County info for the following functions
 const getZoneData = async () => {
     const getForcastURL = await fetch(`https://api.weather.gov/points/${projectData.zoneData.lat},${projectData.zoneData.long}`);
@@ -78,10 +90,12 @@ const getDailyForcastData = async (url) => {
     try {
         const forcastData = await forcastURL.json();
         //console.log(forcastData.properties.periods)
-        forcastData.properties.periods.forEach(day => {
+        for (const day of forcastData.properties.periods) {
             forecast.push({
                 name: day.name,
                 day: dateFormat(day.startTime),
+                isDaytime: day.isDaytime,
+                astro: day.isDaytime == true ? await getAstroData(removeTime(day.startTime)) : "",
                 temp: day.temperature + day.temperatureUnit,
                 precip: day.probabilityOfPrecipitation.value == null ? 0 + '%' : day.probabilityOfPrecipitation.value + '%',
                 dewpoint: cToF(day.dewpoint.value) + "F",
@@ -92,7 +106,7 @@ const getDailyForcastData = async (url) => {
                 shortDesc: day.shortForecast,
                 detailDesc: day.detailedForecast
             })
-        })
+        }
         projectData.weatherData.dailyForecast = forecast;
     } catch (e) {
         console.log("Forcast data error: ", e)
@@ -104,7 +118,7 @@ const getHourlyForcastData = async (url) => {
     const forecastArr = [];
     try {
         const forcastData = await forcastURL.json()
-        forcastData.properties.periods.forEach(hour => {
+        for(const hour of forcastData.properties.periods) {
             forecastArr.push({
                 time: hourFormat(hour.startTime),
                 temp: hour.temperature + hour.temperatureUnit,
@@ -115,7 +129,7 @@ const getHourlyForcastData = async (url) => {
                 icon: hour.icon,
                 shortDesc: hour.shortForecast
             })
-        })
+        }
         //sliced out only the first 24 hours of the Hourly Forcast Data
         projectData.weatherData.hourlyForecast = forecastArr.slice(0, 23);
     } catch (e) {

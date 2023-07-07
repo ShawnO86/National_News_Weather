@@ -6,13 +6,10 @@
 </template>
   
   <script setup>
-import locationInput from '../components/locationInput.vue'
+import locationInput from '../components/locationInput.vue';
 
-function setLocation() {
-
-}
+function setLocation() {}
 </script>
 
 <style scoped>
-
 </style>

@@ -15,6 +15,11 @@ export const dateFormat = (date) => {
     const monthValues = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return `${monthValues[d.getMonth()]} ${d.getDate()}`;
 };
+//changes ISO to yyyy-mm-dd format
+export const removeTime = (date) => {
+    let newDate = date.split("T")
+    return newDate[0]
+}
 //changes ISO to 12 hour time
 export const hourFormat = (date) => {
     const t = new Date(date);

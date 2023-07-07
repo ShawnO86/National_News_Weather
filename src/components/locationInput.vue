@@ -13,20 +13,21 @@
 </template>
 
   <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const locationInput = ref('')
-const locationError = ref('')
+const locationInput = ref('');
+const locationError = ref('');
+
 
 function sendInput() {
   if (!locationInput.value) {
-    locationError.value = 'Must input (City, State) or Zipcode!'
+    locationError.value = 'Must input (City, State) or Zipcode!';
     setTimeout(() => {
-      locationError.value = ''
-    }, 4000)
+      locationError.value = '';
+    }, 4000);
   } else {
-    locationError.value = ''
-    this.$emit('location', [locationInput.value, 'no', 'no'])
+    locationError.value = '';
+    this.$emit('location', [locationInput.value, 'no', 'no']);
   }
 }
 </script>
