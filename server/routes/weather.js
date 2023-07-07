@@ -8,9 +8,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // host/weather/city(optional)/lat(optional)/long(optional)
-app.get('/:city?/:lat?/:long?/:frequency?', async (req, res) => {
+app.get('/:city?/:lat?/:long?', async (req, res) => {
     try {
-        const weatherData = await getGeoData(req.params.city, req.params.lat, req.params.long, req.params.frequency);
+        const weatherData = await getGeoData(req.params.city, req.params.lat, req.params.long);
         res.send(weatherData);
     } catch (e) {
         console.log("Geo error", e);

@@ -9,7 +9,7 @@ const aqiKey = process.env.aqi_key;
 const projectData = new WeatherData();
 
 //main function to return filled in weatherData object to send to client
-export const getGeoData = async (city, lat, long, frequency) => {
+export const getGeoData = async (city, lat, long) => {
     let geoData = '';
     if (city !== 'no') {
         geoData = await fetch(`http://api.geonames.org/searchJSON?q=${city}&maxRows=1&username=${geoKey}`);
@@ -22,7 +22,7 @@ export const getGeoData = async (city, lat, long, frequency) => {
             projectData.zoneData.country = data.geonames[0].countryName;
             projectData.zoneData.local = data.geonames[0].adminName1;
             projectData.zoneData.name = data.geonames[0].name;
-            await getZoneData(frequency);
+            await getZoneData();
         } catch (e) {
             console.log("Geo search data error", e);
         }
@@ -38,7 +38,7 @@ export const getGeoData = async (city, lat, long, frequency) => {
             projectData.zoneData.country = data.geonames[0].countryName;
             projectData.zoneData.local = data.geonames[0].adminName1;
             projectData.zoneData.name = data.geonames[0].name;
-            await getZoneData(frequency);
+            await getZoneData();
         } catch (e) {
             console.log("Geo postal data error", e);
         }
@@ -59,7 +59,7 @@ const getAstroData = async (date) => {
 }
 
 //gets urls for forcasts, zone data, and County info for the following functions
-const getZoneData = async (frequency) => {
+const getZoneData = async () => {
     const getForcastURL = await fetch(`https://api.weather.gov/points/${projectData.zoneData.lat},${projectData.zoneData.long}`);
     const zoneId = await fetch(`https://api.weather.gov/zones/county?point=${projectData.zoneData.lat},${projectData.zoneData.long}`);
     try {
@@ -71,19 +71,14 @@ const getZoneData = async (frequency) => {
         projectData.zoneData.county = zoneJson.features[0].properties.name;
 
         //need while loop because weather.gov api sometimes needs multiple calls before it returns anything.
-        if (frequency === 'daily') {
-            while (projectData.weatherData.dailyForecast === undefined) {
-                await getDailyForcastData(projectData.zoneData.dailyForecastURL);
-            }
-            await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long);
-            await getAlertData(projectData.zoneData.zoneId);
+        while (projectData.weatherData.dailyForecast === undefined) {
+            await getDailyForcastData(projectData.zoneData.dailyForecastURL);
         }
-
-        if (frequency === 'hourly') {
-            while (projectData.weatherData.hourlyForecast === undefined) {
-                await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
-            }
+        while (projectData.weatherData.hourlyForecast === undefined) {
+            await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
         }
+        await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long);
+        await getAlertData(projectData.zoneData.zoneId);
     } catch (e) {
         console.log("forecast URL error:", e);
     }
