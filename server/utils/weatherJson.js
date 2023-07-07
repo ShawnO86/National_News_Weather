@@ -9,7 +9,7 @@ const aqiKey = process.env.aqi_key;
 const projectData = new WeatherData();
 
 //main function to return filled in weatherData object to send to client
-export const getGeoData = async (city, lat, long) => {
+export const getGeoData = async (city, lat, long, frequency) => {
     let geoData = '';
     if (city !== 'no') {
         geoData = await fetch(`http://api.geonames.org/searchJSON?q=${city}&maxRows=1&username=${geoKey}`);
@@ -22,7 +22,7 @@ export const getGeoData = async (city, lat, long) => {
             projectData.zoneData.country = data.geonames[0].countryName;
             projectData.zoneData.local = data.geonames[0].adminName1;
             projectData.zoneData.name = data.geonames[0].name;
-            await getZoneData();
+            await getZoneData(frequency);
         } catch (e) {
             console.log("Geo search data error", e);
         }
@@ -38,7 +38,7 @@ export const getGeoData = async (city, lat, long) => {
             projectData.zoneData.country = data.geonames[0].countryName;
             projectData.zoneData.local = data.geonames[0].adminName1;
             projectData.zoneData.name = data.geonames[0].name;
-            await getZoneData();
+            await getZoneData(frequency);
         } catch (e) {
             console.log("Geo postal data error", e);
         }
@@ -52,14 +52,14 @@ const getAstroData = async (date) => {
         const astroData = await astroURL.json();
         const sunrise = astroData.results.sunrise;
         const sunset = astroData.results.sunset;
-        return {sunrise: sunrise, sunset: sunset}
+        return { sunrise: sunrise, sunset: sunset }
     } catch (e) {
         console.log("Astro data error: ", e);
     }
 }
 
 //gets urls for forcasts, zone data, and County info for the following functions
-const getZoneData = async () => {
+const getZoneData = async (frequency) => {
     const getForcastURL = await fetch(`https://api.weather.gov/points/${projectData.zoneData.lat},${projectData.zoneData.long}`);
     const zoneId = await fetch(`https://api.weather.gov/zones/county?point=${projectData.zoneData.lat},${projectData.zoneData.long}`);
     try {
@@ -71,14 +71,19 @@ const getZoneData = async () => {
         projectData.zoneData.county = zoneJson.features[0].properties.name;
 
         //need while loop because weather.gov api sometimes needs multiple calls before it returns anything.
-        while (projectData.weatherData.dailyForecast === undefined) {
-            await getDailyForcastData(projectData.zoneData.dailyForecastURL);
+        if (frequency === 'daily') {
+            while (projectData.weatherData.dailyForecast === undefined) {
+                await getDailyForcastData(projectData.zoneData.dailyForecastURL);
+            }
+            await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long);
+            await getAlertData(projectData.zoneData.zoneId);
         }
-        while (projectData.weatherData.hourlyForecast === undefined) {
-            await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
+
+        if (frequency === 'hourly') {
+            while (projectData.weatherData.hourlyForecast === undefined) {
+                await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
+            }
         }
-        await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long)
-        await getAlertData(projectData.zoneData.zoneId);
     } catch (e) {
         console.log("forecast URL error:", e);
     }
@@ -118,7 +123,7 @@ const getHourlyForcastData = async (url) => {
     const forecastArr = [];
     try {
         const forcastData = await forcastURL.json()
-        for(const hour of forcastData.properties.periods) {
+        for (const hour of forcastData.properties.periods) {
             forecastArr.push({
                 time: hourFormat(hour.startTime),
                 temp: hour.temperature + hour.temperatureUnit,

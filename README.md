@@ -24,10 +24,6 @@ Weather API: https://www.weather.gov API to fetch real-time weather data. The AP
 
 Air Quality API: https://docs.airnowapi.org/ API providing forecast and real-time observed air quality information across the United States.
 
-News API: https://newsapi.org/ API to fetch articles and news headlines from many different sources and blogs across the web.
-
-Article summarization API: https://www.meaningcloud.com/ API to perform extractive summarization of the supplied article url.
-
 Hosted at: https://weather-app-e871.onrender.com/ 
 
 ### TO DO: 
@@ -35,9 +31,6 @@ Use Vue composition API instead of options,
 Have option to use GeoLocation for inital load of weather data,
 ~~Set up weather.gov api calls~~
 ~~Set up airnow api and functionality~~
-~~Set up newsapi call~~
-~~Set up meaningcloud api call (needs to use POST req)~~
-~~Seperate get endpoints to send weather and news data seperatly,~~
 Connditional styles to weather/news buttons when active,
 Nighttime color styling and ability to switch automatically based on local time
 

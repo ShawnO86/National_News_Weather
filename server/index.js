@@ -4,7 +4,6 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import newsRoute from './routes/news.js';
 import weatherRoute from './routes/weather.js';
 
 const app = express();
@@ -19,8 +18,6 @@ app.use(express.static(__dirname + '/dist'));
 
 //routes /weather.js
 app.use('/weather', weatherRoute);
-//routes /news.js
-app.use('/news', newsRoute);
 
 //serve production files
 app.get('/', (req, res) => {

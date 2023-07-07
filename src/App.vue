@@ -1,11 +1,14 @@
 <template>
   <header>
-    <h1>News & Weather</h1>
+    <div>
+      <h1>News & Weather</h1>
+    </div>
     <nav>
       <RouterLink to="/">News</RouterLink>
       <RouterLink to="/weather">Weather</RouterLink>
     </nav>
   </header>
+
   <main>
     <RouterView />
   </main>
@@ -13,7 +16,7 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import { ref, reactive } from 'vue';
+//import { ref, reactive } from 'vue';
 
 /* for hourly forecast: have sun move with hours for daytime and then have moon come in for night with some type of slider to change the hour.*/
 </script>
@@ -35,17 +38,26 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  /* background: linear-gradient(180deg, #59B4FF 20%, #73C0FF 100%); */
+  background: linear-gradient(180deg, #73C0FF 20%, #59B4FF 100%);
+  color: #fff;
 }
 #app {
   margin: auto;
   max-width: 90rem;
   min-height: 100vh;
-  height: 100vh;
+  padding: 0 1rem;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
 }
 nav {
   display: flex;
+  align-items: center;
   gap: 2rem;
+  height: fit-content;
 }
 nav a {
   text-decoration: none;

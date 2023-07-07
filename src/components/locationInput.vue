@@ -14,10 +14,9 @@
 
   <script setup>
 import { ref } from 'vue';
-
+const emit = defineEmits(['location']);
 const locationInput = ref('');
 const locationError = ref('');
-
 
 function sendInput() {
   if (!locationInput.value) {
@@ -27,7 +26,7 @@ function sendInput() {
     }, 4000);
   } else {
     locationError.value = '';
-    this.$emit('location', [locationInput.value, 'no', 'no']);
+    emit('location', [locationInput.value, 'no', 'no']);
   }
 }
 </script>
@@ -48,12 +47,14 @@ button {
 }
 
 input {
-  flex: 3;
+  flex: 4;
+  min-width: 11rem;
 }
 
 button {
   flex: 1;
   cursor: pointer;
+  min-width: 6rem;
 }
 
 input::placeholder {
