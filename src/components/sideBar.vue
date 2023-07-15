@@ -48,6 +48,7 @@ function toggleHourlyOpen() {
   justify-content: space-around;
   height: fit-content;
   margin-bottom: 2rem;
+  background-color: rgb(var(--bg-rgb));
 }
 .nav button {
   width: 50%;
@@ -55,6 +56,7 @@ function toggleHourlyOpen() {
   padding: 0.5rem 0;
   cursor: pointer;
   border: 1px solid rgb(var(--bg-rgb));
+
 }
 .toggle {
   background-color: rgb(var(--bg-rgb));

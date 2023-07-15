@@ -10,18 +10,21 @@ const projectData = new WeatherData();
 
 //main function to return filled in weatherData object to send to client
 export const getGeoData = async (city, lat, long) => {
+    //city can be "city,state" or zip
     let geoData = '';
     if (city !== 'no') {
-        geoData = await fetch(`http://api.geonames.org/searchJSON?q=${city}&maxRows=1&username=${geoKey}`);
+        geoData = await fetch(`http://api.geonames.org/searchJSON?q=${city}&username=${geoKey}`);
         try {
             const data = await geoData.json();
-            //console.log(data)
+            //filtering for only United States zipcode data
+            const filteredData = data.geonames.filter(item => item.countryCode === "US");
+            //console.log("filtered: ", filteredData)
             //populate weatherData with api data
-            projectData.zoneData.long = data.geonames[0].lng;
-            projectData.zoneData.lat = data.geonames[0].lat;
-            projectData.zoneData.country = data.geonames[0].countryName;
-            projectData.zoneData.local = data.geonames[0].adminName1;
-            projectData.zoneData.name = data.geonames[0].name;
+            projectData.zoneData.long = filteredData[0].lng;
+            projectData.zoneData.lat = filteredData[0].lat;
+            projectData.zoneData.country = filteredData[0].countryName;
+            projectData.zoneData.local = filteredData[0].adminName1;
+            projectData.zoneData.name = filteredData[0].name;
             await getZoneData();
         } catch (e) {
             console.log("Geo search data error", e);

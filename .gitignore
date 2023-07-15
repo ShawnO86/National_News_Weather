@@ -15,6 +15,7 @@ coverage
 *.local
 news
 /src/router
+/src/assets/original images
 
 /cypress/videos/
 /cypress/screenshots/

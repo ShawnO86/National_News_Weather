@@ -37,25 +37,31 @@ form {
   padding: 1rem 0;
   gap: 0 1rem;
   width: 100%;
+  padding: 1rem;
 }
-
 input,
 button {
   border-radius: 0.25rem;
   padding: 0.6rem 0.25rem;
+  background: var(--secondary-hex);
+  color: #000;
+  border: none;
 }
-
 input {
   flex: 4;
+  border: 1px solid var( --secondary-hex);
 }
-
 button {
   flex: 1;
   cursor: pointer;
   min-width: 6rem;
+  border: 1px solid var( --secondary-hex);
 }
-
+button:hover {
+  border: 1px solid #fff;
+}
 input::placeholder {
   padding-left: 0.6rem;
+  color: #333;
 }
 </style>

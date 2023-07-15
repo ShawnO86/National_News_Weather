@@ -6,7 +6,7 @@
     <div class="sideBar">
       <side-bar @inputLocation="setLocation"></side-bar>
     </div>
-    </section>
+  </section>
 </template>
 
 <script setup>
@@ -49,7 +49,7 @@ async function getWeather(params) {
     `http://localhost:8081/weather/${params[0]}/${params[1]}/${params[2]}`
   );
   weatherData.value = fetchWeather;
-  console.log(weatherData);
+  console.log(weatherData.value);
 }
 
 /* for hourly forecast: have sun move with hours for daytime and then have moon come in for night with some type of slider to change the hour.*/
@@ -75,7 +75,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background: linear-gradient(180deg, #0f5b86 0%, #59b4ff 100%);
+  background: linear-gradient(180deg, var(--bg-hex) 0%, var(--secondary-hex) 100%);
   color: #fff;
 }
 #app {
@@ -83,7 +83,6 @@ body {
   max-width: 90rem;
   min-height: 100vh;
   padding: 0 1rem;
-;
 }
 header {
   display: flex;
@@ -92,19 +91,30 @@ header {
   justify-content: space-between;
   padding: 1rem 0;
   gap: 1rem 2rem;
-  grid-area: header;
 }
 .mainLayout {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 2rem;
+  min-height: 100vh;
 }
 .currentWeather {
   flex: 4;
 }
 .sideBar {
   flex: 3;
-  background: rgba(15, 91, 134, 0.5);
-  min-height: 100vh;
+  background: rgba(var(--bg-rgb), 0.6);
+  min-height: 100vh;  
+}
+
+@media screen and (max-width: 1024px) {
+  .mainLayout {
+    flex-direction: column;
+  }
+  .sideBar {
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+  }
 }
 </style>
