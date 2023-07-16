@@ -1,6 +1,10 @@
 <template>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <h1>Rockford, IL</h1>
+    <div class="weather_head_data">
+      <p>Temp: 82F</p>
+      <p>Precip: 15%</p>
+    </div>
   </div>
 </template>
 
@@ -38,14 +42,19 @@ function changeBackgroundImage() {
 
 <style scoped>
 h1 {
-  padding: 1rem 0;
-  margin-bottom: 2rem;
+  margin: 1rem 0;
 }
 .weatherBox_head {
-  min-height: 15rem;
+  padding: 1rem 1rem 2rem 1rem;
   background-size: cover;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.3);
+  background: rgba(var(--bg-rgb), 0.25);
   border-radius: 1rem 1rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.weather_head_data{
+    text-align: right;
 }
 </style>

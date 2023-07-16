@@ -14,7 +14,7 @@ import weatherBoxHead from './weatherBoxHead.vue';
 #weatherBox {
   background: rgba(var(--bg-rgb), 0.6);
   width: 100%;
-  min-height: 45rem;
+  min-height: 15rem;
   border-radius: 1rem;
 }
 </style>

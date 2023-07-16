@@ -93,8 +93,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 2rem;
-  min-height: 100vh;
+  gap: 1rem;
 }
 .currentWeather {
   flex: 4;
