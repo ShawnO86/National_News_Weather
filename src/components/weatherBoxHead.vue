@@ -27,7 +27,7 @@ let weatherType = computed(() => weather.value.weather.shortDesc);
 //optimize images after crop to .webp and maybe lower res
 const weatherTypes = [
   { type: ['Fair', 'Clear', 'Sunny'], image: 'clear.jpg' }, //pic done
-  { type: ['Clouds', 'Cloudy', 'Haze'], image: 'cloudy.jpg' }, //pic done
+  { type: ['Clouds', 'Cloudy'], image: 'cloudy.jpg' }, //pic done
   { type: ['Overcast'], image: 'overcast.jpg' }, //pic done
   { type: ['Snow', 'Blizzard'], image: 'snow.jpg' },
   { type: ['Freezing Rain', 'Ice'], image: 'freezing_rain_ice.jpg' },
@@ -37,7 +37,7 @@ const weatherTypes = [
   { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane_tropical_storm.jpg' },
   { type: ['Windy', 'Breezy'], image: 'windy_breezy.jpg' },
   { type: ['Dust', 'Sand'], image: 'dust_sand.jpg' },
-  { type: ['Smoke', 'Haze'], image: 'smoke_haze.jpg' },
+  { type: ['Smoke', 'Haze'], image: 'smoke_haze.jpg' }, //pic done
   { type: ['Hot'], image: 'hot.jpg' },
   { type: ['Cold'], image: 'cold.jpg' },
   { type: ['Fog', 'Fog/Mist'], image: 'fog.jpg' }
@@ -52,22 +52,46 @@ function changeBackgroundImage() {
 </script>
 
 <style scoped>
-h1 {
-  margin: 1rem 0;
-}
 .weatherBox_head {
-  padding: 1rem 1rem 2rem 1rem;
+  padding: 2rem 0.5rem;
   background-size: cover;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.75);
-  border-radius: 1rem 1rem 0 0;
+  background: rgba(var(--bg-rgb), 0.25);
+  border-radius: 0.5rem 0.5rem 0 0;
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
+}
+.weather_head_CityDate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background: rgba(var(--bg-rgb), 0.25);
+  padding: 0.5rem clamp(0rem, 2vw, 1rem);
+  border-radius: 0.5rem;
 }
 .weather_head_data {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-end;
+  background: rgba(var(--bg-rgb), 0.25);
+  padding: 0.5rem clamp(0rem, 1vw, 1rem);
+  border-radius: 0.5rem;
+}
+@media screen and (max-width: 425px) {
+  .weatherBox_head {
+    padding: 1rem 0.5rem;
+    flex-direction: column;
+  }
+  .weather_head_CityDate {
+    background: none;
+    padding: 0;
+  }
+  .weather_head_data {
+    align-items: flex-start;
+    background: none;
+    padding: 0;
+  }
 }
 </style>

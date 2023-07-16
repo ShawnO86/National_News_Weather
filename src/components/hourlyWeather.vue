@@ -26,25 +26,14 @@ let selectedHour = reactive({
   background: rgba(var(--bg-rgb), 0.6);
   width: 100%;
   min-height: 15rem;
-  border-radius: 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .weatherBox_details {
-  padding: 1rem 1rem 2rem 1rem;
+  padding: 1rem 0.5rem;
   border-top: 1px dashed var(--secondary-hex);
 }
 .hourSelection {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-.hourBtn {
-  width: fit-content;
-  background: none;
-  border: 1px solid var(--secondary-hex);
-  color: var(--secondary-hex);
-  cursor: pointer;
-  padding: 0.5rem;
+  padding: 1rem 0;
 }
 input {
   width: 100%;

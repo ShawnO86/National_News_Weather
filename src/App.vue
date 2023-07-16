@@ -97,7 +97,6 @@ body {
 }
 main {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
 }
@@ -110,16 +109,29 @@ main {
 .sideBar {
   flex: 3;
   background: rgba(var(--bg-rgb), 0.6);
-  min-height: 100vh;
 }
 
 @media screen and (max-width: 1024px) {
+  #app {
+    padding: 0 0.5rem;
+  }
   main {
     flex-direction: column;
+  }
+  .currentWeather {
+    flex: none;
   }
   .sideBar {
     margin-bottom: 2rem;
     border-radius: 1rem;
   }
 }
+
+@media screen and (max-width: 768px) {
+  body {
+    line-height: 1.4;
+  }
+}
+
+
 </style>
