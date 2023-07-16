@@ -47,19 +47,19 @@ button {
 }
 input {
   flex: 4;
-  border: 1px solid var( --secondary-hex);
+  border: 1px solid var(--secondary-hex);
 }
 button {
   flex: 1;
   cursor: pointer;
   min-width: 6rem;
-  border: 1px solid var( --secondary-hex);
+  border: 1px solid var(--secondary-hex);
 }
 button:hover {
   border: 1px solid #fff;
 }
 input::placeholder {
   padding-left: 0.6rem;
-  color: var( --secondary-hex);
+  color: var(--secondary-hex);
 }
 </style>

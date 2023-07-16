@@ -1,14 +1,12 @@
 <template>
-  <section class="mainLayout">
-    <div class="currentWeather">
-      <div class="search">
-        <location-input @location="setLocation" />
-      </div>
-      <current-weather></current-weather>
+  <section class="currentWeather">
+    <div class="search">
+      <location-input @location="setLocation" />
     </div>
-    <div class="sideBar">
-      <side-bar></side-bar>
-    </div>
+    <current-weather></current-weather>
+  </section>
+  <section class="sideBar">
+    <side-bar></side-bar>
   </section>
 </template>
 
@@ -89,7 +87,7 @@ body {
   min-height: 100vh;
   padding: 0 1rem;
 }
-.mainLayout {
+main {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -108,7 +106,7 @@ body {
 }
 
 @media screen and (max-width: 1024px) {
-  .mainLayout {
+  main {
     flex-direction: column;
   }
   .sideBar {

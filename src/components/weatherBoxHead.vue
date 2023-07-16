@@ -54,7 +54,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
-.weather_head_data{
-    text-align: right;
+.weather_head_data {
+  text-align: right;
 }
 </style>
