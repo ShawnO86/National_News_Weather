@@ -3,8 +3,7 @@
     <div class="search">
       <location-input @location="setLocation" />
     </div>
-    <current-weather></current-weather>
-    <p>hourly weather</p>
+    <hourly-weather></hourly-weather>
   </section>
   <section class="sideBar">
     <side-bar></side-bar>
@@ -13,7 +12,7 @@
 
 <script setup>
 import locationInput from './components/locationInput.vue';
-import currentWeather from './components/currentWeather.vue';
+import hourlyWeather from './components/hourlyWeather.vue';
 import sideBar from './components/sideBar.vue';
 import { ref } from 'vue';
 
