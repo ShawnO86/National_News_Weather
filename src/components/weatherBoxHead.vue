@@ -1,9 +1,13 @@
 <template>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
-    <h1>Rockford, IL</h1>
+    <div class="weather_head_CityDate">
+      <h1>Rockford, IL</h1>
+      <p>Sunday, July 16</p>
+    </div>
     <div class="weather_head_data">
       <p>Temp: 82F</p>
       <p>Precip: 15%</p>
+      <p>Humidity: 60%</p>
     </div>
   </div>
 </template>
@@ -52,9 +56,12 @@ h1 {
   border-radius: 1rem 1rem 0 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+
 }
 .weather_head_data {
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
 }
 </style>

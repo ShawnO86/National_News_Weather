@@ -4,6 +4,7 @@
       <location-input @location="setLocation" />
     </div>
     <current-weather></current-weather>
+    <p>hourly weather</p>
   </section>
   <section class="sideBar">
     <side-bar></side-bar>
