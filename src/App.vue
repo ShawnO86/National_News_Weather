@@ -3,7 +3,7 @@
     <div class="search">
       <location-input @location="setLocation" />
     </div>
-    <hourly-weather></hourly-weather>
+    <hourly-weather v-if="hourlyWeatherData" :hourlyWeather="hourlyWeatherData"></hourly-weather>
   </section>
   <section class="sideBar">
     <side-bar></side-bar>
@@ -18,7 +18,8 @@ import { ref } from 'vue';
 
 let inputLocation = ref('');
 //let locationMsg = ref('');
-let weatherData = ref('');
+let dailyWeatherData = ref('');
+let hourlyWeatherData = ref('');
 
 function setLocation(location) {
   inputLocation.value = location;
@@ -51,8 +52,15 @@ async function getWeather(params) {
   const fetchWeather = await getData(
     `http://localhost:8081/weather/${params[0]}/${params[1]}/${params[2]}`
   );
-  weatherData.value = fetchWeather;
-  console.log(weatherData.value);
+  dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
+  hourlyWeatherData.value = {
+    hourly: fetchWeather.weatherData.hourlyForecast,
+    air: fetchWeather.weatherData.airQuality,
+    alerts: fetchWeather.weatherData.alerts,
+    location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
+  };
+  console.log('daily', dailyWeatherData.value);
+  console.log('hourly', hourlyWeatherData.value);
 }
 
 /* for hourly forecast: have sun move with hours for daytime and then have moon come in for night with some type of slider to change the hour.*/

@@ -1,27 +1,33 @@
 <template>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <div class="weather_head_CityDate">
-      <h1>Rockford, IL</h1>
-      <p>Sunday, July 16 - {time}</p>
+      <h1>{{ weather.location }}</h1>
+      <p>{{ weather.weather.time }}</p>
     </div>
     <div class="weather_head_data">
-      <p>Temp: 82F</p>
-      <p>Precip: 15%</p>
-      <p>Humidity: 60%</p>
-      <p>windSpeed - windDirection</p>
+      <p>{{ props.selectedHour.weather.shortDesc }} {{ props.selectedHour.weather.temp }}</p>
+      <p>Precip: {{ props.selectedHour.weather.precip }}</p>
+      <p>Humidity: {{ props.selectedHour.weather.humidity }}</p>
+      <p>
+        Wind: {{ props.selectedHour.weather.windSpeed }}
+        {{ props.selectedHour.weather.windDirection }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
-const weatherType = ref('Cloudy');
+const props = defineProps(['selectedHour']);
+
 const bgImage = computed(changeBackgroundImage);
+let weather = ref(props.selectedHour);
+let weatherType = computed(() => weather.value.weather.shortDesc);
 
 //optimize images after crop to .webp and maybe lower res
 const weatherTypes = [
-  { type: ['Fair', 'Clear'], image: 'clear.jpg' }, //pic done
-  { type: ['Clouds', 'Cloudy'], image: 'cloudy.jpg' }, //pic done
+  { type: ['Fair', 'Clear', 'Sunny'], image: 'clear.jpg' }, //pic done
+  { type: ['Clouds', 'Cloudy', 'Haze'], image: 'cloudy.jpg' }, //pic done
   { type: ['Overcast'], image: 'overcast.jpg' }, //pic done
   { type: ['Snow', 'Blizzard'], image: 'snow.jpg' },
   { type: ['Freezing Rain', 'Ice'], image: 'freezing_rain_ice.jpg' },
@@ -53,11 +59,10 @@ h1 {
   padding: 1rem 1rem 2rem 1rem;
   background-size: cover;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.25);
+  background: rgba(var(--bg-rgb), 0.75);
   border-radius: 1rem 1rem 0 0;
   display: flex;
   justify-content: space-between;
-
 }
 .weather_head_data {
   display: flex;

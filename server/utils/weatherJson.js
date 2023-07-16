@@ -123,7 +123,7 @@ const getHourlyForcastData = async (url) => {
         const forcastData = await forcastURL.json()
         for (const hour of forcastData.properties.periods) {
             forecastArr.push({
-                time: hourFormat(hour.startTime),
+                time: dateFormat(hour.startTime) + ' ' + hourFormat(hour.startTime),
                 temp: hour.temperature + hour.temperatureUnit,
                 precip: hour.probabilityOfPrecipitation.value == null ? 0 + '%' : hour.probabilityOfPrecipitation.value + '%',
                 humidity: hour.relativeHumidity.value + "%",
