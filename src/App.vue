@@ -1,28 +1,33 @@
 <template>
   <section class="mainLayout">
     <div class="currentWeather">
+      <div class="search">
+        <location-input @location="setLocation" />
+      </div>
       <current-weather></current-weather>
     </div>
     <div class="sideBar">
-      <side-bar @inputLocation="setLocation"></side-bar>
+      <side-bar></side-bar>
     </div>
   </section>
 </template>
 
 <script setup>
+import locationInput from './components/locationInput.vue';
 import currentWeather from './components/currentWeather.vue';
 import sideBar from './components/sideBar.vue';
 import { ref } from 'vue';
 
 let inputLocation = ref('');
-let locationMsg = ref('');
+//let locationMsg = ref('');
 let weatherData = ref('');
 
 function setLocation(location) {
   inputLocation.value = location;
   getWeather(inputLocation.value);
 }
-function getGeoLocation() {
+//functions for getting geoloction and sending to server
+/* function getGeoLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(sendGeoLocation, locationError);
   }
@@ -32,7 +37,7 @@ function locationError(code) {
 }
 function sendGeoLocation(position) {
   getWeather(['no', position.coords.latitude, position.coords.longitude]);
-}
+} */
 async function getData(url = '') {
   //calls argument url and waits for data/status
   const req = await fetch(url);
@@ -84,14 +89,6 @@ body {
   min-height: 100vh;
   padding: 0 1rem;
 }
-header {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 1rem 0;
-  gap: 1rem 2rem;
-}
 .mainLayout {
   display: flex;
   flex-wrap: wrap;
@@ -102,10 +99,13 @@ header {
 .currentWeather {
   flex: 4;
 }
+.search {
+  margin: 1rem 0;
+}
 .sideBar {
   flex: 3;
   background: rgba(var(--bg-rgb), 0.6);
-  min-height: 100vh;  
+  min-height: 100vh;
 }
 
 @media screen and (max-width: 1024px) {

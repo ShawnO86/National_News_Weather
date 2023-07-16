@@ -34,17 +34,15 @@ function sendInput() {
 <style scoped>
 form {
   display: flex;
-  padding: 1rem 0;
   gap: 0 1rem;
   width: 100%;
-  padding: 1rem;
 }
 input,
 button {
   border-radius: 0.25rem;
   padding: 0.6rem 0.25rem;
-  background: var(--secondary-hex);
-  color: #000;
+  background: var(--bg-hex);
+  color: #fff;
   border: none;
 }
 input {
@@ -62,6 +60,6 @@ button:hover {
 }
 input::placeholder {
   padding-left: 0.6rem;
-  color: #333;
+  color: var( --secondary-hex);
 }
 </style>
