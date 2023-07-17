@@ -34,8 +34,9 @@ function sendInput() {
 <style scoped>
 form {
   display: flex;
-  gap: 0 1rem;
+  gap: 0.5rem 1rem;
   width: 100%;
+  flex-wrap: wrap;
 }
 input,
 button {
@@ -48,6 +49,7 @@ button {
 input {
   flex: 4;
   border: 1px solid var(--secondary-hex);
+  min-width: 12rem;
 }
 button {
   flex: 1;

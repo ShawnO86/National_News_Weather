@@ -1,11 +1,14 @@
 <template>
-  <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
-    <div class="weather_head_CityDate">
+  <header>
+    <div>
+      <p>Hourly Forecast for:</p>
       <h1>{{ weather.location }}</h1>
-      <p>{{ weather.weather.time }}</p>
     </div>
+    <p>{{ weather.weather.time }}</p>
+  </header>
+  <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <div class="weather_head_data">
-      <p>{{ props.selectedHour.weather.shortDesc }} {{ props.selectedHour.weather.temp }}</p>
+      <p>{{ props.selectedHour.weather.shortDesc }} - {{ props.selectedHour.weather.temp }}</p>
       <p>Precip: {{ props.selectedHour.weather.precip }}</p>
       <p>Humidity: {{ props.selectedHour.weather.humidity }}</p>
       <p>
@@ -18,11 +21,11 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-const props = defineProps(['selectedHour']);
 
-const bgImage = computed(changeBackgroundImage);
+const props = defineProps(['selectedHour']);
 let weather = ref(props.selectedHour);
 let weatherType = computed(() => weather.value.weather.shortDesc);
+const bgImage = computed(changeBackgroundImage);
 
 //optimize images after crop to .webp and maybe lower res
 const weatherTypes = [
@@ -52,23 +55,17 @@ function changeBackgroundImage() {
 </script>
 
 <style scoped>
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
+}
 .weatherBox_head {
   padding: 2rem 0.5rem;
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
-  border-radius: 0.5rem 0.5rem 0 0;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.weather_head_CityDate {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  background: rgba(var(--bg-rgb), 0.25);
-  padding: 0.5rem clamp(0rem, 2vw, 1rem);
-  border-radius: 0.5rem;
 }
 .weather_head_data {
   display: flex;
@@ -80,13 +77,13 @@ function changeBackgroundImage() {
   border-radius: 0.5rem;
 }
 @media screen and (max-width: 425px) {
+  header {
+    flex-wrap: wrap;
+    padding: 0 0.5rem;
+  }
   .weatherBox_head {
     padding: 1rem 0.5rem;
     flex-direction: column;
-  }
-  .weather_head_CityDate {
-    background: none;
-    padding: 0;
   }
   .weather_head_data {
     align-items: flex-start;

@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+// Put in an alert icon with alert title and a rollover tooltip for weather alerts if there is one available
 import locationInput from './components/locationInput.vue';
 import hourlyWeather from './components/hourlyWeather.vue';
 import sideBar from './components/sideBar.vue';
@@ -102,18 +103,19 @@ main {
 }
 .currentWeather {
   flex: 4;
+  background: rgba(var(--bg-rgb), 0.6);
 }
 .search {
-  margin: 1rem 0;
+  padding: 1rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .sideBar {
   flex: 3;
-  background: rgba(var(--bg-rgb), 0.6);
+  background: rgba(var(--bg-rgb), 0.3);
 }
 
 @media screen and (max-width: 1024px) {
   #app {
-    padding: 0 0.5rem;
+    padding: 0 2rem;
   }
   main {
     flex-direction: column;
@@ -121,17 +123,20 @@ main {
   .currentWeather {
     flex: none;
   }
-  .sideBar {
-    margin-bottom: 2rem;
-    border-radius: 1rem;
-  }
+  
 }
 
 @media screen and (max-width: 768px) {
   body {
     line-height: 1.4;
   }
+  #app {
+    padding: 0 0.5rem;
+  }
 }
-
-
+@media screen and (max-width: 425px) {
+  #app {
+    padding: 0 0;
+  }
+}
 </style>
