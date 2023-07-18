@@ -80,7 +80,6 @@ const getZoneData = async () => {
         while (projectData.weatherData.hourlyForecast === undefined) {
             await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
         }
-        await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long);
         await getAlertData(projectData.zoneData.zoneId);
     } catch (e) {
         console.log("forecast URL error:", e);
@@ -109,8 +108,12 @@ const getDailyForcastData = async (url) => {
                 shortDesc: day.shortForecast,
                 detailDesc: day.detailedForecast
             })
-        }
+        };
+
+        projectData.weatherData.dateUpdated = removeTime(forcastData.properties.updated);
         projectData.weatherData.dailyForecast = forecast;
+        
+        await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long, projectData.weatherData.dateUpdated);
     } catch (e) {
         console.log("Forcast data error: ", e)
     }
@@ -140,21 +143,33 @@ const getHourlyForcastData = async (url) => {
     }
 };
 
-const getAirQuality = async (lat, long) => {
-    const aqiURL = await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${long}&distance=50&API_KEY=${aqiKey}`);
-    const aqiArr = [];
+const getAirQuality = async (lat, long, date) => {
+    const current_aqiURL = await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${long}&distance=50&API_KEY=${aqiKey}`);
+    const forcast_aqiURL = await fetch(`https://www.airnowapi.org/aq/forecast/latLong/?format=application/json&latitude=${lat}&longitude=${long}&date=${date}&distance=25&API_KEY=${aqiKey}`)
+    const currentAqiArr = [];
+    const forcastAqiArr = [];
     try {
-        const aqiData = await aqiURL.json();
+        const aqiData = await current_aqiURL.json();
+        const forcastAqiData = await forcast_aqiURL.json();
         aqiData.forEach(result => {
-            aqiArr.push({
+            currentAqiArr.push({
                 hour: get12HourFormat(result.HourObserved),
                 type: result.ParameterName === "O3" ? "Ozone" : result.ParameterName,
                 value: result.AQI,
                 categoryValue: result.Category.Number,
                 categoryDesc: result.Category.Name
             })
-        })
-        projectData.weatherData.airQuality = aqiArr;
+        });
+        forcastAqiData.forEach(result => {
+            forcastAqiArr.push({
+                date: dateFormat(result.DateForecast),
+                type: result.ParameterName === "O3" ? "Ozone" : result.ParameterName,
+                categoryValue: result.Category.Number,
+                categoryDesc: result.Category.Name
+            })
+        });
+        projectData.weatherData.airQualityCurrent = currentAqiArr;
+        projectData.weatherData.airQualityForecast = forcastAqiArr;
     } catch (e) {
         console.log("AQI data error: ", e);
     }
