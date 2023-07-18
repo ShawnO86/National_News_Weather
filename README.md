@@ -25,15 +25,15 @@ Air Quality API: https://docs.airnowapi.org/ API providing forecast and real-tim
 Hosted at: https://weather-app-e871.onrender.com/ 
 
 ### TO DO: 
-Use Vue composition API instead of options,
+~~Use Vue composition API instead of options,~~
 Have option to use GeoLocation for inital load of weather data,
 ~~Set up weather.gov api calls~~
 ~~Set up airnow api and functionality~~
-Connditional styles to weather/news buttons when active,
-Nighttime color styling and ability to switch automatically based on local time
+Nighttime color styling and ability to switch automatically based on local time,
+Learn and implement D3.js for graphs of weather info.
 
 
-## Project Setup
+### Project Setup
 
 ```sh
 npm install
