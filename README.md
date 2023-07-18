@@ -1,4 +1,4 @@
-# National_News_Weather
+# National_Weather
 
 Weather web app built using Node.js, Express.js, Vue.js, and bundled with Vite.
 
