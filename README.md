@@ -28,7 +28,7 @@ Hosted at: https://weather-app-e871.onrender.com/
 ~~Use Vue composition API instead of options,~~
 Have option to use GeoLocation for inital load of weather data,
 ~~Set up weather.gov api calls~~
-~~Set up airnow api and functionality~~
+Set up airnow api and functionality for current air quality and forcasted air quality
 Nighttime color styling and ability to switch automatically based on local time,
 Learn and implement D3.js for graphs of weather info.
 
