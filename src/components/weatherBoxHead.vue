@@ -1,7 +1,6 @@
 <template>
   <header>
     <div>
-      <p>Hourly Forecast for:</p>
       <h1>{{ weather.location }}</h1>
     </div>
     <p>{{ weather.weather.time }}</p>
@@ -59,6 +58,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  gap: 1rem;
   padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .weatherBox_head {
@@ -66,6 +66,11 @@ header {
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
+}
+.weather_head_alert {
+  background: rgba(var(--bg-rgb), 0.25);
+  padding: 0.5rem clamp(0rem, 1vw, 1rem);
+  border-radius: 0.5rem;
 }
 .weather_head_data {
   display: flex;
@@ -83,12 +88,9 @@ header {
   }
   .weatherBox_head {
     padding: 1rem 0.5rem;
-    flex-direction: column;
   }
   .weather_head_data {
-    align-items: flex-start;
-    background: none;
-    padding: 0;
+    padding: 0.25rem;
   }
 }
 </style>

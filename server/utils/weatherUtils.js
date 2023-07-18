@@ -6,7 +6,7 @@ export const cToF = (deg) => {
 export const get12HourFormat = (time) => {
     let timeSuffix;
     timeSuffix = (time >= 12) ? 'pm' : 'am';
-    time = (time % 12 === 0) ? time = 12 : time % 12;
+    time = (time % 12 === 0) ? 12 : time % 12;
     return `${time}:00 ${timeSuffix}`;
 };
 //changes ISO to (Month Day) format

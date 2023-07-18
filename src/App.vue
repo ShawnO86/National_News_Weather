@@ -4,6 +4,8 @@
       <location-input @location="setLocation" />
     </div>
     <hourly-weather v-if="hourlyWeatherData" :hourlyWeather="hourlyWeatherData"></hourly-weather>
+    <div v-else><p>Enter a location.</p></div>
+    <p v-if="hourlyWeatherData" >alert?</p>
   </section>
   <section class="sideBar">
     <side-bar></side-bar>
@@ -17,14 +19,12 @@ import hourlyWeather from './components/hourlyWeather.vue';
 import sideBar from './components/sideBar.vue';
 import { ref } from 'vue';
 
-let inputLocation = ref('');
 //let locationMsg = ref('');
 let dailyWeatherData = ref('');
 let hourlyWeatherData = ref('');
 
 function setLocation(location) {
-  inputLocation.value = location;
-  getWeather(inputLocation.value);
+  getWeather(location);
 }
 //functions for getting geoloction and sending to server
 /* function getGeoLocation() {

@@ -4,9 +4,7 @@ Weather web app built using Node.js, Express.js, Vue.js, and bundled with Vite.
 
 Users can search for any location by entering a city name or ZIP code. The app will retrieve the weather data for the specified location and display it on the interface.
 
-Weather information for the entered location includes temperature, humidity, wind speed/direction, rain chance, dewpoint, sunrise/sunset times, weather conditions (e.g., sunny, cloudy, rainy), and air quality in a 7-day forecast, current conditions, and hourly forecast for the next 24 hours.
-
-News information will include top headlines. The user will have ability to switch categories based on what's available in the newsapi and an option to summarize and get sentiment analysis on the article (using the meaningcloud api and thier Natural Language Processing techniques) without having to go to the url to read through it. The summarization will include the overall meaning of the document, extracting the most relevent sentences. The analysis will include the overall subjectivity, sentiment, irony, agreement between the sentiments contained in the text, and the confidence of the analysis. The user can also just go to the article directly through a url.
+Weather information for the entered location includes temperature, humidity, wind speed/direction, rain chance, dewpoint, sunrise/sunset times, weather conditions (e.g., sunny, cloudy, rainy), and air quality in a 7-day forecast, current conditions, and hourly forecast for the next 48 hours.
 
 The app is designed to be responsive, adapting to different screen sizes and devices.
 
