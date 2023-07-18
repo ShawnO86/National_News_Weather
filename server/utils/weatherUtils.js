@@ -25,3 +25,8 @@ export const hourFormat = (date) => {
     const t = new Date(date);
     return get12HourFormat(t.getHours());
 };
+
+export const filterIconUrl = (url, size) => {
+    let iconUrl = url.split(",");
+    return iconUrl[0] + "?size=" + size;
+}; 

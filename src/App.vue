@@ -23,6 +23,16 @@ import { ref } from 'vue';
 let dailyWeatherData = ref('');
 let hourlyWeatherData = ref('');
 
+/* let dailyWeatherData = reactive({
+  daily: '',
+  air: '',
+  alerts: ''
+});
+let hourlyWeatherData = reactive({
+  hourly: '',
+  location: ''
+});
+ */
 function setLocation(location) {
   getWeather(location);
 }
@@ -49,15 +59,18 @@ async function getData(url = '') {
     console.log('error', e);
   }
 }
+//Must figure out why weather objects are not updating when entering a new location maybe ref? or
 async function getWeather(params) {
   const fetchWeather = await getData(
     `http://localhost:8081/weather/${params[0]}/${params[1]}/${params[2]}`
   );
-  dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
+  dailyWeatherData.value = {
+    daily: fetchWeather.weatherData.dailyForecast,
+    air: fetchWeather.weatherData.airQuality,
+    alerts: fetchWeather.weatherData.alerts
+  }
   hourlyWeatherData.value = {
     hourly: fetchWeather.weatherData.hourlyForecast,
-    air: fetchWeather.weatherData.airQuality,
-    alerts: fetchWeather.weatherData.alerts,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
   console.log('daily', dailyWeatherData.value);

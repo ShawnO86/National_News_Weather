@@ -7,13 +7,18 @@
   </header>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <div class="weather_head_data">
-      <p>{{ props.selectedHour.weather.shortDesc }} - {{ props.selectedHour.weather.temp }}</p>
-      <p>Precip: {{ props.selectedHour.weather.precip }}</p>
-      <p>Humidity: {{ props.selectedHour.weather.humidity }}</p>
-      <p>
-        Wind: {{ props.selectedHour.weather.windSpeed }}
-        {{ props.selectedHour.weather.windDirection }}
-      </p>
+      <div class="weather_head_left">
+        <h2>{{ weather.weather.temp }}</h2>
+        <p>{{ weather.weather.shortDesc }}</p>
+      </div>
+      <div class="weather_head_right">
+        <p>Rain Chance: {{ weather.weather.precip }}</p>
+        <p>Humidity: {{ weather.weather.humidity }}</p>
+        <p>
+          Wind: {{ weather.weather.windSpeed }}
+          {{ weather.weather.windDirection }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -74,12 +79,21 @@ header {
 }
 .weather_head_data {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-end;
+  justify-content: space-between;
   background: rgba(var(--bg-rgb), 0.25);
   padding: 0.5rem clamp(0rem, 1vw, 1rem);
   border-radius: 0.5rem;
+}
+.weather_head_left, .weather_head_right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.weather_head_left {
+  flex: 1;
+}
+.weather_head_right {
+  align-items: flex-end;
 }
 @media screen and (max-width: 425px) {
   header {
