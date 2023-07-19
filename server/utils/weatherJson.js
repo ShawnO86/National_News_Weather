@@ -22,7 +22,7 @@ export const getGeoData = async (city, lat, long) => {
             //populate weatherData with api data
             projectData.zoneData.long = filteredData[0].lng;
             projectData.zoneData.lat = filteredData[0].lat;
-            projectData.zoneData.country = filteredData[0].countryName;
+            projectData.zoneData.country = filteredData[0].countryCode;
             projectData.zoneData.local = filteredData[0].adminName1;
             projectData.zoneData.name = filteredData[0].name;
             await getZoneData();
@@ -36,11 +36,11 @@ export const getGeoData = async (city, lat, long) => {
             const data = await geoData.json();
             //console.log(data)
             //populate weatherData with api data
-            projectData.zoneData.long = data.geonames[0].lng;
-            projectData.zoneData.lat = data.geonames[0].lat;
-            projectData.zoneData.country = data.geonames[0].countryName;
-            projectData.zoneData.local = data.geonames[0].adminName1;
-            projectData.zoneData.name = data.geonames[0].name;
+            projectData.zoneData.long = data.postalCodes[0].lng;
+            projectData.zoneData.lat = data.postalCodes[0].lat;
+            projectData.zoneData.country = data.postalCodes[0].countryCode;
+            projectData.zoneData.local = data.postalCodes[0].adminName1;
+            projectData.zoneData.name = data.postalCodes[0].placeName;
             await getZoneData();
         } catch (e) {
             console.log("Geo postal data error", e);
@@ -74,12 +74,14 @@ const getZoneData = async () => {
         projectData.zoneData.county = zoneJson.features[0].properties.name;
 
         //need while loop because weather.gov api sometimes needs multiple calls before it returns anything.
-        while (projectData.weatherData.dailyForecast === undefined) {
+/*         while (projectData.weatherData.dailyForecast === undefined) {
             await getDailyForcastData(projectData.zoneData.dailyForecastURL);
         }
         while (projectData.weatherData.hourlyForecast === undefined) {
             await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
-        }
+        } */
+        await getDailyForcastData(projectData.zoneData.dailyForecastURL)
+        await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
         await getAlertData(projectData.zoneData.zoneId);
     } catch (e) {
         console.log("forecast URL error:", e);

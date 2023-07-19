@@ -4,8 +4,9 @@
       <location-input @location="setLocation" />
     </div>
     <hourly-weather v-if="hourlyWeatherData" :hourlyWeather="hourlyWeatherData"></hourly-weather>
-    <div v-else><p>Enter a location.</p></div>
-    <p v-if="hourlyWeatherData" >alert?</p>
+    <div v-else><p>Allow location access or enter a location.</p></div>
+    <p v-if="dailyWeatherData">Air quality here</p>
+    <p v-if="dailyWeatherData.alerts">& alerts to be here.</p>
   </section>
   <section class="sideBar">
     <side-bar></side-bar>
@@ -17,37 +18,27 @@
 import locationInput from './components/locationInput.vue';
 import hourlyWeather from './components/hourlyWeather.vue';
 import sideBar from './components/sideBar.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
-//let locationMsg = ref('');
-let dailyWeatherData = ref('');
-let hourlyWeatherData = ref('');
+const locationMsg = ref('');
+const dailyWeatherData = ref('');
+const hourlyWeatherData = ref('');
 
-/* let dailyWeatherData = reactive({
-  daily: '',
-  air: '',
-  alerts: ''
-});
-let hourlyWeatherData = reactive({
-  hourly: '',
-  location: ''
-});
- */
 function setLocation(location) {
   getWeather(location);
 }
-//functions for getting geoloction and sending to server
-/* function getGeoLocation() {
+//functions for getting geoloction and sending to server on load
+onMounted(function getGeoLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(sendGeoLocation, locationError);
   }
-}
+});
 function locationError(code) {
   locationMsg.value = code.message;
 }
 function sendGeoLocation(position) {
   getWeather(['no', position.coords.latitude, position.coords.longitude]);
-} */
+}
 async function getData(url = '') {
   //calls argument url and waits for data/status
   const req = await fetch(url);
@@ -59,25 +50,21 @@ async function getData(url = '') {
     console.log('error', e);
   }
 }
-//Must figure out why weather objects are not updating when entering a new location maybe ref? or
 async function getWeather(params) {
   const fetchWeather = await getData(
     `http://localhost:8081/weather/${params[0]}/${params[1]}/${params[2]}`
   );
   dailyWeatherData.value = {
     daily: fetchWeather.weatherData.dailyForecast,
-    air: fetchWeather.weatherData.airQuality,
-    alerts: fetchWeather.weatherData.alerts
-  }
+    currentAir: fetchWeather.weatherData.airQualityCurrent,
+    forecastAir: fetchWeather.weatherData.airQualityForecast,
+    alerts: fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : ''
+  };
   hourlyWeatherData.value = {
     hourly: fetchWeather.weatherData.hourlyForecast,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
-  console.log('daily', dailyWeatherData.value);
-  console.log('hourly', hourlyWeatherData.value);
 }
-
-/* for hourly forecast: have sun move with hours for daytime and then have moon come in for night with some type of slider to change the hour.*/
 </script>
 
 <style>
@@ -136,7 +123,6 @@ main {
   .currentWeather {
     flex: none;
   }
-  
 }
 
 @media screen and (max-width: 768px) {

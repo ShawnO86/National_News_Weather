@@ -72,11 +72,6 @@ header {
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
 }
-.weather_head_alert {
-  background: rgba(var(--bg-rgb), 0.25);
-  padding: 0.5rem clamp(0rem, 1vw, 1rem);
-  border-radius: 0.5rem;
-}
 .weather_head_data {
   display: flex;
   justify-content: space-between;
@@ -84,7 +79,8 @@ header {
   padding: 0.5rem clamp(0rem, 1vw, 1rem);
   border-radius: 0.5rem;
 }
-.weather_head_left, .weather_head_right {
+.weather_head_left,
+.weather_head_right {
   display: flex;
   flex-direction: column;
   justify-content: space-around;

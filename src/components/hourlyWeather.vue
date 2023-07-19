@@ -3,7 +3,7 @@
     <weather-box-head :selectedHour="selectedHour"></weather-box-head>
     <div class="weatherBox_details">
       <div class="hourSelection">
-        <h3>Slide to select a forecast 0-48 hours from now.</h3>
+        <h3>Slide for 48 hour forecast.</h3>
         <input type="range" id="time" name="time" min="0" max="47" v-model="hourIndex" />
       </div>
       <div>48hour temp graph</div>
@@ -16,12 +16,9 @@ import weatherBoxHead from './weatherBoxHead.vue';
 import { reactive, ref, computed } from 'vue';
 const props = defineProps(['hourlyWeather']);
 
-//Must figure out why why weather not updating in weatherboxhead
-
-
 let hourIndex = ref(0);
 let selectedHour = reactive({
-  location: props.hourlyWeather.location,
+  location: computed(() => props.hourlyWeather.location),
   weather: computed(() => props.hourlyWeather.hourly[hourIndex.value])
 });
 </script>
