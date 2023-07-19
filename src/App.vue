@@ -1,7 +1,7 @@
 <template>
   <section class="currentWeather">
     <div class="search">
-      <location-input @location="setLocation" />
+      <location-input @location="getWeather" />
     </div>
     <hourly-weather v-if="hourlyWeatherData" :hourlyWeather="hourlyWeatherData"></hourly-weather>
     <div v-else><p>Allow location access or enter a location.</p></div>
@@ -24,9 +24,6 @@ const locationMsg = ref('');
 const dailyWeatherData = ref('');
 const hourlyWeatherData = ref('');
 
-function setLocation(location) {
-  getWeather(location);
-}
 //functions for getting geoloction and sending to server on load
 onMounted(function getGeoLocation() {
   if (navigator.geolocation) {
@@ -50,9 +47,9 @@ async function getData(url = '') {
     console.log('error', e);
   }
 }
-async function getWeather(params) {
+async function getWeather(location) {
   const fetchWeather = await getData(
-    `http://localhost:8081/weather/${params[0]}/${params[1]}/${params[2]}`
+    `http://localhost:8081/weather/${location[0]}/${location[1]}/${location[2]}`
   );
   dailyWeatherData.value = {
     daily: fetchWeather.weatherData.dailyForecast,
@@ -64,6 +61,8 @@ async function getWeather(params) {
     hourly: fetchWeather.weatherData.hourlyForecast,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
+  console.log("daily: ", dailyWeatherData);
+  console.log("hourly: ", hourlyWeatherData);
 }
 </script>
 
@@ -87,7 +86,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background: linear-gradient(180deg, var(--bg-hex) 0%, var(--secondary-hex) 100%);
+  background: var(--secondary-hex);
   color: #fff;
 }
 #app {
@@ -103,14 +102,14 @@ main {
 }
 .currentWeather {
   flex: 4;
-  background: rgba(var(--bg-rgb), 0.6);
+  background: rgba(var(--bg-rgb), 0.5);
 }
 .search {
   padding: 1rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .sideBar {
   flex: 3;
-  background: rgba(var(--bg-rgb), 0.3);
+  background: rgba(var(--bg-rgb), 0.25);
 }
 
 @media screen and (max-width: 1024px) {
@@ -122,18 +121,22 @@ main {
   }
   .currentWeather {
     flex: none;
+    border-radius: 0 0 0.5rem 0.5rem;
   }
+  .sideBar {
+  border-radius: 0.5rem 0.5rem 0 0;
+}
 }
 
 @media screen and (max-width: 768px) {
-  body {
-    line-height: 1.4;
-  }
   #app {
     padding: 0 0.5rem;
   }
 }
 @media screen and (max-width: 425px) {
+  body {
+    line-height: 1.5;
+  }
   #app {
     padding: 0 0;
   }

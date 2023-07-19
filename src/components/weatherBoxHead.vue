@@ -1,22 +1,22 @@
 <template>
   <header>
     <div>
-      <h1>{{ weather.location }}</h1>
+      <h1>{{ props.selectedHour.location }}</h1>
     </div>
-    <p>{{ weather.weather.time }}</p>
+    <p>{{ props.selectedHour.weather.time }}</p>
   </header>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <div class="weather_head_data">
       <div class="weather_head_left">
-        <h2>{{ weather.weather.temp }}</h2>
-        <p>{{ weather.weather.shortDesc }}</p>
+        <h2>{{ props.selectedHour.weather.temp }}</h2>
+        <p>{{ props.selectedHour.weather.shortDesc }}</p>
       </div>
       <div class="weather_head_right">
-        <p>Rain Chance: {{ weather.weather.precip }}</p>
-        <p>Humidity: {{ weather.weather.humidity }}</p>
+        <p>Rain Chance: {{ props.selectedHour.weather.precip }}</p>
+        <p>Humidity: {{ props.selectedHour.weather.humidity }}</p>
         <p>
-          Wind: {{ weather.weather.windSpeed }}
-          {{ weather.weather.windDirection }}
+          Wind: {{ props.selectedHour.weather.windSpeed }}
+          {{ props.selectedHour.weather.windDirection }}
         </p>
       </div>
     </div>
@@ -24,11 +24,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps(['selectedHour']);
-let weather = ref(props.selectedHour);
-let weatherType = computed(() => weather.value.weather.shortDesc);
+let weatherType = computed(() => props.selectedHour.weather.shortDesc);
 const bgImage = computed(changeBackgroundImage);
 
 //optimize images after crop to .webp and maybe lower res

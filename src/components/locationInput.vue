@@ -1,6 +1,7 @@
 <template>
   <form @submit.prevent="sendInput">
-    <sub v-if="locationError">{{ locationError }}</sub>
+    <sub v-if="!locationError">{{ locationError }}</sub>
+    <sub v-else-if="locationError">{{ locationError }}</sub>
     <input
       type="text"
       name="locationInput"
@@ -34,9 +35,15 @@ function sendInput() {
 <style scoped>
 form {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem 1rem;
   width: 100%;
-  flex-wrap: wrap;
+  padding: 0 0 1rem 0;
+}
+sub {
+  margin: -2rem 0 -1rem 0;
+  flex: 100%;
 }
 input,
 button {
@@ -49,6 +56,7 @@ button {
 input {
   flex: 4;
   border: 1px solid var(--secondary-hex);
+  background: rgba(var(--bg-rgb), 0.25);
   min-width: 12rem;
 }
 button {
@@ -56,12 +64,13 @@ button {
   cursor: pointer;
   min-width: 6rem;
   border: 1px solid var(--secondary-hex);
+  background: rgba(var(--bg-rgb), 0.25);
 }
 button:hover {
   border: 1px solid #fff;
 }
 input::placeholder {
   padding-left: 0.6rem;
-  color: var(--secondary-hex);
+  color: rgba(255, 255, 255, 0.75);
 }
 </style>
