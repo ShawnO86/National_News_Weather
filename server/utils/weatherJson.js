@@ -73,13 +73,6 @@ const getZoneData = async () => {
         projectData.zoneData.zoneId = zoneJson.features[0].properties.id;
         projectData.zoneData.county = zoneJson.features[0].properties.name;
 
-        //need while loop because weather.gov api sometimes needs multiple calls before it returns anything.
-/*         while (projectData.weatherData.dailyForecast === undefined) {
-            await getDailyForcastData(projectData.zoneData.dailyForecastURL);
-        }
-        while (projectData.weatherData.hourlyForecast === undefined) {
-            await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
-        } */
         await getDailyForcastData(projectData.zoneData.dailyForecastURL)
         await getHourlyForcastData(projectData.zoneData.hourlyForecastURL);
         await getAlertData(projectData.zoneData.zoneId);

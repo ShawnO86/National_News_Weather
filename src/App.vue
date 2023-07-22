@@ -4,9 +4,9 @@
       <location-input @location="getWeather" />
     </div>
     <hourly-weather v-if="hourlyWeatherData" :hourlyWeather="hourlyWeatherData"></hourly-weather>
-    <div v-else><p>Allow location access or enter a location.</p></div>
-    <p v-if="dailyWeatherData">Air quality here</p>
-    <p v-if="dailyWeatherData.alerts">& alerts to be here.</p>
+    <div v-else>
+      <p>{{ locationMsg }}</p>
+    </div>
   </section>
   <section class="sideBar">
     <side-bar></side-bar>
@@ -61,17 +61,19 @@ async function getWeather(location) {
     hourly: fetchWeather.weatherData.hourlyForecast,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
-  console.log("daily: ", dailyWeatherData);
-  console.log("hourly: ", hourlyWeatherData);
+  console.log('daily: ', dailyWeatherData);
+  console.log('hourly: ', hourlyWeatherData);
 }
 </script>
 
 <style>
 :root {
-  --bg-hex: #0f5b86;
-  --bg-rgb: 15, 91, 134;
-  --secondary-hex: #59b4ff;
-  --secondary-rgb: 89, 180, 255;
+  --bg-hex: #346895;
+  --bg-rgb: 52, 104, 149;
+  --secondary-hex: #478ECC;
+  --secondary-rgb: 71, 142, 204;
+  --greyblue-hex: #536b80;
+  --greyblue-rgb: 83, 107, 128;
 }
 *,
 *::before,
@@ -86,7 +88,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background: var(--secondary-hex);
+  background: var(--greyblue-hex);
   color: #fff;
 }
 #app {
@@ -103,13 +105,14 @@ main {
 .currentWeather {
   flex: 4;
   background: rgba(var(--bg-rgb), 0.5);
+  min-height: 60vh;
 }
 .search {
   padding: 1rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .sideBar {
   flex: 3;
-  background: rgba(var(--bg-rgb), 0.25);
+  background: rgba(var(--secondary-rgb), 0.5);
 }
 
 @media screen and (max-width: 1024px) {
@@ -124,8 +127,8 @@ main {
     border-radius: 0 0 0.5rem 0.5rem;
   }
   .sideBar {
-  border-radius: 0.5rem 0.5rem 0 0;
-}
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
 }
 
 @media screen and (max-width: 768px) {

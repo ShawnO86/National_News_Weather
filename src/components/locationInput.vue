@@ -42,32 +42,33 @@ form {
   padding: 0 0 1rem 0;
 }
 sub {
-  margin: -2rem 0 -1rem 0;
+  margin: -1.5rem 0 -1rem 0;
   flex: 100%;
+  text-align: right;
 }
 input,
 button {
   border-radius: 0.25rem;
   padding: 0.6rem 0.25rem;
-  background: var(--bg-hex);
   color: #fff;
   border: none;
 }
 input {
   flex: 4;
-  border: 1px solid var(--secondary-hex);
-  background: rgba(var(--bg-rgb), 0.25);
+  border: 2px solid var(--secondary-hex);
+  background: var(--greyblue-hex);
   min-width: 12rem;
 }
 button {
   flex: 1;
   cursor: pointer;
   min-width: 6rem;
-  border: 1px solid var(--secondary-hex);
-  background: rgba(var(--bg-rgb), 0.25);
+  border: 2px solid var(--secondary-hex);
+  background: var(--greyblue-hex);
 }
 button:hover {
-  border: 1px solid #fff;
+  border: 2px solid #fff;
+  background: var(--bg-hex);
 }
 input::placeholder {
   padding-left: 0.6rem;
