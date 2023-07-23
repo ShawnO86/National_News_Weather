@@ -2,6 +2,7 @@
   <form @submit.prevent="sendInput">
     <sub v-if="!locationError">{{ locationError }}</sub>
     <sub v-else-if="locationError">{{ locationError }}</sub>
+    <label for="locationInput">Location Search:</label>
     <input
       type="text"
       name="locationInput"
@@ -42,9 +43,12 @@ form {
   padding: 0 0 1rem 0;
 }
 sub {
-  margin: -1.5rem 0 -1rem 0;
+  margin: -1rem 0 -1rem 0;
   flex: 100%;
   text-align: right;
+}
+label {
+  flex: 100%;
 }
 input,
 button {

@@ -68,12 +68,12 @@ async function getWeather(location) {
 
 <style>
 :root {
-  --bg-hex: #346895;
-  --bg-rgb: 52, 104, 149;
-  --secondary-hex: #478ECC;
+  --bg-hex: #274f72;
+  --bg-rgb:  39, 79, 114;
+  --secondary-hex: #478ecc;
   --secondary-rgb: 71, 142, 204;
-  --greyblue-hex: #536b80;
-  --greyblue-rgb: 83, 107, 128;
+  --greyblue-hex: #273746;
+  --greyblue-rgb: 39, 55, 70;
 }
 *,
 *::before,
@@ -88,7 +88,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background: var(--greyblue-hex);
+  background: var(--bg-hex);
   color: #fff;
 }
 #app {
@@ -100,11 +100,11 @@ body {
 main {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
 }
 .currentWeather {
   flex: 4;
-  background: rgba(var(--bg-rgb), 0.5);
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.25);
   min-height: 60vh;
 }
 .search {
@@ -112,7 +112,9 @@ main {
 }
 .sideBar {
   flex: 3;
-  background: rgba(var(--secondary-rgb), 0.5);
+  background: rgba(var(--secondary-rgb), 0.65);
+  border-left: 1px solid var(--secondary-hex);
+  border-right: 1px solid var(--secondary-hex);
 }
 
 @media screen and (max-width: 1024px) {
@@ -121,6 +123,7 @@ main {
   }
   main {
     flex-direction: column;
+    gap: 2rem;
   }
   .currentWeather {
     flex: none;

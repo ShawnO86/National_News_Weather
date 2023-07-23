@@ -66,7 +66,7 @@ header {
   padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .weatherBox_head {
-  padding: 2rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
+  padding: 2.5rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
@@ -74,9 +74,9 @@ header {
 .weather_head_data {
   display: flex;
   justify-content: space-between;
-  background: rgba(var(--bg-rgb), 0.5);
-  padding: 0.5rem clamp(0rem, 1vw, 1rem);
-  border: 1px solid var(--secondary-hex);
+  background: rgba(var(--secondary-rgb), 0.65);
+  padding: 1rem clamp(0rem, 1vw, 1rem);
+  border: 1px solid var(--greyblue-hex);
   border-radius: 0.5rem;
 }
 .weather_head_left,

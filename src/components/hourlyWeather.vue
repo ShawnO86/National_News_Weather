@@ -3,7 +3,7 @@
     <weather-box-head :selectedHour="selectedHour"></weather-box-head>
     <div class="weatherBox_details">
       <div class="hourSelection">
-        <h4>Drag to select a time. <sub>(48 hour limit)</sub></h4>
+        <label for="time"><h4>48 hour forecast<sub>(Drag to select a time.)</sub></h4></label>
         <input type="range" id="time" name="time" min="0" max="47" v-model="hourIndex" />
         <div class="hourSpan">
           <sub>{{ firstHour }} > </sub>
@@ -37,11 +37,10 @@ let selectedHour = reactive({
 }
 .weatherBox_details {
   padding: 2rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
-  background: rgba(var(--secondary-rgb), 0.25);
 }
 .hourSelection {
   margin-bottom: 2rem;
-  background: var(--bg-hex);
+  background: var(--greyblue-hex);
   padding: 0.5rem clamp(0rem, 1vw, 1rem);
   border: 1px solid var(--secondary-hex);
   border-radius: 0.5rem;
