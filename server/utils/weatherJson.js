@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import dotenv from 'dotenv';
 import WeatherData from './weatherData.js';
-import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime, filterIconUrl } from './weatherUtils.js'
+import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime } from './weatherUtils.js'
 
 dotenv.config();
 const geoKey = process.env.geonames_key;
@@ -99,7 +99,6 @@ const getDailyForcastData = async (url) => {
                 humidity: day.relativeHumidity.value + "%",
                 windSpeed: day.windSpeed,
                 windDirection: day.windDirection,
-                icon: filterIconUrl(day.icon, "small"),
                 shortDesc: day.shortForecast,
                 detailDesc: day.detailedForecast
             })
@@ -127,7 +126,6 @@ const getHourlyForcastData = async (url) => {
                 humidity: hour.relativeHumidity.value + "%",
                 windSpeed: hour.windSpeed,
                 windDirection: hour.windDirection,
-                icon: filterIconUrl(hour.icon, "medium"),
                 shortDesc: hour.shortForecast
             })
         }

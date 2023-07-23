@@ -9,7 +9,7 @@
     </div>
   </section>
   <section class="sideBar">
-    <side-bar></side-bar>
+    <side-bar :dailyWeather="dailyWeatherData"></side-bar>
   </section>
 </template>
 
@@ -69,7 +69,7 @@ async function getWeather(location) {
 <style>
 :root {
   --bg-hex: #274f72;
-  --bg-rgb:  39, 79, 114;
+  --bg-rgb: 39, 79, 114;
   --secondary-hex: #478ecc;
   --secondary-rgb: 71, 142, 204;
   --greyblue-hex: #273746;
@@ -95,26 +95,25 @@ body {
   margin: auto;
   max-width: 90rem;
   min-height: 100vh;
-  padding: 0 1rem;
 }
 main {
   display: flex;
   justify-content: space-between;
 }
 .currentWeather {
-  flex: 4;
-  background: rgb(0, 0, 0);
+  flex: 7;
   background: rgba(0, 0, 0, 0.25);
-  min-height: 60vh;
 }
 .search {
   padding: 1rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .sideBar {
-  flex: 3;
+  flex: 5;
   background: rgba(var(--secondary-rgb), 0.65);
   border-left: 1px solid var(--secondary-hex);
   border-right: 1px solid var(--secondary-hex);
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 @media screen and (max-width: 1024px) {
@@ -131,6 +130,8 @@ main {
   }
   .sideBar {
     border-radius: 0.5rem 0.5rem 0 0;
+    overflow-y: normal;
+    max-height: none;
   }
 }
 
