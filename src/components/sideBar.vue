@@ -3,7 +3,7 @@
   <p>Today and tommorow air quality here</p>
   <p>& alerts to be here.</p>
 
-  <h3>7-Day Forecast</h3>
+  <h3>7-Day Forecast <span>( Click box for more details )</span></h3>
   <daily-weather-display :weatherForecast="weatherForecast"></daily-weather-display>
 
 </template>
@@ -21,6 +21,12 @@ const alerts = computed(() => props.dailyWeather.alerts);
 
 <style scoped>
 h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 1rem;
+}
+span {
+  font-size: smaller;
 }
 </style>

@@ -3,7 +3,7 @@
     <weather-box-head :selectedHour="selectedHour"></weather-box-head>
     <div class="weatherBox_details">
       <div class="hourSelection">
-        <label for="time"><h4>48 hour forecast<sub>(Drag to select a time.)</sub></h4></label>
+        <label for="time"><h4>48 hour forecast<span>( Drag to select a time )</span></h4></label>
         <input type="range" id="time" name="time" min="0" max="47" v-model="hourIndex" />
         <div class="hourSpan">
           <sub>{{ firstHour }} > </sub>
@@ -69,5 +69,8 @@ input[type='range'] {
   border-bottom: 1px dashed white;
   height: 0.25rem;
   margin: 0 clamp(0rem, 1vw, 1rem);
+}
+span {
+  font-size: smaller;
 }
 </style>
