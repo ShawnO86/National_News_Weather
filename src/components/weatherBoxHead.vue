@@ -1,14 +1,14 @@
 <template>
   <header>
     <div>
-      <h2>{{ props.selectedHour.location }}</h2>
+      <h1>{{ props.selectedHour.location }}</h1>
     </div>
     <p>{{ props.selectedHour.weather.time }}</p>
   </header>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <div class="weather_head_data">
       <div class="weather_head_left">
-        <h3>{{ props.selectedHour.weather.temp }}</h3>
+        <h2>{{ props.selectedHour.weather.temp }}</h2>
         <p>{{ props.selectedHour.weather.shortDesc }}</p>
       </div>
       <div class="weather_head_right">

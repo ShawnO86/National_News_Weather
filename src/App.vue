@@ -82,6 +82,12 @@ async function getWeather(location) {
   margin: 0;
   padding: 0;
 }
+h5 {
+  font-size: 0.9rem;
+}
+h6 {
+  font-size: 0.8rem;
+}
 body {
   font-family: 'Segoe UI', sans-serif;
   text-rendering: optimizeLegibility;

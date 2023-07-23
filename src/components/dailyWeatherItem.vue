@@ -1,13 +1,12 @@
 <template>
-    <details>
-        <summary>
-            <div class="leftSide">{{ props.weatherItem.name }}</div>
-            <div class="rightSide"><img :src=props.weatherItem.icon></div>
-        </summary>
-
-    </details>
+  <details>
+    <summary>
+      <div class="leftSide"><h5>{{ props.weatherItem.name }}</h5></div>
+      <div class="rightSide"><h6>{{ props.weatherItem.shortDesc }}</h6></div>
+    </summary>
+  </details>
 </template>
 
 <script setup>
-const props = defineProps(['weatherItem'])
+const props = defineProps(['weatherItem']);
 </script>
