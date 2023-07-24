@@ -7,8 +7,9 @@
     <div v-else>
       <p>{{ locationMsg }}</p>
     </div>
+
   </section>
-  <section class="sideBar">
+  <section class="sideBar" v-if="dailyWeatherData">
     <side-bar :dailyWeather="dailyWeatherData"></side-bar>
   </section>
 </template>
@@ -53,13 +54,14 @@ async function getWeather(location) {
   );
   dailyWeatherData.value = {
     daily: fetchWeather.weatherData.dailyForecast,
+
     currentAir: fetchWeather.weatherData.airQualityCurrent,
     forecastAir: fetchWeather.weatherData.airQualityForecast,
-    alerts: fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : ''
   };
   hourlyWeatherData.value = {
     hourly: fetchWeather.weatherData.hourlyForecast,
-    location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
+    location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`,
+    alerts: fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : '',
   };
   console.log('daily: ', dailyWeatherData);
   console.log('hourly: ', hourlyWeatherData);
@@ -97,18 +99,32 @@ body {
   background: var(--bg-hex);
   color: #fff;
 }
+body::-webkit-scrollbar {
+  width: 0.5rem;
+}
+body::-webkit-scrollbar-track {
+  background: var(--greyblue-hex);
+  border-radius: 0.5rem;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-hex);
+  border-radius: 0.5rem;
+}
 #app {
   margin: auto;
   max-width: 90rem;
-  min-height: 100vh;
+  padding: 0 2rem;
 }
 main {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 .currentWeather {
   flex: 7;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(var(--greyblue-rgb), 0.75);
+  border-left: 2px solid var(--greyblue-hex);
+  border-right: 2px solid var(--greyblue-hex);
 }
 .search {
   padding: 1rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
@@ -116,28 +132,11 @@ main {
 .sideBar {
   flex: 5;
   background: rgba(var(--secondary-rgb), 0.65);
-  border-left: 1px solid var(--secondary-hex);
-  border-right: 1px solid var(--secondary-hex);
-  overflow-y: auto;
-  max-height: 100vh;
 }
 
 @media screen and (max-width: 1024px) {
   #app {
-    padding: 0 2rem;
-  }
-  main {
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .currentWeather {
-    flex: none;
-    border-radius: 0 0 0.5rem 0.5rem;
-  }
-  .sideBar {
-    border-radius: 0.5rem 0.5rem 0 0;
-    overflow-y: normal;
-    max-height: none;
+    padding: 0 1.5rem;
   }
 }
 

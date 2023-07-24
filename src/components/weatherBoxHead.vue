@@ -1,13 +1,12 @@
 <template>
   <header>
-    <div>
-      <h1>{{ props.selectedHour.location }}</h1>
-    </div>
-    <p>{{ props.selectedHour.weather.time }}</p>
+    <p>Current Weather</p>
+    <p>{{ props.selectedHour.weather.date }} @ {{ props.selectedHour.weather.time }}</p>
   </header>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <div class="weather_head_data">
       <div class="weather_head_left">
+        <h1>{{ props.selectedHour.location }}</h1>
         <h2>{{ props.selectedHour.weather.temp }}</h2>
         <p>{{ props.selectedHour.weather.shortDesc }}</p>
       </div>
@@ -66,7 +65,7 @@ header {
   padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .weatherBox_head {
-  padding: 2.5rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
+  padding: 2rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
@@ -74,9 +73,9 @@ header {
 .weather_head_data {
   display: flex;
   justify-content: space-between;
-  background: rgba(var(--secondary-rgb), 0.65);
+  background: rgba(var(--bg-rgb), 0.5);
   padding: 1rem clamp(0rem, 1vw, 1rem);
-  border: 1px solid var(--greyblue-hex);
+  border: 1px solid var(--secondary-hex);
   border-radius: 0.5rem;
 }
 .weather_head_left,

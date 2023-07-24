@@ -1,42 +1,43 @@
 <template>
-  <div id="weatherBox">
-    <weather-box-head :selectedHour="selectedHour"></weather-box-head>
-    <div class="weatherBox_details">
-      <div class="hourSelection">
-        <label for="time"><h4>48 hour forecast<span>( Drag to select a time )</span></h4></label>
-        <input type="range" id="time" name="time" min="0" max="47" v-model="hourIndex" />
-        <div class="hourSpan">
-          <sub>{{ firstHour }} > </sub>
-          <p class="hourSpan_separator"></p>
-          <sub> &lt; {{ lastHour }}</sub>
+  <weather-box-head :selectedHour="selectedHour"></weather-box-head>
+  <div class="weatherBox_details">
+    <h3>Hourly Forecast</h3>
+    <div class="hourSelection">
+      <div v-for="(item, index) in props.hourlyWeather.hourly" :key="index" class="dayOutput">
+        <h4>{{ item[0].date }}</h4>
+        <div v-for="(day, dayIndex) in item" :key="dayIndex">
+          <div class="hourOutput">
+            <h5>{{ day.time }}</h5>
+            <p>{{ day.temp }}</p>
+            <p>{{ day.precip }}</p>
+          </div>
         </div>
       </div>
-      <div>48hour temp, humidity, and precipitation graphs</div>
     </div>
+    <div>48hour temp, humidity, and precipitation graphs</div>
   </div>
 </template>
   
   <script setup>
 import weatherBoxHead from './weatherBoxHead.vue';
-import { reactive, ref, computed } from 'vue';
+import { computed, reactive } from 'vue';
 const props = defineProps(['hourlyWeather']);
-const firstHour = computed(() => props.hourlyWeather.hourly[0].time);
-const lastHour = computed(() => props.hourlyWeather.hourly[47].time);
-
-let hourIndex = ref(1);
+const dates = Object.keys(props.hourlyWeather.hourly);
 let selectedHour = reactive({
   location: computed(() => props.hourlyWeather.location),
-  weather: computed(() => props.hourlyWeather.hourly[hourIndex.value])
+  weather: computed(() => props.hourlyWeather.hourly[dates[0]][0])
 });
 </script>
   
   <style scoped>
-#weatherBox {
-  width: 100%;
-  min-height: 15rem;
-}
 .weatherBox_details {
   padding: 2rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
+}
+.weatherBox_details h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 .hourSelection {
   margin-bottom: 2rem;
@@ -44,18 +45,36 @@ let selectedHour = reactive({
   padding: 0.5rem clamp(0rem, 1vw, 1rem);
   border: 1px solid var(--secondary-hex);
   border-radius: 0.5rem;
-}
-.hourSelection h4 {
-  margin-bottom: 1rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
-input {
+.dayOutput {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
   width: 100%;
 }
-input[type='range'] {
-  width: 100%;
+.dayOutput h4 {
+  flex: 100%;
+  border-bottom: 1px solid var(--secondary-hex);
+  margin-bottom: 1rem;
+}
+.hourOutput {
+  width: 8rem;
+  border: 1px solid var(--secondary-hex);
+  padding: 0 0.25rem;
+  border-radius: 0.5rem;
+  background: none;
+  color: #fff;
+}
+.rightAlign {
+  text-align: right;
+}
+button:hover,
+button:focus {
+  background: var(--bg-hex);
 }
 .hourSpan {
   display: flex;
@@ -70,7 +89,21 @@ input[type='range'] {
   height: 0.25rem;
   margin: 0 clamp(0rem, 1vw, 1rem);
 }
-span {
+h3 span {
   font-size: smaller;
+}
+.hourSelection::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+.hourSelection::-webkit-scrollbar-track {
+  background: var(--bg-hex);
+  border: 1px solid var(--greyblue-hex);
+  border-radius: 0.5rem;
+  margin: 0 0.5rem;
+}
+.hourSelection::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-hex);
+  border-radius: 0.5rem;
 }
 </style>

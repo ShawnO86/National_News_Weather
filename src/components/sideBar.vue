@@ -1,11 +1,11 @@
 <template>
+  <div class="sideBar_Header">
+    <p v-if="alerts">Alerts: {{ alerts }}</p>
+    <div class="airQuality"><p>Today and tommorow air quality here</p></div>
+    <h3>7 Day Forecast <span>( Click box for more details )</span></h3>
+  </div>
 
-  <p>Today and tommorow air quality here</p>
-  <p>& alerts to be here.</p>
-
-  <h3>7-Day Forecast <span>( Click box for more details )</span></h3>
   <daily-weather-display :weatherForecast="weatherForecast"></daily-weather-display>
-
 </template>
 
 <script setup>
@@ -14,12 +14,13 @@ import { computed } from 'vue';
 
 const props = defineProps(['dailyWeather']);
 const weatherForecast = computed(() => props.dailyWeather.daily);
-const airQualityCurrent = computed(() => props.dailyWeather.currentAir);
-const airQualityForecast = computed(() => props.dailyWeather.forecastAir);
 const alerts = computed(() => props.dailyWeather.alerts);
 </script>
 
 <style scoped>
+.sideBar_Header {
+  padding: 0.5rem 1.5rem;
+}
 h3 {
   display: flex;
   align-items: center;

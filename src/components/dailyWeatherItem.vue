@@ -1,12 +1,12 @@
 <template>
   <details>
     <summary>
-      <div class="summaryHeader">
-        <h5>{{ props.weatherItem.name }} - {{ props.weatherItem.temp }}</h5>
-        <h6>{{ props.weatherItem.precip }} Chance of rain</h6>
+      <div class="summaryHeader" @click="console.log(props.weatherItem)">
+        <h4>{{ props.weatherItem[0].name }} - {{ props.weatherItem[0].temp }}</h4>
+        <p>{{ props.weatherItem[0].shortDesc }}</p>
       </div>
     </summary>
-    <div>{{ props.weatherItem }}</div>
+    <div class="weatherDetails">{{ props.weatherItem }}</div>
   </details>
 </template>
 
@@ -17,29 +17,30 @@ const props = defineProps(['weatherItem']);
 <style scoped>
 details {
   width: 100%;
+  padding: 0 1.5rem;
 }
 details summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: var(--bg-hex);
-  border-top: 1px solid var(--secondary-hex);
-  border-bottom: 1px solid var(--secondary-hex);
+  border: 1px solid var(--secondary-hex);
   width: 100%;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem 1.5rem;
   cursor: pointer;
+  border-radius: 0.5rem;
 }
 details summary::after {
-  content: "Right";
+  content: 'Right';
 }
 details[open] summary::after {
-    content: "Down";
+  content: 'Down';
 }
 details summary:hover,
 details summary:focus {
   background: var(--greyblue-hex);
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #fff;
 }
-
+.weatherDetails {
+  padding: 0.5rem 1.5rem;
+}
 </style>

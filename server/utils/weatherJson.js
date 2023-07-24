@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import dotenv from 'dotenv';
 import WeatherData from './weatherData.js';
-import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime } from './weatherUtils.js'
+import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime, separateByDate } from './weatherUtils.js'
 
 dotenv.config();
 const geoKey = process.env.geonames_key;
@@ -90,7 +90,7 @@ const getDailyForcastData = async (url) => {
         for (const day of forcastData.properties.periods) {
             forecast.push({
                 name: day.name,
-                day: dateFormat(day.startTime),
+                date: dateFormat(day.startTime),
                 isDaytime: day.isDaytime,
                 astro: day.isDaytime == true ? await getAstroData(removeTime(day.startTime)) : "",
                 temp: day.temperature + day.temperatureUnit,
@@ -105,7 +105,7 @@ const getDailyForcastData = async (url) => {
         };
 
         projectData.weatherData.dateUpdated = removeTime(forcastData.properties.updated);
-        projectData.weatherData.dailyForecast = forecast;
+        projectData.weatherData.dailyForecast = separateByDate(forecast);
 
         await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long, projectData.weatherData.dateUpdated);
     } catch (e) {
@@ -120,7 +120,8 @@ const getHourlyForcastData = async (url) => {
         const forcastData = await forcastURL.json()
         for (const hour of forcastData.properties.periods) {
             forecastArr.push({
-                time: dateFormat(hour.startTime) + ' @ ' + hourFormat(hour.startTime),
+                date: dateFormat(hour.startTime),
+                time: hourFormat(hour.startTime),
                 temp: hour.temperature + hour.temperatureUnit,
                 precip: hour.probabilityOfPrecipitation.value == null ? 0 + '%' : hour.probabilityOfPrecipitation.value + '%',
                 humidity: hour.relativeHumidity.value + "%",
@@ -130,7 +131,7 @@ const getHourlyForcastData = async (url) => {
             })
         }
         //sliced out only the first 48 hours of the Hourly Forcast Data
-        projectData.weatherData.hourlyForecast = forecastArr.slice(0, 48);
+        projectData.weatherData.hourlyForecast = separateByDate(forecastArr.slice(0, 48));
     } catch (e) {
         console.log("Hourly Forecast data error: ", e);
     }
