@@ -20,6 +20,7 @@
       </div>
     </div>
   </div>
+  <div class="airQuality"><h3>Air quality</h3></div>
 </template>
 
 <script setup>
@@ -89,6 +90,9 @@ header {
 }
 .weather_head_right {
   align-items: flex-end;
+}
+.airQuality {
+  padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 @media screen and (max-width: 425px) {
   header {

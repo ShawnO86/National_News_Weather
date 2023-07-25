@@ -1,9 +1,7 @@
 <template>
   <div class="sideBar_Header">
-    <div class="airQuality"><p>Today and tommorow air quality here</p></div>
     <h3>7 Day Forecast <span>( Click box for more details )</span></h3>
   </div>
-
   <daily-weather-display :weatherForecast="weatherForecast"></daily-weather-display>
 </template>
 

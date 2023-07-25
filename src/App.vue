@@ -54,14 +54,13 @@ async function getWeather(location) {
   );
   dailyWeatherData.value = {
     daily: fetchWeather.weatherData.dailyForecast,
-
-    currentAir: fetchWeather.weatherData.airQualityCurrent,
-    forecastAir: fetchWeather.weatherData.airQualityForecast,
   };
   hourlyWeatherData.value = {
     hourly: fetchWeather.weatherData.hourlyForecast,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`,
     alerts: fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : '',
+    currentAir: fetchWeather.weatherData.airQualityCurrent,
+    forecastAir: fetchWeather.weatherData.airQualityForecast,
   };
   console.log('daily: ', dailyWeatherData);
   console.log('hourly: ', hourlyWeatherData);
