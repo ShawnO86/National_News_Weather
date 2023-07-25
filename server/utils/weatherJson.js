@@ -131,7 +131,7 @@ const getHourlyForcastData = async (url) => {
             })
         }
         //sliced out only the first 48 hours of the Hourly Forcast Data
-        projectData.weatherData.hourlyForecast = separateByDate(forecastArr.slice(0, 48));
+        projectData.weatherData.hourlyForecast = separateByDate(forecastArr.slice(0, 49));
     } catch (e) {
         console.log("Hourly Forecast data error: ", e);
     }

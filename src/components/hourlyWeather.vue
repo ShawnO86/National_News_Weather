@@ -1,23 +1,18 @@
 <template>
-  <div class="weatherBox_details">
     <h3>Hourly Forecast</h3>
-    <div class="hourSelection">
       <div v-for="(item, index) in props.hourlyWeather.hourly" :key="index" class="dayOutput">
         <h4>{{ item[0].date }}</h4>
-        <div v-for="(day, dayIndex) in item" :key="dayIndex">
-          <div class="hourOutput">
-            <h5>{{ day.time }}</h5>
-            <p>{{ day.temp }}</p>
-            <p>{{ day.precip }}</p>
-          </div>
+
+        <div v-for="(day, dayIndex) in item" :key="dayIndex" class="hourOutput">
+          <hourly-weather-item :weatherItem="day"></hourly-weather-item>
         </div>
       </div>
-    </div>
     <div>48hour temp, humidity, and precipitation graphs</div>
-  </div>
+
 </template>
   
 <script setup>
+import hourlyWeatherItem from './hourlyWeatherItem.vue';
 const props = defineProps(['hourlyWeather']);
 </script>
   
@@ -42,24 +37,12 @@ const props = defineProps(['hourlyWeather']);
   gap: 1.5rem;
 }
 .dayOutput {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 0.5rem;
   width: 100%;
 }
 .dayOutput h4 {
   flex: 100%;
   border-bottom: 1px solid var(--secondary-hex);
   margin-bottom: 1rem;
-}
-.hourOutput {
-  width: 8rem;
-  border: 1px solid var(--secondary-hex);
-  padding: 0 0.25rem;
-  border-radius: 0.5rem;
-  background: none;
-  color: #fff;
 }
 .rightAlign {
   text-align: right;

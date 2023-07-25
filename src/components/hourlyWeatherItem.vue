@@ -2,18 +2,23 @@
   <details>
     <summary>
       <div class="summaryHeader">
-        <h4>{{ props.weatherItem[0].name }} - {{ props.weatherItem[0].temp }}</h4>
-        <p>{{ props.weatherItem[0].shortDesc }}</p>
+        <h4>{{ props.weatherItem.time }}</h4>
+        <h5>{{ props.weatherItem.temp }}</h5>
       </div>
     </summary>
-    <div class="weatherDetails">{{ props.weatherItem }}</div>
+    <div class="weatherDetails">
+      <h6>{{ props.weatherItem.shortDesc }}</h6>
+      <p>Temp:</p>
+      <p>Rain:</p>
+      <p>Humidity:</p>
+      <p>Wind:</p>
+    </div>
   </details>
 </template>
 
 <script setup>
 const props = defineProps(['weatherItem']);
 </script>
-
 <style scoped>
 details {
   width: 100%;
@@ -36,11 +41,7 @@ details summary::after {
 details[open] summary::after {
   content: 'Down';
 }
-details summary:hover,
-details summary:focus {
-  background: var(--greyblue-hex);
-}
-.weatherDetails {
-  padding: 0.5rem 1.5rem;
+.summaryHeader {
+  width: 6rem;
 }
 </style>

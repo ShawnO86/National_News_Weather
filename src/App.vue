@@ -127,16 +127,10 @@ body::-webkit-scrollbar-thumb {
   max-width: 90rem;
   padding: 0 4rem;
 }
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 header {
   padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .currentWeather {
-  flex: 7;
   background: rgba(var(--greyblue-rgb), 0.75);
   border-left: 2px solid var(--greyblue-hex);
   border-right: 2px solid var(--greyblue-hex);
@@ -145,7 +139,6 @@ header {
   padding: 1rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .sideBar {
-  flex: 5;
   background: rgba(var(--secondary-rgb), 0.65);
 }
 
