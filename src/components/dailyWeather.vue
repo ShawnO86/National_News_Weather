@@ -1,7 +1,11 @@
 <template>
-  <div class="weatherItems">
-    <div v-for="(item, index) in props.weatherForecast" :key="index">
-      <daily-weather-item :weatherItem="item"></daily-weather-item>
+  <h3>Daily Forecast</h3>
+  <div>7 day temp, humidity, and precipitation graphs</div>
+  <div v-for="(item, index) in props.weatherForecast.daily" :key="index" class="dayOutput">
+    <h4>{{ item[0].date }}</h4>
+
+    <div v-for="(day, dayIndex) in item" :key="dayIndex" class="hourOutput">
+      <daily-weather-item :weatherItem="day"></daily-weather-item>
     </div>
   </div>
 </template>
@@ -12,10 +16,4 @@ const props = defineProps(['weatherForecast']);
 </script>
 
 <style scoped>
-.weatherItems {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
 </style>

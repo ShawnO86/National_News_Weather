@@ -55,7 +55,6 @@ button {
   border-radius: 0.25rem;
   padding: 0.6rem 0.25rem;
   color: #fff;
-  border: none;
 }
 input {
   flex: 4;
@@ -72,7 +71,7 @@ button {
 }
 button:hover {
   border: 2px solid #fff;
-  background: var(--bg-hex);
+  background: rgba(var(--secondary-rgb), 0.5);
 }
 input::placeholder {
   padding-left: 0.6rem;

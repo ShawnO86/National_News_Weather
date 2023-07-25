@@ -2,7 +2,7 @@
   <div class="sideBar_Header">
     <h3>7 Day Forecast <span>( Click box for more details )</span></h3>
   </div>
-  <daily-weather-display :weatherForecast="weatherForecast"></daily-weather-display>
+
 </template>
 
 <script setup>
@@ -14,14 +14,10 @@ const weatherForecast = computed(() => props.dailyWeather.daily);
 </script>
 
 <style scoped>
-.sideBar_Header {
-  padding: 0.5rem 1.5rem;
-}
 h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1rem;
 }
 span {
   font-size: smaller;

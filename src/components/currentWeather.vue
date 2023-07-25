@@ -5,7 +5,6 @@
       <div class="weather_head_left">
         <h2>{{ props.selectedHour.temp }}</h2>
         <p>{{ props.selectedHour.shortDesc }}</p>
-        <p>{{ props.selectedHour.date }} @ {{ props.selectedHour.time }}</p>
       </div>
       <div class="weather_head_right">
         <p>Rain Chance: {{ props.selectedHour.precip }}</p>
@@ -56,7 +55,7 @@ function changeBackgroundImage() {
 
 <style scoped>
 .weatherBox_head {
-  padding: 2rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem) 3rem;
+  padding: 2rem 0 3.5rem 0;
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
@@ -65,9 +64,8 @@ function changeBackgroundImage() {
   display: flex;
   justify-content: space-between;
   background: rgba(var(--bg-rgb), 0.5);
-  padding: 1rem clamp(0rem, 1vw, 1rem);
+  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
   border: 1px solid var(--secondary-hex);
-  border-radius: 0.5rem;
 }
 .weather_head_left,
 .weather_head_right {
@@ -80,9 +78,6 @@ function changeBackgroundImage() {
 }
 .weather_head_right {
   align-items: flex-end;
-}
-.airQuality {
-  padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 @media screen and (max-width: 425px) {
   header {

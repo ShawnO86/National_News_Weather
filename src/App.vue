@@ -1,21 +1,35 @@
 <template>
-  <section class="currentWeather">
+  <header>
+    <h1>{{ hourlyWeatherData.location }}</h1>
     <div class="search">
       <location-input @location="getWeather" />
     </div>
-    <header>
-      <h1>{{ hourlyWeatherData.location }}</h1>
-    </header>
-
-    <weather-box-head :selectedHour="currentWeather" v-if="currentWeather"></weather-box-head>
-    <hourly-weather v-if="hourlyWeatherData" :hourlyWeather="hourlyWeatherData"></hourly-weather>
-
-    <div v-else>
-      <p>{{ locationMsg }}</p>
-    </div>
+    <nav>
+      <button
+        @click="toggleHourlyWeatherOpen"
+        :class="hourlyWeatherOpen ? 'active' : ''"
+        class="toggle"
+      >
+        Hourly Forecast
+      </button>
+      <button
+        @click="toggleDailyWeatherOpen"
+        :class="dailyWeatherOpen ? 'active' : ''"
+        class="toggle"
+      >
+        Daily Forecast
+      </button>
+    </nav>
+  </header>
+  <section class="currentWeather">
+    <current-weather :selectedHour="currentWeatherData" v-if="currentWeatherData"></current-weather>
   </section>
-  <section class="sideBar" v-if="dailyWeatherData">
-    <side-bar :dailyWeather="dailyWeatherData"></side-bar>
+  <section class="forecast" v-if="dailyWeatherData">
+    <div v-if="locationMsg">
+      <h1>{{ locationMsg }}</h1>
+    </div>
+    <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather>
+    <daily-weather v-if="dailyWeatherOpen" :weatherForecast="dailyWeatherData"></daily-weather>
   </section>
 </template>
 
@@ -23,15 +37,26 @@
 // Put in an alert icon with alert title and a rollover tooltip for weather alerts if there is one available
 import locationInput from './components/locationInput.vue';
 import hourlyWeather from './components/hourlyWeather.vue';
-import weatherBoxHead from './components/weatherBoxHead.vue';
-import sideBar from './components/sideBar.vue';
+import dailyWeather from './components/dailyWeather.vue';
+import currentWeather from './components/currentWeather.vue';
 import { onMounted, ref } from 'vue';
 
 const locationMsg = ref('');
 const dailyWeatherData = ref('');
 const hourlyWeatherData = ref('');
 const dates = ref('');
-const currentWeather = ref('');
+const currentWeatherData = ref('');
+const hourlyWeatherOpen = ref(false);
+const dailyWeatherOpen = ref(true);
+
+function toggleHourlyWeatherOpen() {
+  hourlyWeatherOpen.value = true;
+  dailyWeatherOpen.value = false;
+}
+function toggleDailyWeatherOpen() {
+  dailyWeatherOpen.value = true;
+  hourlyWeatherOpen.value = false;
+}
 
 //functions for getting geoloction and sending to server on load
 onMounted(function getGeoLocation() {
@@ -57,6 +82,7 @@ async function getData(url = '') {
   }
 }
 async function getWeather(location) {
+  locationMsg.value = 'Getting weather data...';
   const fetchWeather = await getData(
     `http://localhost:8081/weather/${location[0]}/${location[1]}/${location[2]}`
   );
@@ -71,12 +97,8 @@ async function getWeather(location) {
     forecastAir: fetchWeather.weatherData.airQualityForecast
   };
   dates.value = Object.keys(hourlyWeatherData.value.hourly);
-  currentWeather.value = hourlyWeatherData.value.hourly[dates.value[0]][0];
-
-  console.log('daily: ', dailyWeatherData);
-  console.log('hourly: ', hourlyWeatherData);
-  console.log('dates', dates.value[0]);
-  console.log('selected', hourlyWeatherData.value.hourly[dates.value[0]][0]);
+  currentWeatherData.value = hourlyWeatherData.value.hourly[dates.value[0]][0];
+  locationMsg.value = '';
 }
 </script>
 
@@ -125,21 +147,40 @@ body::-webkit-scrollbar-thumb {
 #app {
   margin: auto;
   max-width: 90rem;
+  min-height: 100vh;
   padding: 0 4rem;
 }
 header {
-  padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
+  padding: 0.5rem 0;
 }
-.currentWeather {
-  background: rgba(var(--greyblue-rgb), 0.75);
-  border-left: 2px solid var(--greyblue-hex);
-  border-right: 2px solid var(--greyblue-hex);
+nav {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
 }
-.search {
-  padding: 1rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
+nav button {
+  width: 50%;
+  text-align: center;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  border: 2px solid var(--secondary-hex);
+  background: var(--greyblue-hex);
+  font-weight: 600;
+  border-radius: 0.25rem;
+  padding: 0.6rem 0.25rem;
 }
-.sideBar {
-  background: rgba(var(--secondary-rgb), 0.65);
+.toggle {
+  color: rgba(255, 255, 255, 0.75);
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 1);
+}
+.active {
+  box-shadow: none;
+  border: 2px solid #fff;
+  background: rgba(var(--secondary-rgb), 0.5);
+  color: #fff;
+}
+.description {
+  font-size: 0.9rem;
 }
 
 @media screen and (max-width: 1024px) {
