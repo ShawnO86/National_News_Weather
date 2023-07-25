@@ -1,21 +1,18 @@
 <template>
-  <header>
-    <p>Current Weather</p>
-    <p>{{ props.selectedHour.weather.date }} @ {{ props.selectedHour.weather.time }}</p>
-  </header>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
+    <p>Current Weather</p>
     <div class="weather_head_data">
       <div class="weather_head_left">
-        <h1>{{ props.selectedHour.location }}</h1>
-        <h2>{{ props.selectedHour.weather.temp }}</h2>
-        <p>{{ props.selectedHour.weather.shortDesc }}</p>
+        <h2>{{ props.selectedHour.temp }}</h2>
+        <p>{{ props.selectedHour.shortDesc }}</p>
+        <p>{{ props.selectedHour.date }} @ {{ props.selectedHour.time }}</p>
       </div>
       <div class="weather_head_right">
-        <p>Rain Chance: {{ props.selectedHour.weather.precip }}</p>
-        <p>Humidity: {{ props.selectedHour.weather.humidity }}</p>
+        <p>Rain Chance: {{ props.selectedHour.precip }}</p>
+        <p>Humidity: {{ props.selectedHour.humidity }}</p>
         <p>
-          Wind: {{ props.selectedHour.weather.windSpeed }}
-          {{ props.selectedHour.weather.windDirection }}
+          Wind: {{ props.selectedHour.windSpeed }}
+          {{ props.selectedHour.windDirection }}
         </p>
       </div>
     </div>
@@ -27,7 +24,7 @@
 import { computed } from 'vue';
 
 const props = defineProps(['selectedHour']);
-let weatherType = computed(() => props.selectedHour.weather.shortDesc);
+let weatherType = computed(() => props.selectedHour.shortDesc);
 const bgImage = computed(changeBackgroundImage);
 
 //optimize images after crop to .webp and maybe lower res
@@ -58,15 +55,8 @@ function changeBackgroundImage() {
 </script>
 
 <style scoped>
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 1rem;
-  padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
-}
 .weatherBox_head {
-  padding: 2rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
+  padding: 2rem calc(clamp(0rem, 1vw, 1rem) + 0.5rem) 3rem;
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);

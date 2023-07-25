@@ -1,5 +1,4 @@
 <template>
-  <weather-box-head :selectedHour="selectedHour"></weather-box-head>
   <div class="weatherBox_details">
     <h3>Hourly Forecast</h3>
     <div class="hourSelection">
@@ -18,16 +17,8 @@
   </div>
 </template>
   
-  <script setup>
-import weatherBoxHead from './weatherBoxHead.vue';
-import { computed, reactive } from 'vue';
+<script setup>
 const props = defineProps(['hourlyWeather']);
-const dates = Object.keys(props.hourlyWeather.hourly);
-let selectedHour = reactive({
-  location: computed(() => props.hourlyWeather.location),
-  weather: computed(() => props.hourlyWeather.hourly[dates[0]][0]),
-  alerts: computed(() => props.hourlyWeather.alerts)
-});
 </script>
   
   <style scoped>
@@ -53,7 +44,7 @@ let selectedHour = reactive({
 .dayOutput {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.5rem;
   width: 100%;
 }

@@ -3,11 +3,16 @@
     <div class="search">
       <location-input @location="getWeather" />
     </div>
+    <header>
+      <h1>{{ hourlyWeatherData.location }}</h1>
+    </header>
+
+    <weather-box-head :selectedHour="currentWeather" v-if="currentWeather"></weather-box-head>
     <hourly-weather v-if="hourlyWeatherData" :hourlyWeather="hourlyWeatherData"></hourly-weather>
+
     <div v-else>
       <p>{{ locationMsg }}</p>
     </div>
-
   </section>
   <section class="sideBar" v-if="dailyWeatherData">
     <side-bar :dailyWeather="dailyWeatherData"></side-bar>
@@ -18,12 +23,15 @@
 // Put in an alert icon with alert title and a rollover tooltip for weather alerts if there is one available
 import locationInput from './components/locationInput.vue';
 import hourlyWeather from './components/hourlyWeather.vue';
+import weatherBoxHead from './components/weatherBoxHead.vue';
 import sideBar from './components/sideBar.vue';
 import { onMounted, ref } from 'vue';
 
 const locationMsg = ref('');
 const dailyWeatherData = ref('');
 const hourlyWeatherData = ref('');
+const dates = ref('');
+const currentWeather = ref('');
 
 //functions for getting geoloction and sending to server on load
 onMounted(function getGeoLocation() {
@@ -53,17 +61,22 @@ async function getWeather(location) {
     `http://localhost:8081/weather/${location[0]}/${location[1]}/${location[2]}`
   );
   dailyWeatherData.value = {
-    daily: fetchWeather.weatherData.dailyForecast,
+    daily: fetchWeather.weatherData.dailyForecast
   };
   hourlyWeatherData.value = {
     hourly: fetchWeather.weatherData.hourlyForecast,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`,
     alerts: fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : '',
     currentAir: fetchWeather.weatherData.airQualityCurrent,
-    forecastAir: fetchWeather.weatherData.airQualityForecast,
+    forecastAir: fetchWeather.weatherData.airQualityForecast
   };
+  dates.value = Object.keys(hourlyWeatherData.value.hourly);
+  currentWeather.value = hourlyWeatherData.value.hourly[dates.value[0]][0];
+
   console.log('daily: ', dailyWeatherData);
   console.log('hourly: ', hourlyWeatherData);
+  console.log('dates', dates.value[0]);
+  console.log('selected', hourlyWeatherData.value.hourly[dates.value[0]][0]);
 }
 </script>
 
@@ -112,12 +125,15 @@ body::-webkit-scrollbar-thumb {
 #app {
   margin: auto;
   max-width: 90rem;
-  padding: 0 2rem;
+  padding: 0 4rem;
 }
 main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+header {
+  padding: 0 calc(clamp(0rem, 1vw, 1rem) + 0.5rem);
 }
 .currentWeather {
   flex: 7;
