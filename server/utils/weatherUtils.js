@@ -44,3 +44,12 @@ export function separateByDate(data) {
   
     return separatedData;
   }
+  export function extractHourlyBaseURL(url) {
+    // Split the URL by "?" to remove the query parameters
+    const parts = url.split(',');
+    
+    // The first part of the split array will be the base URL
+    const baseURL = parts[0];
+    
+    return baseURL + "?size=medium";
+  }

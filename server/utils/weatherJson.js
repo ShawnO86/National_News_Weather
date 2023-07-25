@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import dotenv from 'dotenv';
 import WeatherData from './weatherData.js';
-import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime, separateByDate } from './weatherUtils.js'
+import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime, separateByDate, extractHourlyBaseURL } from './weatherUtils.js'
 
 dotenv.config();
 const geoKey = process.env.geonames_key;
@@ -50,7 +50,7 @@ export const getGeoData = async (city, lat, long) => {
 };
 
 const getAstroData = async (date) => {
-    const astroURL = await fetch(`https://api.sunrise-sunset.org/json?lat=${projectData.zoneData.lat}&lng=${projectData.zoneData.long}&date=${date}`);
+    const astroURL = await fetch(`https://api.sunrise-sunset.org/json?lat=${projectData.zoneData.lat}&lng=${projectData.zoneData.long}&date=${date}&formatted=0`);
     try {
         const astroData = await astroURL.json();
         const sunrise = astroData.results.sunrise;
@@ -100,7 +100,8 @@ const getDailyForcastData = async (url) => {
                 windSpeed: day.windSpeed,
                 windDirection: day.windDirection,
                 shortDesc: day.shortForecast,
-                detailDesc: day.detailedForecast
+                detailDesc: day.detailedForecast,
+                icon: day.icon
             })
         };
 
@@ -127,7 +128,8 @@ const getHourlyForcastData = async (url) => {
                 humidity: hour.relativeHumidity.value + "%",
                 windSpeed: hour.windSpeed,
                 windDirection: hour.windDirection,
-                shortDesc: hour.shortForecast
+                shortDesc: hour.shortForecast,
+                icon: extractHourlyBaseURL(hour.icon)
             })
         }
         //sliced out only the first 48 hours of the Hourly Forcast Data

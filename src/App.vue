@@ -188,6 +188,9 @@ nav button {
   font-size: 0.9rem;
 }
 /* shared styles for hourlyWeatherItems and dailyWeatherItems */
+details {
+  display: flex;
+}
 details summary {
   display: flex;
   justify-content: space-between;
@@ -215,7 +218,7 @@ details[open] summary {
 .dayOutput {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
   background: rgba(var(--greyblue-rgb), 0.25);
   margin: 1.5rem 0 1rem 0;
   padding: 1rem 0;
@@ -230,7 +233,17 @@ details[open] summary {
   min-width: 20rem;
   max-width: calc(50% - 0.5rem);
 }
-
+.weatherDetails {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
+}
+.weatherIcon {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 0.25rem;
+}
 @media screen and (max-width: 1024px) {
   #app {
     padding: 0 1.5rem;
