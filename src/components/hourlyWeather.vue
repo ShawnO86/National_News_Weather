@@ -25,7 +25,8 @@ const props = defineProps(['hourlyWeather']);
 const dates = Object.keys(props.hourlyWeather.hourly);
 let selectedHour = reactive({
   location: computed(() => props.hourlyWeather.location),
-  weather: computed(() => props.hourlyWeather.hourly[dates[0]][0])
+  weather: computed(() => props.hourlyWeather.hourly[dates[0]][0]),
+  alerts: computed(() => props.hourlyWeather.alerts)
 });
 </script>
   

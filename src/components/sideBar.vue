@@ -1,6 +1,5 @@
 <template>
   <div class="sideBar_Header">
-    <p v-if="alerts">Alerts: {{ alerts }}</p>
     <div class="airQuality"><p>Today and tommorow air quality here</p></div>
     <h3>7 Day Forecast <span>( Click box for more details )</span></h3>
   </div>
@@ -14,7 +13,6 @@ import { computed } from 'vue';
 
 const props = defineProps(['dailyWeather']);
 const weatherForecast = computed(() => props.dailyWeather.daily);
-const alerts = computed(() => props.dailyWeather.alerts);
 </script>
 
 <style scoped>
