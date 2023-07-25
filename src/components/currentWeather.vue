@@ -59,6 +59,7 @@ function changeBackgroundImage() {
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
+  border-radius: 0.25rem;
 }
 .weather_head_data {
   display: flex;
@@ -78,6 +79,9 @@ function changeBackgroundImage() {
 }
 .weather_head_right {
   align-items: flex-end;
+}
+.airQuality {
+  height: 10rem;
 }
 @media screen and (max-width: 425px) {
   header {

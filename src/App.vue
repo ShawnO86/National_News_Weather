@@ -4,30 +4,30 @@
     <div class="search">
       <location-input @location="getWeather" />
     </div>
-    <nav>
-      <button
-        @click="toggleHourlyWeatherOpen"
-        :class="hourlyWeatherOpen ? 'active' : ''"
-        class="toggle"
-      >
-        Hourly Forecast
-      </button>
-      <button
-        @click="toggleDailyWeatherOpen"
-        :class="dailyWeatherOpen ? 'active' : ''"
-        class="toggle"
-      >
-        Daily Forecast
-      </button>
-    </nav>
+    <div v-if="locationMsg">
+      <h1>{{ locationMsg }}</h1>
+    </div>
   </header>
+  <nav v-if="dailyWeatherData">
+    <button
+      @click="toggleHourlyWeatherOpen"
+      :class="hourlyWeatherOpen ? 'active' : ''"
+      class="toggle"
+    >
+      Hourly Forecast
+    </button>
+    <button
+      @click="toggleDailyWeatherOpen"
+      :class="dailyWeatherOpen ? 'active' : ''"
+      class="toggle"
+    >
+      Daily Forecast
+    </button>
+  </nav>
   <section class="currentWeather">
     <current-weather :selectedHour="currentWeatherData" v-if="currentWeatherData"></current-weather>
   </section>
   <section class="forecast" v-if="dailyWeatherData">
-    <div v-if="locationMsg">
-      <h1>{{ locationMsg }}</h1>
-    </div>
     <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather>
     <daily-weather v-if="dailyWeatherOpen" :weatherForecast="dailyWeatherData"></daily-weather>
   </section>
@@ -57,8 +57,7 @@ function toggleDailyWeatherOpen() {
   dailyWeatherOpen.value = true;
   hourlyWeatherOpen.value = false;
 }
-
-//functions for getting geoloction and sending to server on load
+//functions for getting geoloction and sending to server onLoad
 onMounted(function getGeoLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(sendGeoLocation, locationError);
@@ -156,10 +155,16 @@ header {
 nav {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
+  margin-bottom: 1rem;
+  position: sticky;
+  top: 1rem;
+  background: var(--bg-hex);
 }
 nav button {
-  width: 50%;
+  flex: 1;
+  min-width: 10rem;
   text-align: center;
   padding: 0.25rem 0;
   cursor: pointer;
@@ -182,6 +187,49 @@ nav button {
 .description {
   font-size: 0.9rem;
 }
+/* shared styles for hourlyWeatherItems and dailyWeatherItems */
+details summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--greyblue-hex);
+  border: 1px solid var(--secondary-hex);
+  cursor: pointer;
+  height: 5rem;
+  padding: 0 clamp(0.5rem, 2vw, 1.5rem);
+  border-radius: 0.25rem;
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 1);
+}
+details summary::after {
+  content: 'Right';
+}
+details[open] summary::after {
+  content: 'Down';
+}
+details summary:hover,
+details[open] summary {
+  background: rgba(var(--secondary-rgb), 0.5);
+  border: 1px solid #fff;
+  box-shadow: none;
+}
+.dayOutput {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: rgba(var(--greyblue-rgb), 0.25);
+  margin: 1.5rem 0 1rem 0;
+  padding: 1rem 0;
+  border-radius: 0.25rem;
+}
+.dayOutput h4 {
+  flex: 100%;
+  border-bottom: 1px solid var(--secondary-hex);
+}
+.hourOutput {
+  flex: 45%;
+  min-width: 20rem;
+  max-width: calc(50% - 0.5rem);
+}
 
 @media screen and (max-width: 1024px) {
   #app {
@@ -193,13 +241,18 @@ nav button {
   #app {
     padding: 0 0.5rem;
   }
+  .hourOutput {
+    flex: 100%;
+    min-width: 18rem;
+    max-width: none;
+  }
 }
 @media screen and (max-width: 425px) {
   body {
     line-height: 1.5;
   }
   #app {
-    padding: 0 0;
+    padding: 0 0.15rem;
   }
 }
 </style>
