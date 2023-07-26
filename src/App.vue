@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>{{ hourlyWeatherData.location }}</h1>
+    <h1>{{ currentWeatherData.location }}</h1>
     <div class="search">
       <location-input @location="getWeather" />
     </div>
@@ -10,11 +10,11 @@
   </header>
   <nav v-if="dailyWeatherData">
     <button
-      @click="toggleHourlyWeatherOpen"
-      :class="hourlyWeatherOpen ? 'active' : ''"
+      @click="toggleCurrentWeatherOpen"
+      :class="currentWeatherOpen ? 'active' : ''"
       class="toggle"
     >
-      Hourly Forecast
+      Current Weather
     </button>
     <button
       @click="toggleDailyWeatherOpen"
@@ -23,9 +23,24 @@
     >
       Daily Forecast
     </button>
+    <button
+      @click="toggleHourlyWeatherOpen"
+      :class="hourlyWeatherOpen ? 'active' : ''"
+      class="toggle"
+    >
+      Hourly Forecast
+    </button>
   </nav>
-  <section class="currentWeather">
-    <current-weather :selectedHour="currentWeatherData" v-if="currentWeatherData"></current-weather>
+  <section class="currentWeather" v-if="currentWeatherOpen">
+    <current-weather
+      :selectedHour="currentWeatherData.current"
+      v-if="currentWeatherData.current"
+    ></current-weather>
+    <div class="alerts" v-if="currentWeatherData.alerts"><h3>Alerts</h3>
+    <p>Alert: {{ currentWeatherData.alerts[0].alertHeadline }}</p></div>
+    <div class="airQuality" v-if="currentWeatherData.currentAir"><h3>Air quality</h3>
+    <p>As of: {{ currentWeatherData.currentAir }}</p>
+    <p>Forecasted air quality: {{ currentWeatherData.forecastAir }}</p></div>
   </section>
   <section class="forecast" v-if="dailyWeatherData">
     <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather>
@@ -42,18 +57,26 @@ import currentWeather from './components/currentWeather.vue';
 import { onMounted, ref } from 'vue';
 
 const locationMsg = ref('');
+const currentWeatherData = ref('');
 const dailyWeatherData = ref('');
 const hourlyWeatherData = ref('');
-const dates = ref('');
-const currentWeatherData = ref('');
-const hourlyWeatherOpen = ref(false);
-const dailyWeatherOpen = ref(true);
 
+//for toggle of displayed weather data
+const currentWeatherOpen = ref(true);
+const hourlyWeatherOpen = ref(false);
+const dailyWeatherOpen = ref(false);
+function toggleCurrentWeatherOpen() {
+  currentWeatherOpen.value = true;
+  hourlyWeatherOpen.value = false;
+  dailyWeatherOpen.value = false;
+}
 function toggleHourlyWeatherOpen() {
+  currentWeatherOpen.value = false;
   hourlyWeatherOpen.value = true;
   dailyWeatherOpen.value = false;
 }
 function toggleDailyWeatherOpen() {
+  currentWeatherOpen.value = false;
   dailyWeatherOpen.value = true;
   hourlyWeatherOpen.value = false;
 }
@@ -85,18 +108,16 @@ async function getWeather(location) {
   const fetchWeather = await getData(
     `http://localhost:8081/weather/${location[0]}/${location[1]}/${location[2]}`
   );
-  dailyWeatherData.value = {
-    daily: fetchWeather.weatherData.dailyForecast
-  };
-  hourlyWeatherData.value = {
-    hourly: fetchWeather.weatherData.hourlyForecast,
-    location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`,
+  dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
+  hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
+  const dates = Object.keys(hourlyWeatherData.value);
+  currentWeatherData.value = {
+    current: hourlyWeatherData.value[dates[0]][0],
     alerts: fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : '',
     currentAir: fetchWeather.weatherData.airQualityCurrent,
-    forecastAir: fetchWeather.weatherData.airQualityForecast
+    forecastAir: fetchWeather.weatherData.airQualityForecast,
+    location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
-  dates.value = Object.keys(hourlyWeatherData.value.hourly);
-  currentWeatherData.value = hourlyWeatherData.value.hourly[dates.value[0]][0];
   locationMsg.value = '';
 }
 </script>
@@ -157,7 +178,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   position: sticky;
   top: 1rem;
   background: var(--bg-hex);
@@ -176,7 +197,7 @@ nav button {
 }
 .toggle {
   color: rgba(255, 255, 255, 0.75);
-  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 1);
+  box-shadow: 0px 4px 4px -2px rgb(0, 0, 0);
 }
 .active {
   box-shadow: none;
@@ -184,10 +205,48 @@ nav button {
   background: rgba(var(--secondary-rgb), 0.5);
   color: #fff;
 }
-.description {
-  font-size: 0.9rem;
+.currentWeather {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
-/* shared styles for hourlyWeatherItems and dailyWeatherItems */
+.airQuality {
+  padding: 1rem 0;
+  min-height: 10rem;
+}
+/* shared styles for hourlyWeather and dailyWeather */
+.forecast_graphs {
+  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
+}
+.dayOutput {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  background: rgba(var(--greyblue-rgb), 0.25);
+  margin: 1.5rem 0 1rem 0;
+  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
+  border-radius: 0.25rem;
+}
+.dayOutput h4 {
+  flex: 100%;
+  border-bottom: 1px solid var(--secondary-hex);
+}
+.hourOutput {
+  flex: 45%;
+  min-width: 20rem;
+  max-width: calc(50% - 0.5rem);
+}
+.weatherDetails {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
+}
+.weatherIcon {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 0.25rem;
+}
 details {
   display: flex;
 }
@@ -215,34 +274,8 @@ details[open] summary {
   border: 1px solid #fff;
   box-shadow: none;
 }
-.dayOutput {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  background: rgba(var(--greyblue-rgb), 0.25);
-  margin: 1.5rem 0 1rem 0;
-  padding: 1rem 0;
-  border-radius: 0.25rem;
-}
-.dayOutput h4 {
-  flex: 100%;
-  border-bottom: 1px solid var(--secondary-hex);
-}
-.hourOutput {
-  flex: 45%;
-  min-width: 20rem;
-  max-width: calc(50% - 0.5rem);
-}
-.weatherDetails {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
-}
-.weatherIcon {
-  width: 5.5rem;
-  height: 5.5rem;
-  border-radius: 0.25rem;
+.description {
+  font-size: 0.9rem;
 }
 @media screen and (max-width: 1024px) {
   #app {

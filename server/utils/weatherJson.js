@@ -49,18 +49,6 @@ export const getGeoData = async (city, lat, long) => {
     return projectData;
 };
 
-const getAstroData = async (date) => {
-    const astroURL = await fetch(`https://api.sunrise-sunset.org/json?lat=${projectData.zoneData.lat}&lng=${projectData.zoneData.long}&date=${date}&formatted=0`);
-    try {
-        const astroData = await astroURL.json();
-        const sunrise = astroData.results.sunrise;
-        const sunset = astroData.results.sunset;
-        return { sunrise: sunrise, sunset: sunset }
-    } catch (e) {
-        console.log("Astro data error: ", e);
-    }
-}
-
 //gets urls for forcasts, zone data, and County info for the following functions
 const getZoneData = async () => {
     const getForcastURL = await fetch(`https://api.weather.gov/points/${projectData.zoneData.lat},${projectData.zoneData.long}`);
@@ -78,6 +66,18 @@ const getZoneData = async () => {
         await getAlertData(projectData.zoneData.zoneId);
     } catch (e) {
         console.log("forecast URL error:", e);
+    }
+};
+
+const getAstroData = async (date) => {
+    const astroURL = await fetch(`https://api.sunrise-sunset.org/json?lat=${projectData.zoneData.lat}&lng=${projectData.zoneData.long}&date=${date}&formatted=0`);
+    try {
+        const astroData = await astroURL.json();
+        const sunrise = astroData.results.sunrise;
+        const sunset = astroData.results.sunset;
+        return { sunrise: sunrise, sunset: sunset }
+    } catch (e) {
+        console.log("Astro data error: ", e);
     }
 };
 

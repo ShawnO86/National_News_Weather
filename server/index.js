@@ -8,6 +8,7 @@ import weatherRoute from './routes/weather.js';
 
 const app = express();
 dotenv.config();
+app.use(express.json());
 app.use(cors());
 app.use(morgan('tiny'));
 

@@ -2,8 +2,8 @@
   <details>
     <summary>
       <div class="summaryHeader">
-        <h5>{{ props.weatherItem.time }} - {{ props.weatherItem.shortDesc  }}</h5>
-        <p class="description">{{ props.weatherItem.temp }}</p>
+        <h5>{{ props.weatherItem.time }} - {{ props.weatherItem.temp }}</h5>
+        <p class="description">{{ props.weatherItem.shortDesc  }}</p>
       </div>
 
     </summary>

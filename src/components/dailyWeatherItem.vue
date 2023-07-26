@@ -16,8 +16,8 @@
       </ul>
     </div>
     <div class="weatherDesc">
-      <p>Dew Point: {{ props.weatherItem.dewpoint }}</p>
-      <p v-if="props.weatherItem.isDaytime">
+      <p v-if="!props.weatherItem.isDaytime">Dew Point: {{ props.weatherItem.dewpoint }}</p>
+      <p v-else>
         Sunrise: {{ convertUtcToLocal(props.weatherItem.astro.sunrise) }} / Sunset:
         {{ convertUtcToLocal(props.weatherItem.astro.sunset) }}
       </p>

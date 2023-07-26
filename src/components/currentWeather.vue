@@ -1,22 +1,22 @@
 <template>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
-    <p>Current Weather</p>
+
     <div class="weather_head_data">
       <div class="weather_head_left">
+        <p>Current Weather</p>
         <h2>{{ props.selectedHour.temp }}</h2>
         <p>{{ props.selectedHour.shortDesc }}</p>
       </div>
       <div class="weather_head_right">
-        <p>Rain Chance: {{ props.selectedHour.precip }}</p>
-        <p>Humidity: {{ props.selectedHour.humidity }}</p>
+        <p><span class="weather_detail">Rain Chance:</span> {{ props.selectedHour.precip }}</p>
+        <p><span class="weather_detail">Humidity:</span> {{ props.selectedHour.humidity }}</p>
         <p>
-          Wind: {{ props.selectedHour.windSpeed }}
+          <span class="weather_detail">Wind:</span> {{ props.selectedHour.windSpeed }}
           {{ props.selectedHour.windDirection }}
         </p>
       </div>
     </div>
   </div>
-  <div class="airQuality"><h3>Air quality</h3></div>
 </template>
 
 <script setup>
@@ -31,10 +31,10 @@ const weatherTypes = [
   { type: ['Fair', 'Clear', 'Sunny'], image: 'clear.jpg' }, //pic done
   { type: ['Clouds', 'Cloudy'], image: 'cloudy.jpg' }, //pic done
   { type: ['Overcast'], image: 'overcast.jpg' }, //pic done
-  { type: ['Snow', 'Blizzard'], image: 'snow.jpg' },
-  { type: ['Freezing Rain', 'Ice'], image: 'freezing_rain_ice.jpg' },
-  { type: ['Rain', 'Showers'], image: 'rain_showers.jpg' },
-  { type: ['Thunderstorm'], image: 'thunderstorm.jpg' },
+  { type: ['Snow', 'Blizzard'], image: 'snow.jpg' }, //pic done
+  { type: ['Freezing Rain', 'Ice'], image: 'ice.jpg' }, //pic done
+  { type: ['Rain', 'Showers'], image: 'rain.jpg' }, //done
+  { type: ['Thunderstorm'], image: 'thunderstorm.jpg' },  //done
   { type: ['Tornado', 'Funnel Cloud'], image: 'tornado_funnel_cloud.jpg' },
   { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane_tropical_storm.jpg' },
   { type: ['Windy', 'Breezy'], image: 'windy_breezy.jpg' },
@@ -55,7 +55,7 @@ function changeBackgroundImage() {
 
 <style scoped>
 .weatherBox_head {
-  padding: 2rem 0 3.5rem 0;
+  padding: 3rem 0;
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.25);
@@ -64,15 +64,18 @@ function changeBackgroundImage() {
 .weather_head_data {
   display: flex;
   justify-content: space-between;
-  background: rgba(var(--bg-rgb), 0.5);
+  background: rgba(var(--bg-rgb), 0.75);
   padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
-  border: 1px solid var(--secondary-hex);
+  font-weight: 500;
 }
 .weather_head_left,
 .weather_head_right {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+.weather_detail {
+  font-weight: 400;
 }
 .weather_head_left {
   flex: 1;
