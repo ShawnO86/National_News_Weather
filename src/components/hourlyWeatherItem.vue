@@ -2,7 +2,7 @@
   <details>
     <summary>
       <div class="summaryHeader">
-        <h5>{{ props.weatherItem.time }} - {{ props.weatherItem.temp }}</h5>
+        <h4>{{ props.weatherItem.time }} - {{ props.weatherItem.temp }}</h4>
         <p class="description">{{ props.weatherItem.shortDesc  }}</p>
       </div>
 
@@ -32,7 +32,7 @@ const props = defineProps(['weatherItem']);
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-h5 {
+h4 {
   flex: 100%;
 }
 .weatherDetails {

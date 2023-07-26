@@ -58,15 +58,16 @@ function changeBackgroundImage() {
   padding: 3rem 0;
   background-size: cover;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.25);
-  border-radius: 0.25rem;
+  background: rgba(var(--bg-rgb), 0.5);  
 }
 .weather_head_data {
   display: flex;
   justify-content: space-between;
-  background: rgba(var(--bg-rgb), 0.75);
-  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
+  background: rgba(var(--bg-rgb), 0.8);
+  margin: 0.5rem clamp(1rem, 4vw, 4rem);
+  padding: 1rem;
   font-weight: 500;
+  border-radius: 0.25rem;
 }
 .weather_head_left,
 .weather_head_right {

@@ -36,15 +36,18 @@
       :selectedHour="currentWeatherData.current"
       v-if="currentWeatherData.current"
     ></current-weather>
-    <div class="alerts" v-if="currentWeatherData.alerts"><h3>Alerts</h3>
-    <p>Alert: {{ currentWeatherData.alerts[0].alertHeadline }}</p></div>
-    <div class="airQuality" v-if="currentWeatherData.currentAir"><h3>Air quality</h3>
-    <p>As of: {{ currentWeatherData.currentAir }}</p>
-    <p>Forecasted air quality: {{ currentWeatherData.forecastAir }}</p></div>
+    <div class="alerts" v-if="currentWeatherData.alerts">
+      <alert-display :alerts="currentWeatherData.alerts"></alert-display>
+    </div>
+    <div class="airQuality" v-if="currentWeatherData.currentAir">
+      <h3>Air quality</h3>
+      <p>As of: {{ currentWeatherData.currentAir }}</p>
+      <p>Forecasted air quality: {{ currentWeatherData.forecastAir }}</p>
+    </div>
   </section>
-  <section class="forecast" v-if="dailyWeatherData">
+  <section class="forecast" v-if="hourlyWeatherOpen || dailyWeatherOpen">
     <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather>
-    <daily-weather v-if="dailyWeatherOpen" :weatherForecast="dailyWeatherData"></daily-weather>
+    <daily-weather v-else-if="dailyWeatherOpen" :weatherForecast="dailyWeatherData"></daily-weather>
   </section>
 </template>
 
@@ -54,6 +57,7 @@ import locationInput from './components/locationInput.vue';
 import hourlyWeather from './components/hourlyWeather.vue';
 import dailyWeather from './components/dailyWeather.vue';
 import currentWeather from './components/currentWeather.vue';
+import alertDisplay from './components/alertDisplay.vue';
 import { onMounted, ref } from 'vue';
 
 const locationMsg = ref('');
@@ -113,7 +117,8 @@ async function getWeather(location) {
   const dates = Object.keys(hourlyWeatherData.value);
   currentWeatherData.value = {
     current: hourlyWeatherData.value[dates[0]][0],
-    alerts: fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : '',
+    alerts:
+      fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : 'No alerts',
     currentAir: fetchWeather.weatherData.airQualityCurrent,
     forecastAir: fetchWeather.weatherData.airQualityForecast,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
@@ -168,10 +173,14 @@ body::-webkit-scrollbar-thumb {
   margin: auto;
   max-width: 90rem;
   min-height: 100vh;
-  padding: 0 4rem;
+  background: rgba(var(--greyblue-rgb), 0.25);
+  border-left: 2px solid var(--greyblue-hex);
+  border-right: 2px solid var(--greyblue-hex);
 }
 header {
   padding: 0.5rem 0;
+  background: rgba(var(--greyblue-rgb), 0.5);
+  padding: 0 clamp(1rem, 4vw, 4rem);
 }
 nav {
   width: 100%;
@@ -180,12 +189,12 @@ nav {
   gap: 1rem;
   margin-bottom: 2rem;
   position: sticky;
-  top: 1rem;
-  background: var(--bg-hex);
+  top: 0;
+  background: rgba(var(--greyblue-rgb), 0.5);
+  padding: 1.5rem clamp(1rem, 4vw, 4rem);
 }
 nav button {
   flex: 1;
-  min-width: 10rem;
   text-align: center;
   padding: 0.25rem 0;
   cursor: pointer;
@@ -210,13 +219,17 @@ nav button {
   flex-direction: column;
   gap: 2rem;
 }
-.airQuality {
-  padding: 1rem 0;
+.airQuality,
+.alerts {
+  padding: 1.5rem clamp(1rem, 4vw, 4rem);
   min-height: 10rem;
 }
 /* shared styles for hourlyWeather and dailyWeather */
+.forecast h2 {
+  padding: 1.5rem clamp(1rem, 4vw, 4rem);
+}
 .forecast_graphs {
-  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
+  padding: 1.5rem clamp(1rem, 4vw, 4rem);
 }
 .dayOutput {
   display: flex;
@@ -224,10 +237,10 @@ nav button {
   gap: 1.5rem;
   background: rgba(var(--greyblue-rgb), 0.25);
   margin: 1.5rem 0 1rem 0;
-  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
+  padding: 1.5rem clamp(1rem, 4vw, 4rem);
   border-radius: 0.25rem;
 }
-.dayOutput h4 {
+.dayOutput h3 {
   flex: 100%;
   border-bottom: 1px solid var(--secondary-hex);
 }
@@ -278,15 +291,9 @@ details[open] summary {
   font-size: 0.9rem;
 }
 @media screen and (max-width: 1024px) {
-  #app {
-    padding: 0 1.5rem;
-  }
 }
 
 @media screen and (max-width: 768px) {
-  #app {
-    padding: 0 0.5rem;
-  }
   .hourOutput {
     flex: 100%;
     min-width: 18rem;
@@ -296,9 +303,6 @@ details[open] summary {
 @media screen and (max-width: 425px) {
   body {
     line-height: 1.5;
-  }
-  #app {
-    padding: 0 0.15rem;
   }
 }
 </style>

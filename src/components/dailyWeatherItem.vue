@@ -2,7 +2,7 @@
   <details>
     <summary>
       <div class="summaryHeader">
-        <h5>{{ props.weatherItem.name }} - {{ props.weatherItem.temp }}</h5>
+        <h4>{{ props.weatherItem.name }} - {{ props.weatherItem.temp }}</h4>
         <p class="description">{{ props.weatherItem.shortDesc }}</p>
       </div>
     </summary>
@@ -48,7 +48,7 @@ function convertUtcToLocal(utcTime) {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-h5 {
+h4 {
   flex: 100%;
 }
 .weatherDetails {
