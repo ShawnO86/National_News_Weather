@@ -64,8 +64,8 @@ function changeBackgroundImage() {
   display: flex;
   justify-content: space-between;
   background: rgba(var(--bg-rgb), 0.8);
-  margin: 0.5rem clamp(1rem, 4vw, 4rem);
-  padding: 1rem;
+  margin: 0.2rem clamp(1rem, 4vw, 4rem);
+  padding: 1.5rem;
   font-weight: 500;
   border-radius: 0.25rem;
 }
@@ -84,19 +84,13 @@ function changeBackgroundImage() {
 .weather_head_right {
   align-items: flex-end;
 }
-.airQuality {
-  height: 10rem;
-}
 @media screen and (max-width: 425px) {
-  header {
-    flex-wrap: wrap;
-    padding: 0 0.5rem;
-  }
   .weatherBox_head {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0rem;
   }
   .weather_head_data {
-    padding: 0.25rem;
+    margin: 0.5rem;
+    padding: 1rem 0.5rem;
   }
 }
 </style>

@@ -18,8 +18,8 @@
     <div class="weatherDesc">
       <p v-if="!props.weatherItem.isDaytime">Dew Point: {{ props.weatherItem.dewpoint }}</p>
       <p v-else>
-        Sunrise: {{ convertUtcToLocal(props.weatherItem.astro.sunrise) }} / Sunset:
-        {{ convertUtcToLocal(props.weatherItem.astro.sunset) }}
+        <span>Sunrise: {{ convertUtcToLocal(props.weatherItem.astro.sunrise) }}</span> /
+        <span>Sunset: {{ convertUtcToLocal(props.weatherItem.astro.sunset) }}</span>
       </p>
       <p>{{ props.weatherItem.detailDesc }}</p>
     </div>
@@ -59,6 +59,12 @@ h4 {
 }
 .weatherDesc {
   margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
+}
+.weatherDesc p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  margin-bottom: 1rem;
 }
 ul {
   list-style: none;

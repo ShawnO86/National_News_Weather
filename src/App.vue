@@ -36,9 +36,10 @@
       :selectedHour="currentWeatherData.current"
       v-if="currentWeatherData.current"
     ></current-weather>
-    <div class="alerts" v-if="currentWeatherData.alerts">
-      <alert-display :alerts="currentWeatherData.alerts"></alert-display>
-    </div>
+    <alert-display
+      v-if="currentWeatherData.alerts"
+      :alerts="currentWeatherData.alerts"
+    ></alert-display>
     <div class="airQuality" v-if="currentWeatherData.currentAir">
       <h3>Air quality</h3>
       <p>As of: {{ currentWeatherData.currentAir }}</p>
@@ -158,6 +159,7 @@ body {
   background: var(--bg-hex);
   color: #fff;
 }
+/* scrollbar styles */
 body::-webkit-scrollbar {
   width: 0.5rem;
 }
@@ -169,6 +171,7 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--secondary-hex);
   border-radius: 0.5rem;
 }
+/* main app styles */
 #app {
   margin: auto;
   max-width: 90rem;
@@ -178,9 +181,8 @@ body::-webkit-scrollbar-thumb {
   border-right: 2px solid var(--greyblue-hex);
 }
 header {
-  padding: 0.5rem 0;
   background: rgba(var(--greyblue-rgb), 0.5);
-  padding: 0 clamp(1rem, 4vw, 4rem);
+  padding: 1rem clamp(1rem, 4vw, 4rem);
 }
 nav {
   width: 100%;
@@ -217,17 +219,18 @@ nav button {
 .currentWeather {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 .airQuality,
 .alerts {
   padding: 1.5rem clamp(1rem, 4vw, 4rem);
-  min-height: 10rem;
 }
-/* shared styles for hourlyWeather and dailyWeather */
-.forecast h2 {
-  padding: 1.5rem clamp(1rem, 4vw, 4rem);
+/* shared styles for hourlyWeather, dailyWeather, alertDisplay */
+.alertDisplay {
+  background: rgba(var(--greyblue-rgb), 0.25);
 }
+.alertDisplay,
+.forecast h2,
 .forecast_graphs {
   padding: 1.5rem clamp(1rem, 4vw, 4rem);
 }
@@ -267,10 +270,11 @@ details summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   background: var(--greyblue-hex);
   border: 1px solid var(--secondary-hex);
   cursor: pointer;
-  height: 5rem;
+  min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
   box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 1);
@@ -301,8 +305,14 @@ details[open] summary {
   }
 }
 @media screen and (max-width: 425px) {
-  body {
-    line-height: 1.5;
+  header,
+  nav,
+  .airQuality,
+  .alertDisplay,
+  .forecast h2,
+  .forecast_graphs,
+  .dayOutput {
+    padding: 1rem 0.5rem;
   }
 }
 </style>
