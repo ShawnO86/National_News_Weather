@@ -1,6 +1,6 @@
 <template>
   <div class="alertDisplay">
-    <h3>Alerts Available!</h3>
+    <h3>{{ props.alerts.length }} Alert(s) Available!</h3>
     <details v-for="(alert, index) in props.alerts" :key="index">
       <summary>
         <p>{{ alert.alertHeadline }}</p>
@@ -22,7 +22,7 @@ const props = defineProps(['alerts']);
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  padding: 1.5rem clamp(0.5rem, 2vw, 1.5rem);
+  padding: 3rem clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
 }
 </style>

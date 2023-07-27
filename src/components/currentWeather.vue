@@ -3,9 +3,8 @@
 
     <div class="weather_head_data">
       <div class="weather_head_left">
-        <p>Current Weather</p>
-        <h2>{{ props.selectedHour.temp }}</h2>
         <p>{{ props.selectedHour.shortDesc }}</p>
+        <h2>{{ props.selectedHour.temp }}</h2>
       </div>
       <div class="weather_head_right">
         <p><span class="weather_detail">Rain Chance:</span> {{ props.selectedHour.precip }}</p>
@@ -14,6 +13,10 @@
           <span class="weather_detail">Wind:</span> {{ props.selectedHour.windSpeed }}
           {{ props.selectedHour.windDirection }}
         </p>
+        <p class="weather_detail">Air Quality:</p>
+        <div v-for="(item, index) in props.currentAir" :key="index">
+        <p>{{ item.type }}: <span>{{ item.value }}</span></p>
+        </div>
       </div>
     </div>
   </div>
@@ -22,7 +25,7 @@
 <script setup>
 import { computed } from 'vue';
 
-const props = defineProps(['selectedHour']);
+const props = defineProps(['selectedHour', 'currentAir']);
 let weatherType = computed(() => props.selectedHour.shortDesc);
 const bgImage = computed(changeBackgroundImage);
 
@@ -55,42 +58,53 @@ function changeBackgroundImage() {
 
 <style scoped>
 .weatherBox_head {
-  padding: 3rem 0;
+  display: flex;
+  align-items: center;
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.5);  
+  height: 30rem;
 }
 .weather_head_data {
   display: flex;
   justify-content: space-between;
-  background: rgba(var(--bg-rgb), 0.8);
-  margin: 0.2rem clamp(1rem, 4vw, 4rem);
-  padding: 1.5rem;
+  width: 100%;
+  height: fit-content;
+  background: rgba(var(--bg-rgb), 0.65);
+  margin: 0rem clamp(1rem, 4vw, 4rem);
+  padding: 2rem clamp(0.5rem, 2vw, 1.5rem);
   font-weight: 500;
   border-radius: 0.25rem;
+  line-height: 2.5;
 }
-.weather_head_left,
+.weather_head_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: x-large;
+  flex: 1;
+}
 .weather_head_right {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: flex-end;
 }
 .weather_detail {
   font-weight: 400;
 }
-.weather_head_left {
-  flex: 1;
-}
-.weather_head_right {
-  align-items: flex-end;
-}
 @media screen and (max-width: 425px) {
   .weatherBox_head {
-    padding: 1rem 0rem;
+    height: 25rem;
   }
   .weather_head_data {
-    margin: 0.5rem;
-    padding: 1rem 0.5rem;
+    margin: 0rem 0.5rem;
+    padding: 0.5rem;
+    line-height: 2;
+  }
+  .weather_head_left {
+    font-size: large;
   }
 }
 </style>

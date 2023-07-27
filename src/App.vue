@@ -34,17 +34,13 @@
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
       :selectedHour="currentWeatherData.current"
+      :currentAir="currentWeatherData.currentAir"
       v-if="currentWeatherData.current"
     ></current-weather>
     <alert-display
       v-if="currentWeatherData.alerts"
       :alerts="currentWeatherData.alerts"
     ></alert-display>
-    <div class="airQuality" v-if="currentWeatherData.currentAir">
-      <h3>Air quality</h3>
-      <p>As of: {{ currentWeatherData.currentAir }}</p>
-      <p>Forecasted air quality: {{ currentWeatherData.forecastAir }}</p>
-    </div>
   </section>
   <section class="forecast" v-if="hourlyWeatherOpen || dailyWeatherOpen">
     <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather>
@@ -189,11 +185,10 @@ nav {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2rem;
   position: sticky;
   top: 0;
   background: rgba(var(--greyblue-rgb), 0.5);
-  padding: 1.5rem clamp(1rem, 4vw, 4rem);
+  padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
 }
 nav button {
   flex: 1;
@@ -219,11 +214,6 @@ nav button {
 .currentWeather {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-.airQuality,
-.alerts {
-  padding: 1.5rem clamp(1rem, 4vw, 4rem);
 }
 /* shared styles for hourlyWeather, dailyWeather, alertDisplay */
 .alertDisplay {
@@ -232,7 +222,7 @@ nav button {
 .alertDisplay,
 .forecast h2,
 .forecast_graphs {
-  padding: 1.5rem clamp(1rem, 4vw, 4rem);
+  padding: 3rem clamp(1rem, 4vw, 4rem);
 }
 .dayOutput {
   display: flex;
