@@ -111,7 +111,6 @@ async function getWeather(location) {
     alerts:
       fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : 'No alerts',
     currentAir: fetchWeather.weatherData.airQualityCurrent,
-    forecastAir: fetchWeather.weatherData.airQualityForecast,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
   locationMsg.value = '';

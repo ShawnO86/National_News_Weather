@@ -96,8 +96,8 @@ const aqiColorMap = computed(() => ({
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.5);
-  padding: clamp(1rem, 4vw, 4rem) 0;
-  border-radius: 0.5rem 0.5rem 0 0 ;
+  padding: clamp(2rem, 5vw, 5rem) 0;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 .weather_head_data {
   display: flex;
