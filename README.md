@@ -1,20 +1,20 @@
 # National_Weather
 
-Weather web app built using Node.js, Express.js, Vue.js, and bundled with Vite.
+Weather web app built using Node.js, Express.js, Vue.js, and bundled using Vite.
 
-Users can search for any location by entering a city name or ZIP code. The app will retrieve the weather data for the specified location and display it on the interface.
+Users can search for any location in the US by entering a city name and state or a ZIP code. The app will retrieve the weather data for the specified location and display it on the interface.
 
-Weather information for the entered location includes temperature, humidity, wind speed/direction, rain chance, dewpoint, sunrise/sunset times, weather conditions (e.g., sunny, cloudy, rainy), and air quality in a 7-day forecast, current conditions, and hourly forecast for the next 48 hours.
+Weather information for the entered location includes temperature, humidity, wind speed/direction, rain chance, dewpoint, sunrise/sunset times, weather conditions (e.g., sunny, cloudy, rainy), weather alerts, and current air quality in 7-day forecast, current conditions, and a hourly forecast of the next 48 hours.
 
 The app is designed to be responsive, adapting to different screen sizes and devices.
 
-Node.js: server-side scripting, enabling efficient handling of API requests and data processing.
+Node.js: Server-side scripting.
 
-Express.js: a web framework for Node.js, is used to handle routing and middleware integration, simplifying the development of server-side functionality.
+Express.js: Web framework for Node.js, is used to handle routing and middleware integration.
 
-Vue.js: allows for the creation of dynamic and interactive user interfaces, enabling seamless data binding and smooth user experience.
+Vue.js: For dynamic and interactive user interface and data binding for single page application.
 
-HTML/CSS: The app's structure and styling are implemented using HTML and CSS, ensuring a visually appealing and responsive design.
+HTML/CSS: The app's structure and styling are implemented using HTML and CSS with a responsive design.
 
 Geographic Location API: https://www.geonames.org/ API to fetch location data based on user input. Returns latitude and longitude for use in weather search (for accuracy).
 
@@ -25,12 +25,8 @@ Air Quality API: https://docs.airnowapi.org/ API providing forecast and real-tim
 Hosted at: https://weather-app-e871.onrender.com/ 
 
 ### TO DO: 
-~~Use Vue composition API instead of options,~~
-Have option to use GeoLocation for inital load of weather data,
-~~Set up weather.gov api calls~~
-Set up airnow api and functionality for current air quality and forcasted air quality
 Nighttime color styling and ability to switch automatically based on local time,
-Learn and implement D3.js for graphs of weather info.
+Learn and implement chart.js for vue to display graphs of different weather info.
 
 
 ### Project Setup
