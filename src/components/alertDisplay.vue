@@ -18,11 +18,16 @@ const props = defineProps(['alerts']);
 </script>
 
 <style scoped>
+h3 {
+  border-bottom: 1px solid var(--secondary-hex);
+  margin: 1.5rem 0;
+}
 .alertDetails {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  padding: 3rem clamp(0.5rem, 2vw, 1.5rem);
+  margin-top: 1rem;
+  padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
 }
 </style>

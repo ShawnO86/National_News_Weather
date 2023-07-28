@@ -42,7 +42,7 @@
       :alerts="currentWeatherData.alerts"
     ></alert-display>
   </section>
-  <section class="forecast" v-if="hourlyWeatherOpen || dailyWeatherOpen">
+  <section v-if="hourlyWeatherOpen || dailyWeatherOpen">
     <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather>
     <daily-weather v-else-if="dailyWeatherOpen" :weatherForecast="dailyWeatherData"></daily-weather>
   </section>
@@ -173,8 +173,8 @@ body::-webkit-scrollbar-thumb {
   max-width: 90rem;
   min-height: 100vh;
   background: rgba(var(--greyblue-rgb), 0.25);
-  border-left: 2px solid var(--greyblue-hex);
-  border-right: 2px solid var(--greyblue-hex);
+/*   border-left: 2px solid var(--greyblue-hex);
+  border-right: 2px solid var(--greyblue-hex); */
 }
 header {
   background: rgba(var(--greyblue-rgb), 0.5);
@@ -187,8 +187,8 @@ nav {
   gap: 1rem;
   position: sticky;
   top: 0;
-  background: rgba(var(--greyblue-rgb), 0.5);
-  padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
+  background: rgba(var(--greyblue-rgb), 0.25);
+  padding: 2rem clamp(1rem, 4vw, 4rem);
 }
 nav button {
   flex: 1;
@@ -201,6 +201,12 @@ nav button {
   border-radius: 0.25rem;
   padding: 0.6rem 0.25rem;
 }
+nav button:hover {
+  border: 2px solid #fff;
+  background: rgba(var(--secondary-rgb), 0.25);
+  color: #fff;
+}
+
 .toggle {
   color: rgba(255, 255, 255, 0.75);
   box-shadow: 0px 4px 4px -2px rgb(0, 0, 0);
@@ -222,7 +228,10 @@ nav button {
 .alertDisplay,
 .forecast h2,
 .forecast_graphs {
-  padding: 3rem clamp(1rem, 4vw, 4rem);
+  padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
+}
+.forecast_graphs {
+  height: 22rem;
 }
 .dayOutput {
   display: flex;
@@ -230,7 +239,7 @@ nav button {
   gap: 1.5rem;
   background: rgba(var(--greyblue-rgb), 0.25);
   margin: 1.5rem 0 1rem 0;
-  padding: 1.5rem clamp(1rem, 4vw, 4rem);
+  padding: 3rem clamp(1rem, 4vw, 4rem);
   border-radius: 0.25rem;
 }
 .dayOutput h3 {

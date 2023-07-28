@@ -1,6 +1,5 @@
 <template>
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
-
     <div class="weather_head_data">
       <div class="weather_head_left">
         <p>{{ props.selectedHour.shortDesc }}</p>
@@ -13,9 +12,15 @@
           <span class="weather_detail">Wind:</span> {{ props.selectedHour.windSpeed }}
           {{ props.selectedHour.windDirection }}
         </p>
-        <p class="weather_detail">Air Quality:</p>
+        <p>Air Quality:</p>
         <div v-for="(item, index) in props.currentAir" :key="index">
-        <p>{{ item.type }}: <span>{{ item.value }}</span></p>
+          <p>
+            <span class="weather_detail">{{ item.type }}: </span>
+            <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
+              {{ item.value }} - {{ item.categoryDesc }} 
+              <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
+            </span>
+          </p>
         </div>
       </div>
     </div>
@@ -37,7 +42,7 @@ const weatherTypes = [
   { type: ['Snow', 'Blizzard'], image: 'snow.jpg' }, //pic done
   { type: ['Freezing Rain', 'Ice'], image: 'ice.jpg' }, //pic done
   { type: ['Rain', 'Showers'], image: 'rain.jpg' }, //done
-  { type: ['Thunderstorm'], image: 'thunderstorm.jpg' },  //done
+  { type: ['Thunderstorm'], image: 'thunderstorm.jpg' }, //done
   { type: ['Tornado', 'Funnel Cloud'], image: 'tornado_funnel_cloud.jpg' },
   { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane_tropical_storm.jpg' },
   { type: ['Windy', 'Breezy'], image: 'windy_breezy.jpg' },
@@ -54,15 +59,44 @@ function changeBackgroundImage() {
   );
   return `/src/assets/${matchingWeatherType.image}`;
 }
+const aqiColorMap = computed(() => ({
+  Good: {
+    color: '#22ff22',
+    txt: 'Air quality is satisfactory, and air pollution poses little or no risk.'
+  },
+  Moderate: {
+    color: '#ffff50',
+    txt: 'Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.'
+  },
+  'Unhealthy for Sensitive Groups': {
+    color: 'orange',
+    txt: 'Members of sensitive groups may experience health effects. The general public is less likely to be affected.'
+  },
+  Unhealthy: {
+    color: 'red',
+    txt: 'Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.'
+  },
+  'Very Unhealthy': {
+    color: 'purple',
+    txt: 'Health alert: The risk of health effects is increased for everyone.'
+  },
+  Hazardous: {
+    color: 'maroon',
+    txt: 'Health warning of emergency conditions: everyone is more likely to be affected.'
+  }
+}));
 </script>
 
 <style scoped>
+:root {
+  --green: #ff8000;
+}
 .weatherBox_head {
   display: flex;
   align-items: center;
   background-size: cover;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.5);  
+  background: rgba(var(--bg-rgb), 0.5);
   height: 30rem;
 }
 .weather_head_data {
@@ -93,6 +127,26 @@ function changeBackgroundImage() {
 }
 .weather_detail {
   font-weight: 400;
+}
+.aqiDesc {
+  position: relative;
+  border-bottom: 1px dotted #fff;
+  cursor: pointer;
+}
+.aqiToolTip {
+  visibility: hidden;
+  width: 12rem;
+  position: absolute;
+  background: var(--greyblue-hex);
+  z-index: 1;
+  left: -10rem;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.aqiDesc:hover .aqiToolTip {
+  visibility: visible;
 }
 @media screen and (max-width: 425px) {
   .weatherBox_head {

@@ -80,11 +80,12 @@ const getAstroData = async (date) => {
         console.log("Astro data error: ", e);
     }
 };
-
-const getDailyForcastData = async (url) => {
-    const forcastURL = await fetch(url);
+const maxTries = 3; //max number to retry the weather api calls
+//weather.gov api documentation states - The gridpoints endpoint returns a 500 error. Retrying the request generally returns valid data.
+const getDailyForcastData = async (url, retryCount = 0) => {
     const forecast = [];
     try {
+        const forcastURL = await fetch(url);
         const forcastData = await forcastURL.json();
         //console.log(forcastData.properties.periods)
         for (const day of forcastData.properties.periods) {
@@ -104,20 +105,25 @@ const getDailyForcastData = async (url) => {
                 icon: day.icon
             })
         };
-
         projectData.weatherData.dateUpdated = removeTime(forcastData.properties.updated);
         projectData.weatherData.dailyForecast = separateByDate(forecast);
-
         await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long, projectData.weatherData.dateUpdated);
     } catch (e) {
-        console.log("Forcast data error: ", e)
+        console.log(`Daily Forecast data error. Retries: ${retryCount}  ${e}`);
+        if (retryCount < maxTries) {
+            setTimeout(async () => {
+                await getDailyForcastData(url, retryCount + 1)
+            }, 1000)
+        } else {
+            console.log("Maximum retries used! Unable to fetch daily forecast.")
+        }
     }
 };
 
-const getHourlyForcastData = async (url) => {
-    const forcastURL = await fetch(url);
+const getHourlyForcastData = async (url, retryCount = 0) => {
     const forecastArr = [];
     try {
+        const forcastURL = await fetch(url);
         const forcastData = await forcastURL.json()
         for (const hour of forcastData.properties.periods) {
             forecastArr.push({
@@ -135,7 +141,14 @@ const getHourlyForcastData = async (url) => {
         //sliced out only the first 48 hours of the Hourly Forcast Data
         projectData.weatherData.hourlyForecast = separateByDate(forecastArr.slice(0, 49));
     } catch (e) {
-        console.log("Hourly Forecast data error: ", e);
+        console.log(`Hourly Forecast data error. Retries: ${retryCount}  ${e}`);
+        if (retryCount < maxTries) {
+            setTimeout(async () => {
+                await getHourlyForcastData(url, retryCount + 1)
+            }, 1000)
+        } else {
+            console.log("Maximum retries used! Unable to fetch hourly forecast.")
+        }
     }
 };
 
