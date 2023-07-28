@@ -58,7 +58,7 @@ button {
 }
 input {
   flex: 4;
-  border: 2px solid var(--secondary-hex);
+  border: 1px solid var(--secondary-hex);
   background: var(--greyblue-hex);
   min-width: 12rem;
 }
@@ -66,11 +66,12 @@ button {
   flex: 1;
   cursor: pointer;
   min-width: 6rem;
-  border: 2px solid var(--secondary-hex);
+  border: 1px solid var(--secondary-hex);
   background: var(--greyblue-hex);
+  font-weight: 600;
 }
 button:hover {
-  border: 2px solid #fff;
+  border: 1px solid #fff;
   background: rgba(var(--secondary-rgb), 0.5);
 }
 input::placeholder {

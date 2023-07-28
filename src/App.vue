@@ -1,35 +1,29 @@
 <template>
   <header>
-    <h1>{{ currentWeatherData.location }}</h1>
     <div class="search">
       <location-input @location="getWeather" />
     </div>
     <div v-if="locationMsg">
       <h1>{{ locationMsg }}</h1>
     </div>
+    <h1>{{ currentWeatherData.location }}</h1>
   </header>
   <nav v-if="dailyWeatherData">
     <button
       @click="toggleCurrentWeatherOpen"
       :class="currentWeatherOpen ? 'active' : ''"
       class="toggle"
-    >
-      Current Weather
-    </button>
+    ></button>
     <button
       @click="toggleDailyWeatherOpen"
       :class="dailyWeatherOpen ? 'active' : ''"
       class="toggle"
-    >
-      Daily Forecast
-    </button>
+    ></button>
     <button
       @click="toggleHourlyWeatherOpen"
       :class="hourlyWeatherOpen ? 'active' : ''"
       class="toggle"
-    >
-      Hourly Forecast
-    </button>
+    ></button>
   </nav>
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
@@ -172,48 +166,55 @@ body::-webkit-scrollbar-thumb {
   margin: auto;
   max-width: 90rem;
   min-height: 100vh;
-  background: rgba(var(--greyblue-rgb), 0.25);
-/*   border-left: 2px solid var(--greyblue-hex);
-  border-right: 2px solid var(--greyblue-hex); */
 }
 header {
   background: rgba(var(--greyblue-rgb), 0.5);
-  padding: 1rem clamp(1rem, 4vw, 4rem);
+  padding: 1.5rem clamp(1rem, 4vw, 4rem) 2rem clamp(1rem, 4vw, 4rem);
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 nav {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
   position: sticky;
   top: 0;
-  background: rgba(var(--greyblue-rgb), 0.25);
+  background: rgb(var(--bg-rgb));
   padding: 2rem clamp(1rem, 4vw, 4rem);
 }
 nav button {
   flex: 1;
   text-align: center;
-  padding: 0.25rem 0;
   cursor: pointer;
-  border: 2px solid var(--secondary-hex);
+  border: none;
   background: var(--greyblue-hex);
   font-weight: 600;
-  border-radius: 0.25rem;
   padding: 0.6rem 0.25rem;
 }
+nav button:nth-of-type(1) {
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+nav button:nth-of-type(1)::before {
+  content: 'Current Weather';
+}
+nav button:nth-of-type(2)::before {
+  content: 'Daily Forecast';
+}
+nav button:nth-of-type(3) {
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+nav button:nth-of-type(3)::before {
+  content: 'Hourly Forecast';
+}
 nav button:hover {
-  border: 2px solid #fff;
   background: rgba(var(--secondary-rgb), 0.25);
   color: #fff;
 }
-
 .toggle {
   color: rgba(255, 255, 255, 0.75);
-  box-shadow: 0px 4px 4px -2px rgb(0, 0, 0);
+  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
 }
 .active {
   box-shadow: none;
-  border: 2px solid #fff;
   background: rgba(var(--secondary-rgb), 0.5);
   color: #fff;
 }
@@ -271,7 +272,6 @@ details summary {
   align-items: center;
   gap: 1rem;
   background: var(--greyblue-hex);
-  border: 1px solid var(--secondary-hex);
   cursor: pointer;
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
@@ -287,15 +287,11 @@ details[open] summary::after {
 details summary:hover,
 details[open] summary {
   background: rgba(var(--secondary-rgb), 0.5);
-  border: 1px solid #fff;
   box-shadow: none;
 }
 .description {
   font-size: 0.9rem;
 }
-@media screen and (max-width: 1024px) {
-}
-
 @media screen and (max-width: 768px) {
   .hourOutput {
     flex: 100%;
@@ -304,8 +300,24 @@ details[open] summary {
   }
 }
 @media screen and (max-width: 425px) {
+  nav {
+    padding: 1.5rem 0.5rem;
+    gap: 0rem;
+  }
+  nav button {
+    padding: 0.5rem 0.2rem;
+    border-radius: 0;
+  }
+  nav button:nth-of-type(1)::before {
+    content: 'Current';
+  }
+  nav button:nth-of-type(2)::before {
+    content: 'Daily';
+  }
+  nav button:nth-of-type(3)::before {
+    content: 'Hourly';
+  }
   header,
-  nav,
   .airQuality,
   .alertDisplay,
   .forecast h2,

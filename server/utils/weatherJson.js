@@ -109,7 +109,7 @@ const getDailyForcastData = async (url, retryCount = 0) => {
         projectData.weatherData.dailyForecast = separateByDate(forecast);
         await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long, projectData.weatherData.dateUpdated);
     } catch (e) {
-        console.log(`Daily Forecast data error. Retries: ${retryCount}  ${e}`);
+        console.log(`Daily Forecast data error: ${e} - Retrying.. `);
         if (retryCount < maxTries) {
             setTimeout(async () => {
                 await getDailyForcastData(url, retryCount + 1)
@@ -141,7 +141,7 @@ const getHourlyForcastData = async (url, retryCount = 0) => {
         //sliced out only the first 48 hours of the Hourly Forcast Data
         projectData.weatherData.hourlyForecast = separateByDate(forecastArr.slice(0, 49));
     } catch (e) {
-        console.log(`Hourly Forecast data error. Retries: ${retryCount}  ${e}`);
+        console.log(`Hourly Forecast data error: ${e} - Retrying.. `);
         if (retryCount < maxTries) {
             setTimeout(async () => {
                 await getHourlyForcastData(url, retryCount + 1)

@@ -6,18 +6,17 @@
         <h2>{{ props.selectedHour.temp }}</h2>
       </div>
       <div class="weather_head_right">
-        <p><span class="weather_detail">Rain Chance:</span> {{ props.selectedHour.precip }}</p>
-        <p><span class="weather_detail">Humidity:</span> {{ props.selectedHour.humidity }}</p>
+        <p><span class="weather_detail">Rain Chance --</span> {{ props.selectedHour.precip }}</p>
+        <p><span class="weather_detail">Humidity --</span> {{ props.selectedHour.humidity }}</p>
         <p>
-          <span class="weather_detail">Wind:</span> {{ props.selectedHour.windSpeed }}
+          <span class="weather_detail">Wind --</span> {{ props.selectedHour.windSpeed }}
           {{ props.selectedHour.windDirection }}
         </p>
-        <p>Air Quality:</p>
         <div v-for="(item, index) in props.currentAir" :key="index">
           <p>
-            <span class="weather_detail">{{ item.type }}: </span>
+            <span class="weather_detail">{{ item.type }} -- </span>
             <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
-              {{ item.value }} - {{ item.categoryDesc }} 
+              {{ item.value }} - {{ item.categoryDesc }}
               <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
             </span>
           </p>
@@ -97,7 +96,8 @@ const aqiColorMap = computed(() => ({
   background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.5);
-  height: 30rem;
+  padding: clamp(1rem, 4vw, 4rem) 0;
+  border-radius: 0.5rem 0.5rem 0 0 ;
 }
 .weather_head_data {
   display: flex;
@@ -110,6 +110,7 @@ const aqiColorMap = computed(() => ({
   font-weight: 500;
   border-radius: 0.25rem;
   line-height: 2.5;
+  gap: 2rem;
 }
 .weather_head_left {
   display: flex;
@@ -137,28 +138,35 @@ const aqiColorMap = computed(() => ({
   visibility: hidden;
   width: 12rem;
   position: absolute;
-  background: var(--greyblue-hex);
+  background: rgb(var(--greyblue-rgb));
   z-index: 1;
-  left: -10rem;
+  left: -6rem;
   color: #fff;
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.5;
+  padding: 0.25rem 0.5rem;
 }
 
 .aqiDesc:hover .aqiToolTip {
   visibility: visible;
 }
 @media screen and (max-width: 425px) {
-  .weatherBox_head {
-    height: 25rem;
-  }
   .weather_head_data {
     margin: 0rem 0.5rem;
     padding: 0.5rem;
     line-height: 2;
+    flex-direction: column;
   }
   .weather_head_left {
     font-size: large;
+    text-align: center;
+  }
+  .weather_head_right {
+    text-align: center;
+    align-items: center;
+  }
+  .aqiToolTip {
+    left: -6rem;
   }
 }
 </style>
