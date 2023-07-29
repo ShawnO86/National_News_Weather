@@ -56,7 +56,7 @@ function changeBackgroundImage() {
   const matchingWeatherType = weatherTypes.find((item) =>
     item.type.some((type) => weatherType.value.includes(type))
   );
-  return `/src/assets/${matchingWeatherType.image}`;
+ return `/src/assets/${matchingWeatherType.image}`;
 }
 const aqiColorMap = computed(() => ({
   Good: {
@@ -92,8 +92,9 @@ const aqiColorMap = computed(() => ({
   align-items: center;
   background-size: cover;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.5);
+  background: rgba(var(--bg-rgb), 0.75);
   padding: clamp(2rem, 5vw, 5rem) 0;
+  margin: 0 clamp(1rem, 4vw, 4rem);
   border-radius: 0.5rem;
   height: 40vh;
   max-height: 30rem;
@@ -104,7 +105,7 @@ const aqiColorMap = computed(() => ({
   justify-content: space-between;
   width: 100%;
   height: fit-content;
-  background: rgba(var(--bg-rgb), 0.65);
+  background: rgba(var(--bg-rgb), 0.5);
   margin: 0rem clamp(1rem, 4vw, 4rem);
   padding: 2rem clamp(0.5rem, 2vw, 1.5rem);
   font-weight: 500;
@@ -152,6 +153,9 @@ const aqiColorMap = computed(() => ({
   visibility: visible;
 }
 @media screen and (max-width: 425px) {
+  .weatherBox_head {
+    margin: 0;
+  }
   .weather_head_data {
     margin: 0rem 0.5rem;
     padding: 0.5rem 0;

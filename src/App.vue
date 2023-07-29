@@ -24,6 +24,11 @@
       :class="hourlyWeatherOpen ? 'active' : ''"
       class="toggle"
     ></button>
+    <button
+      @click="toggleRadarOpen"
+      :class="radarOpen ? 'active' : ''"
+      class="toggle"
+    ></button>
   </nav>
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
@@ -49,6 +54,7 @@
       :dailyWeatherOpen="dailyWeatherOpen"
     ></weather-forecast>
   </section>
+  <section v-if="radarOpen">Weather radar maps:</section>
 </template>
 
 <script setup>
@@ -68,19 +74,29 @@ const hourlyWeatherData = ref('');
 const currentWeatherOpen = ref(true);
 const hourlyWeatherOpen = ref(false);
 const dailyWeatherOpen = ref(false);
+const radarOpen = ref(false);
 function toggleCurrentWeatherOpen() {
   currentWeatherOpen.value = true;
   hourlyWeatherOpen.value = false;
   dailyWeatherOpen.value = false;
+  radarOpen.value = false;
 }
 function toggleHourlyWeatherOpen() {
   currentWeatherOpen.value = false;
   hourlyWeatherOpen.value = true;
   dailyWeatherOpen.value = false;
+  radarOpen.value = false;
 }
 function toggleDailyWeatherOpen() {
   currentWeatherOpen.value = false;
   dailyWeatherOpen.value = true;
+  hourlyWeatherOpen.value = false;
+  radarOpen.value = false;
+}
+function toggleRadarOpen() {
+  radarOpen.value = true;
+  currentWeatherOpen.value = false;
+  dailyWeatherOpen.value = false;
   hourlyWeatherOpen.value = false;
 }
 //functions for getting geoloction and sending to server onLoad
@@ -128,11 +144,11 @@ async function getWeather(location) {
 
 <style>
 :root {
-  --bg-hex: #274f72;
-  --bg-rgb: 39, 79, 114;
-  --secondary-hex: #478ecc;
-  --secondary-rgb: 71, 142, 204;
-  --greyblue-hex: #273746;
+  --bg-hex: #273746;
+  --bg-rgb: 81, 88, 94;
+  --secondary-hex: #7cafde;
+  --secondary-rgb: 124, 175, 222;
+  --greyblue-hex: #51585e;
   --greyblue-rgb: 39, 55, 70;
 }
 *,
@@ -159,43 +175,40 @@ body {
 }
 /* scrollbar styles */
 body::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.65rem;
 }
 body::-webkit-scrollbar-track {
   background: var(--greyblue-hex);
-  border-radius: 0.5rem;
 }
 body::-webkit-scrollbar-thumb {
   background-color: var(--secondary-hex);
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
 }
 /* main app styles */
 #app {
   margin: auto;
   max-width: 90rem;
-  min-height: 100vh;
 }
 header {
   background: rgba(var(--greyblue-rgb), 0.5);
-  padding: 1.5rem clamp(1rem, 4vw, 4rem) 2rem clamp(1rem, 4vw, 4rem);
+  padding: 2rem clamp(1rem, 4vw, 4rem);
 }
 nav {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: clamp(0.25rem, 1vw, 1.25rem);
   position: sticky;
   top: 0;
-  background: rgba(var(--greyblue-rgb), 0.5);
-  border-bottom: 1px solid var(--secondary-hex);
-  margin: 0 0 2rem 0;
+  background: rgba(var(--greyblue-rgb), 0.65);
+  margin: 0 clamp(1rem, 4vw, 4rem) 1.5rem clamp(1rem, 4vw, 4rem);
+  padding: 0.5rem 0;
   z-index: 2;
 }
 nav button {
   flex: 1;
   text-align: center;
   cursor: pointer;
-  border: none;
+  border: 1px solid rgba(var(--secondary-rgb), 0);
   background: var(--greyblue-hex);
   font-weight: 600;
   padding: 0.6rem 0.25rem;
@@ -209,12 +222,16 @@ nav button:nth-of-type(2)::before {
 nav button:nth-of-type(3)::before {
   content: 'Hourly Forecast';
 }
+nav button:nth-of-type(4)::before {
+  content: 'Radar Maps';
+}
 .toggle {
   color: rgba(255, 255, 255, 0.75);
 }
 .active,
 nav button:hover {
-  border-bottom: 1px solid var(--secondary-hex);
+  border-top: 1px solid rgba(var(--secondary-rgb), 1);
+  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
   background: rgba(var(--secondary-rgb), 0.5);
   color: #fff;
 }
@@ -222,26 +239,27 @@ nav button:hover {
   display: flex;
   flex-direction: column;
 }
-/* shared styles for hourlyWeather, dailyWeather, alertDisplay */
+/* shared styles for hourlyWeatherItem, dailyWeatherItem & alertDisplay */
 .alertDisplay,
 .forecast h2,
 .forecast_graphs {
   padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
 }
 .forecast_graphs {
-  height: 22rem;
+  height: 40vh;
+  max-height: 30rem;
+  min-height: 20rem;
 }
 .dayOutput {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  margin: 1.5rem 0 1rem 0;
   padding: 3rem clamp(1rem, 4vw, 4rem);
   border-radius: 0.25rem;
 }
 .dayOutput h3 {
   flex: 100%;
-  border-bottom: 1px solid var(--secondary-hex);
+  border-bottom: 2px solid var(--secondary-hex);
 }
 .hourOutput {
   flex: 45%;
@@ -261,6 +279,8 @@ nav button:hover {
 }
 details {
   display: flex;
+  background: rgba(var(--greyblue-rgb), 0.5);
+  border-radius: 0.25rem;
 }
 details summary {
   display: flex;
@@ -272,7 +292,7 @@ details summary {
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
-  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 1);
+  border-bottom: 1px solid rgba(var(--secondary-rgb), 0);
 }
 details summary::after {
   content: 'Right';
@@ -280,31 +300,44 @@ details summary::after {
 details[open] summary::after {
   content: 'Down';
 }
-details summary:hover,
+details summary:hover {
+  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
+}
 details[open] summary {
-  background: rgba(var(--secondary-rgb), 0.5);
-  box-shadow: none;
+  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
 }
-.description {
+.summaryHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.summaryHeader .description {
   font-size: 0.9rem;
+  flex: 100%;
 }
+.weatherDetails {
+  display: flex;
+  align-items: top;
+  gap: 1.5rem;
+  margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
+}
+.weatherDetails ul {
+  list-style: none;
+}
+.weatherDesc {
+  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
+}
+.weatherDesc p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  margin-bottom: 1rem;
+}
+
 @media screen and (max-width: 768px) {
   nav {
-    gap: 0rem;
-    background: rgba(var(--greyblue-rgb), 0.5);
-    border-radius: 0;
-    margin: 0 0 2rem 0;
+    gap: 1px;
   }
-  nav button {
-    padding: 0.5rem 0.2rem;
-  }
-  .hourOutput {
-    flex: 100%;
-    min-width: 18rem;
-    max-width: none;
-  }
-}
-@media screen and (max-width: 425px) {
   nav button:nth-of-type(1)::before {
     content: 'Current';
   }
@@ -313,6 +346,23 @@ details[open] summary {
   }
   nav button:nth-of-type(3)::before {
     content: 'Hourly';
+  }
+  nav button:nth-of-type(4)::before {
+  content: 'Radar';
+}
+  .hourOutput {
+    flex: 100%;
+    min-width: 18rem;
+    max-width: none;
+  }
+}
+@media screen and (max-width: 425px) {
+  nav {
+    background: rgba(var(--greyblue-rgb), 0.5);
+    margin: 0 0 2rem 0;
+  }
+  nav button {
+    padding: 0.5rem 0.2rem;
   }
   header,
   .airQuality,

@@ -10,10 +10,10 @@
     <div class="weatherDetails">
       <img :src="props.weatherItem.icon" class="weatherIcon"/>
       <ul>
-        <li>Temp:</li>
-        <li>Rain:</li>
-        <li>Humidity:</li>
-        <li>Wind:</li>
+        <li>Temp -- {{ props.weatherItem.temp }}</li>
+        <li>Rain -- {{ props.weatherItem.precip }}</li>
+        <li>Humidity -- {{ props.weatherItem.humidity }}</li>
+        <li>Wind -- {{ props.weatherItem.windSpeed }} {{ props.weatherItem.windDirection }}</li>
 
       </ul>
 
@@ -25,23 +25,3 @@
 <script setup>
 const props = defineProps(['weatherItem']);
 </script>
-
-<style scoped>
-.summaryHeader {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-h4 {
-  flex: 100%;
-}
-.weatherDetails {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
-}
-ul {
-  list-style: none;
-}
-</style>

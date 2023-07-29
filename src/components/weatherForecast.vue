@@ -1,7 +1,10 @@
 <template>
   <div class="forecast">
-    <h2>Daily Forecast</h2>
-    <div class="forecast_graphs">7 day temp, humidity, and precipitation graphs</div>
+    <div class="forecast_graphs">
+      <h2 v-if="dailyWeatherOpen">Daily Forecast</h2>
+      <h2 v-else-if="hourlyWeatherOpen">Hourly Forecast</h2>
+      7 day temp, humidity, and precipitation graphs
+    </div>
     <div v-for="(item, index) in props.weatherForecast" :key="index" class="dayOutput">
       <h3>{{ item[0].date }}</h3>
 
