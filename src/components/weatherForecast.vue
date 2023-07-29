@@ -6,7 +6,8 @@
       <h3>{{ item[0].date }}</h3>
 
       <div v-for="(day, dayIndex) in item" :key="dayIndex" class="hourOutput">
-        <daily-weather-item :weatherItem="day"></daily-weather-item>
+        <daily-weather-item :weatherItem="day" v-if="dailyWeatherOpen"></daily-weather-item>
+        <hourly-weather-item :weatherItem="day" v-else-if="hourlyWeatherOpen"></hourly-weather-item>
       </div>
     </div>
   </div>
@@ -14,7 +15,8 @@
 
 <script setup>
 import dailyWeatherItem from './dailyWeatherItem.vue';
-const props = defineProps(['weatherForecast']);
+import hourlyWeatherItem from './hourlyWeatherItem.vue';
+const props = defineProps(['weatherForecast', 'dailyWeatherOpen', 'hourlyWeatherOpen']);
 </script>
 
 <style scoped>

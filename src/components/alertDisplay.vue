@@ -1,5 +1,5 @@
 <template>
-  <div class="alertDisplay">
+  <div class="alertDisplay" v-if="props.alerts != 'No alerts'">
     <h3>{{ props.alerts.length }} Alert(s) Available!</h3>
     <details v-for="(alert, index) in props.alerts" :key="index">
       <summary>
@@ -11,6 +11,7 @@
       </div>
     </details>
   </div>
+  <div class="alertDisplay"><h3>No alerts for this area</h3></div>
 </template>
 
 <script setup>

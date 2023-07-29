@@ -87,9 +87,6 @@ const aqiColorMap = computed(() => ({
 </script>
 
 <style scoped>
-:root {
-  --green: #ff8000;
-}
 .weatherBox_head {
   display: flex;
   align-items: center;
@@ -97,7 +94,10 @@ const aqiColorMap = computed(() => ({
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.5);
   padding: clamp(2rem, 5vw, 5rem) 0;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 0.5rem;
+  height: 40vh;
+  max-height: 30rem;
+  min-height: 20rem;
 }
 .weather_head_data {
   display: flex;
@@ -141,6 +141,7 @@ const aqiColorMap = computed(() => ({
   background: rgb(var(--greyblue-rgb));
   z-index: 1;
   left: -6rem;
+  bottom: 1rem;
   color: #fff;
   font-weight: 300;
   line-height: 1.5;
@@ -153,7 +154,7 @@ const aqiColorMap = computed(() => ({
 @media screen and (max-width: 425px) {
   .weather_head_data {
     margin: 0rem 0.5rem;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
     line-height: 2;
     flex-direction: column;
   }

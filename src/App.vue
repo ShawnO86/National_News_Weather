@@ -37,16 +37,24 @@
     ></alert-display>
   </section>
   <section v-if="hourlyWeatherOpen || dailyWeatherOpen">
-    <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather>
-    <daily-weather v-else-if="dailyWeatherOpen" :weatherForecast="dailyWeatherData"></daily-weather>
+    <!--     <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather> -->
+    <weather-forecast
+      v-if="hourlyWeatherOpen"
+      :weatherForecast="hourlyWeatherData"
+      :hourlyWeatherOpen="hourlyWeatherOpen"
+    ></weather-forecast>
+    <weather-forecast
+      v-else-if="dailyWeatherOpen"
+      :weatherForecast="dailyWeatherData"
+      :dailyWeatherOpen="dailyWeatherOpen"
+    ></weather-forecast>
   </section>
 </template>
 
 <script setup>
 // Put in an alert icon with alert title and a rollover tooltip for weather alerts if there is one available
 import locationInput from './components/locationInput.vue';
-import hourlyWeather from './components/hourlyWeather.vue';
-import dailyWeather from './components/dailyWeather.vue';
+import weatherForecast from './components/weatherForecast.vue';
 import currentWeather from './components/currentWeather.vue';
 import alertDisplay from './components/alertDisplay.vue';
 import { onMounted, ref } from 'vue';
@@ -114,6 +122,7 @@ async function getWeather(location) {
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
   locationMsg.value = '';
+  console.log(currentWeatherData.value);
 }
 </script>
 
@@ -169,16 +178,18 @@ body::-webkit-scrollbar-thumb {
 header {
   background: rgba(var(--greyblue-rgb), 0.5);
   padding: 1.5rem clamp(1rem, 4vw, 4rem) 2rem clamp(1rem, 4vw, 4rem);
-  border-radius: 0 0 0.5rem 0.5rem;
 }
 nav {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  gap: clamp(0.25rem, 1vw, 1.25rem);
   position: sticky;
   top: 0;
-  background: rgb(var(--bg-rgb));
-  padding: 2rem clamp(1rem, 4vw, 4rem);
+  background: rgba(var(--greyblue-rgb), 0.5);
+  border-bottom: 1px solid var(--secondary-hex);
+  margin: 0 0 2rem 0;
+  z-index: 2;
 }
 nav button {
   flex: 1;
@@ -189,31 +200,21 @@ nav button {
   font-weight: 600;
   padding: 0.6rem 0.25rem;
 }
-nav button:nth-of-type(1) {
-  border-radius: 0.25rem 0 0 0.25rem;
-}
 nav button:nth-of-type(1)::before {
   content: 'Current Weather';
 }
 nav button:nth-of-type(2)::before {
   content: 'Daily Forecast';
 }
-nav button:nth-of-type(3) {
-  border-radius: 0 0.25rem 0.25rem 0;
-}
 nav button:nth-of-type(3)::before {
   content: 'Hourly Forecast';
 }
-nav button:hover {
-  background: rgba(var(--secondary-rgb), 0.25);
-  color: #fff;
-}
 .toggle {
   color: rgba(255, 255, 255, 0.75);
-  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
 }
-.active {
-  box-shadow: none;
+.active,
+nav button:hover {
+  border-bottom: 1px solid var(--secondary-hex);
   background: rgba(var(--secondary-rgb), 0.5);
   color: #fff;
 }
@@ -222,9 +223,6 @@ nav button:hover {
   flex-direction: column;
 }
 /* shared styles for hourlyWeather, dailyWeather, alertDisplay */
-.alertDisplay {
-  background: rgba(var(--greyblue-rgb), 0.25);
-}
 .alertDisplay,
 .forecast h2,
 .forecast_graphs {
@@ -237,7 +235,6 @@ nav button:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  background: rgba(var(--greyblue-rgb), 0.25);
   margin: 1.5rem 0 1rem 0;
   padding: 3rem clamp(1rem, 4vw, 4rem);
   border-radius: 0.25rem;
@@ -292,6 +289,15 @@ details[open] summary {
   font-size: 0.9rem;
 }
 @media screen and (max-width: 768px) {
+  nav {
+    gap: 0rem;
+    background: rgba(var(--greyblue-rgb), 0.5);
+    border-radius: 0;
+    margin: 0 0 2rem 0;
+  }
+  nav button {
+    padding: 0.5rem 0.2rem;
+  }
   .hourOutput {
     flex: 100%;
     min-width: 18rem;
@@ -299,14 +305,6 @@ details[open] summary {
   }
 }
 @media screen and (max-width: 425px) {
-  nav {
-    padding: 1.5rem 0.5rem;
-    gap: 0rem;
-  }
-  nav button {
-    padding: 0.5rem 0.2rem;
-    border-radius: 0;
-  }
   nav button:nth-of-type(1)::before {
     content: 'Current';
   }
