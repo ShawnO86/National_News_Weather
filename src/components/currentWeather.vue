@@ -56,7 +56,7 @@ function changeBackgroundImage() {
   const matchingWeatherType = weatherTypes.find((item) =>
     item.type.some((type) => weatherType.value.includes(type))
   );
- return `/src/assets/${matchingWeatherType.image}`;
+ return `src/assets/${matchingWeatherType.image}`;
 }
 const aqiColorMap = computed(() => ({
   Good: {
@@ -155,6 +155,7 @@ const aqiColorMap = computed(() => ({
 @media screen and (max-width: 425px) {
   .weatherBox_head {
     margin: 0;
+    border-radius: 0;
   }
   .weather_head_data {
     margin: 0rem 0.5rem;

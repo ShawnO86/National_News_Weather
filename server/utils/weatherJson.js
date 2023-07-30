@@ -105,7 +105,6 @@ const getDailyForcastData = async (url, retryCount = 0) => {
                 icon: day.icon
             })
         };
-        projectData.weatherData.dateUpdated = removeTime(forcastData.properties.updated);
         projectData.weatherData.dailyForecast = separateByDate(forecast);
         await getAirQuality(projectData.zoneData.lat, projectData.zoneData.long, projectData.weatherData.dateUpdated);
     } catch (e) {

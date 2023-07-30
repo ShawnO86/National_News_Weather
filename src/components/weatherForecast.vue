@@ -19,6 +19,7 @@
 <script setup>
 import dailyWeatherItem from './dailyWeatherItem.vue';
 import hourlyWeatherItem from './hourlyWeatherItem.vue';
+
 const props = defineProps(['weatherForecast', 'dailyWeatherOpen', 'hourlyWeatherOpen']);
 </script>
 

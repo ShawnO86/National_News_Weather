@@ -20,7 +20,7 @@ const props = defineProps(['alerts']);
 
 <style scoped>
 h3 {
-  border-bottom: 1px solid var(--secondary-hex);
+  border-bottom: 2px solid var(--secondary-hex);
   margin: 1.5rem 0;
 }
 .alertDetails {

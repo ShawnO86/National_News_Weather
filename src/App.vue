@@ -6,7 +6,7 @@
     <div v-if="locationMsg">
       <h1>{{ locationMsg }}</h1>
     </div>
-    <h1>{{ currentWeatherData.location }}</h1>
+    <h1 v-if="currentWeatherData">{{ currentWeatherData.location }}</h1>
   </header>
   <nav v-if="dailyWeatherData">
     <button
@@ -24,11 +24,7 @@
       :class="hourlyWeatherOpen ? 'active' : ''"
       class="toggle"
     ></button>
-    <button
-      @click="toggleRadarOpen"
-      :class="radarOpen ? 'active' : ''"
-      class="toggle"
-    ></button>
+    <button @click="toggleRadarOpen" :class="radarOpen ? 'active' : ''" class="toggle"></button>
   </nav>
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
@@ -41,8 +37,7 @@
       :alerts="currentWeatherData.alerts"
     ></alert-display>
   </section>
-  <section v-if="hourlyWeatherOpen || dailyWeatherOpen">
-    <!--     <hourly-weather v-if="hourlyWeatherOpen" :hourlyWeather="hourlyWeatherData"></hourly-weather> -->
+  <section v-if="hourlyWeatherOpen || dailyWeatherOpen || radarOpen">
     <weather-forecast
       v-if="hourlyWeatherOpen"
       :weatherForecast="hourlyWeatherData"
@@ -53,17 +48,17 @@
       :weatherForecast="dailyWeatherData"
       :dailyWeatherOpen="dailyWeatherOpen"
     ></weather-forecast>
+    <div v-else-if="radarOpen">Radar open</div>
   </section>
-  <section v-if="radarOpen">Weather radar maps:</section>
 </template>
 
 <script setup>
-// Put in an alert icon with alert title and a rollover tooltip for weather alerts if there is one available
 import locationInput from './components/locationInput.vue';
-import weatherForecast from './components/weatherForecast.vue';
 import currentWeather from './components/currentWeather.vue';
 import alertDisplay from './components/alertDisplay.vue';
-import { onMounted, ref } from 'vue';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
+
+const weatherForecast = defineAsyncComponent(() => import('./components/weatherForecast.vue'));
 
 const locationMsg = ref('');
 const currentWeatherData = ref('');
@@ -138,7 +133,6 @@ async function getWeather(location) {
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
   locationMsg.value = '';
-  console.log(currentWeatherData.value);
 }
 </script>
 
@@ -348,8 +342,8 @@ details[open] summary {
     content: 'Hourly';
   }
   nav button:nth-of-type(4)::before {
-  content: 'Radar';
-}
+    content: 'Radar';
+  }
   .hourOutput {
     flex: 100%;
     min-width: 18rem;
