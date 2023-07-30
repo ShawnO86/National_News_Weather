@@ -7,7 +7,7 @@
       </div>
     </summary>
     <div class="weatherDetails">
-      <img :src="props.weatherItem.icon" class="weatherIcon" />
+      <img v-if="weatherIconUrl" :src="weatherIconUrl" class="weatherIcon" />
       <ul>
         <li>Temp -- {{ props.weatherItem.temp }}</li>
         <li>Rain -- {{ props.weatherItem.precip }}</li>
@@ -27,7 +27,14 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+
 const props = defineProps(['weatherItem']);
+const weatherIconUrl = ref(null);
+
+onMounted(async () => {
+    weatherIconUrl.value = props.weatherItem.icon;
+});
 
 function convertUtcToLocal(utcTime) {
   const utcDate = new Date(utcTime);

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Weather radar maps:</h3>
+        <h2>Weather radar maps:</h2>
     </div>
 </template>
 

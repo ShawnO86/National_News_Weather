@@ -147,10 +147,12 @@ const aqiColorMap = computed(() => ({
   font-weight: 300;
   line-height: 1.5;
   padding: 0.25rem 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
-
 .aqiDesc:hover .aqiToolTip {
   visibility: visible;
+  opacity: 1;
 }
 @media screen and (max-width: 425px) {
   .weatherBox_head {

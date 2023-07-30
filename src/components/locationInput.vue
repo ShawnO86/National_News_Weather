@@ -69,6 +69,7 @@ button {
   border: 1px solid var(--secondary-hex);
   background: var(--greyblue-hex);
   font-weight: 600;
+  transition: background 0.2s, border 0.2s;
 }
 button:hover {
   border: 1px solid #fff;

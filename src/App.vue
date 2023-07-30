@@ -37,7 +37,7 @@
       :alerts="currentWeatherData.alerts"
     ></alert-display>
   </section>
-  <section v-if="hourlyWeatherOpen || dailyWeatherOpen || radarOpen">
+  <section class="forecastWeather" v-if="hourlyWeatherOpen || dailyWeatherOpen || radarOpen">
     <weather-forecast
       v-if="hourlyWeatherOpen"
       :weatherForecast="hourlyWeatherData"
@@ -48,7 +48,7 @@
       :weatherForecast="dailyWeatherData"
       :dailyWeatherOpen="dailyWeatherOpen"
     ></weather-forecast>
-    <div v-else-if="radarOpen">Radar open</div>
+    <radar-display v-if="radarOpen"></radar-display>
   </section>
 </template>
 
@@ -59,6 +59,7 @@ import alertDisplay from './components/alertDisplay.vue';
 import { defineAsyncComponent, onMounted, ref } from 'vue';
 
 const weatherForecast = defineAsyncComponent(() => import('./components/weatherForecast.vue'));
+const radarDisplay = defineAsyncComponent(() => import('./components/radarDisplay.vue'));
 
 const locationMsg = ref('');
 const currentWeatherData = ref('');
@@ -206,6 +207,7 @@ nav button {
   background: var(--greyblue-hex);
   font-weight: 600;
   padding: 0.6rem 0.25rem;
+  transition: background 0.2s, border 0.2s;
 }
 nav button:nth-of-type(1)::before {
   content: 'Current Weather';
@@ -234,26 +236,26 @@ nav button:hover {
   flex-direction: column;
 }
 /* shared styles for hourlyWeatherItem, dailyWeatherItem & alertDisplay */
-.alertDisplay,
-.forecast h2,
-.forecast_graphs {
+.alertDisplay {
   padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
 }
 .forecast_graphs {
   height: 40vh;
   max-height: 30rem;
   min-height: 20rem;
+  padding: 0 clamp(1rem, 4vw, 4rem);
 }
 .dayOutput {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  padding: 3rem clamp(1rem, 4vw, 4rem);
+  padding: 2rem clamp(1rem, 4vw, 4rem);
   border-radius: 0.25rem;
 }
 .dayOutput h3 {
   flex: 100%;
   border-bottom: 2px solid var(--secondary-hex);
+  font-size: larger;
 }
 .hourOutput {
   flex: 45%;
@@ -272,10 +274,21 @@ nav button:hover {
   border-radius: 0.25rem;
 }
 details {
-  display: flex;
-  background: rgba(var(--greyblue-rgb), 0.5);
+  background: rgba(var(--secondary-rgb), 0.25);
   border-radius: 0.25rem;
+  padding-bottom: 0.5rem;
+  transition: padding 0.2s, margin-bottom 0.2s;
+  margin-bottom: 0;
 }
+details:hover {
+  margin-bottom: -0.25rem;
+  padding-bottom: 0.75rem;
+}
+details[open]:hover {
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 details summary {
   display: flex;
   justify-content: space-between;
@@ -286,7 +299,8 @@ details summary {
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
-  border-bottom: 1px solid rgba(var(--secondary-rgb), 0);
+  border-bottom: 2px solid rgba(var(--greyblue-rgb), 0.35);
+  transition: border 0.2s;
 }
 details summary::after {
   content: 'Right';
@@ -294,11 +308,9 @@ details summary::after {
 details[open] summary::after {
   content: 'Down';
 }
+details[open] summary,
 details summary:hover {
-  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
-}
-details[open] summary {
-  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
+  border-bottom: 2px solid rgba(var(--secondary-rgb), 0.65);
 }
 .summaryHeader {
   display: flex;
@@ -361,8 +373,6 @@ details[open] summary {
   header,
   .airQuality,
   .alertDisplay,
-  .forecast h2,
-  .forecast_graphs,
   .dayOutput {
     padding: 1rem 0.5rem;
   }

@@ -22,6 +22,3 @@ import hourlyWeatherItem from './hourlyWeatherItem.vue';
 
 const props = defineProps(['weatherForecast', 'dailyWeatherOpen', 'hourlyWeatherOpen']);
 </script>
-
-<style scoped>
-</style>

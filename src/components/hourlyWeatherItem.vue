@@ -5,7 +5,6 @@
         <h4>{{ props.weatherItem.time }} - {{ props.weatherItem.temp }}</h4>
         <p class="description">{{ props.weatherItem.shortDesc  }}</p>
       </div>
-
     </summary>
     <div class="weatherDetails">
       <img v-if="weatherIconUrl" :src="weatherIconUrl" class="weatherIcon"/>
@@ -23,15 +22,12 @@
 </template>
 
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps(['weatherItem']);
 const weatherIconUrl = ref(null);
 
 onMounted(async () => {
-  // Simulating an API call delay with setTimeout
-  setTimeout(() => {
     weatherIconUrl.value = props.weatherItem.icon;
-  }, 200);
 });
 </script>
