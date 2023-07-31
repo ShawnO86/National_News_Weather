@@ -1,7 +1,12 @@
 <template>
   <details :open="firstOpen">
     <summary>
-      <img v-if="weatherIconUrl" :src="weatherIconUrl" class="weatherIcon" />
+      <img
+        v-if="weatherIconUrl"
+        :src="weatherIconUrl"
+        class="weatherIcon"
+        :alt="props.weatherItem.shortDesc + ' image icon'"
+      />
       <div class="summaryHeader" v-if="dailyWeatherOpen">
         <h4>{{ props.weatherItem.name }} -- {{ props.weatherItem.temp }}</h4>
         <p class="description">{{ props.weatherItem.shortDesc }}</p>
@@ -30,22 +35,18 @@
           Wind <span class="weatherDetails_line"></span
           ><span>{{ props.weatherItem.windSpeed }} {{ props.weatherItem.windDirection }}</span>
         </li>
-        <div v-if="dailyWeatherOpen">
-          <li v-if="!props.weatherItem.isDaytime">
-            Dew Point <span class="weatherDetails_line"></span>
-            <span>{{ props.weatherItem.dewpoint }}</span>
-          </li>
-          <div v-else>
-            <li>
-              Sunrise <span class="weatherDetails_line"></span>
-              <span>{{ convertUtcToLocal(props.weatherItem.astro.sunrise) }}</span>
-            </li>
-            <li>
-              Sunset <span class="weatherDetails_line"></span>
-              <span>{{ convertUtcToLocal(props.weatherItem.astro.sunset) }}</span>
-            </li>
-          </div>
-        </div>
+        <li v-if="!props.weatherItem.isDaytime && dailyWeatherOpen">
+          Dew Point <span class="weatherDetails_line"></span>
+          <span>{{ props.weatherItem.dewpoint }}</span>
+        </li>
+        <li v-if="props.weatherItem.isDaytime && dailyWeatherOpen">
+          Sunrise <span class="weatherDetails_line"></span>
+          <span>{{ convertUtcToLocal(props.weatherItem.astro.sunrise) }}</span>
+        </li>
+        <li v-if="props.weatherItem.isDaytime && dailyWeatherOpen">
+          Sunset <span class="weatherDetails_line"></span>
+          <span>{{ convertUtcToLocal(props.weatherItem.astro.sunset) }}</span>
+        </li>
       </ul>
     </div>
     <div class="weatherDesc" v-if="dailyWeatherOpen">

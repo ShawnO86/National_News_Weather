@@ -104,14 +104,15 @@ const aqiColorMap = computed(() => ({
   justify-content: space-between;
   width: 100%;
   height: fit-content;
-  background: rgba(var(--bg-rgb), 0.65);
+  background: rgba(var(--greyblue-rgb), 0.5);
+  color: var(--text-hex);
   margin: 0rem clamp(1rem, 4vw, 4rem);
   padding: 2rem clamp(0.5rem, 2vw, 1.5rem);
   font-weight: 500;
   border-radius: 0.25rem;
   line-height: 2.5;
   gap: 2rem;
-  box-shadow: 3px 3px 6px -3px #fff,-3px -3px 6px -3px #fff;
+  box-shadow: 3px 3px 6px -3px var(--secondary-hex),-3px -3px 6px -3px var(--secondary-hex);
 }
 .weather_head_left {
   display: flex;
@@ -139,7 +140,7 @@ const aqiColorMap = computed(() => ({
   visibility: hidden;
   width: 12rem;
   position: absolute;
-  background: rgb(var(--greyblue-rgb));
+  background: rgb(var(--bg-rgb));
   z-index: 1;
   left: -6rem;
   bottom: 1rem;

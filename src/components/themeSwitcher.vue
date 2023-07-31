@@ -28,12 +28,12 @@ function changeTheme() {
   });
 } else {
   emit('colors', {
-    bgHex: '#D5EEFF',
-    bgRGB: '213, 238, 255',
-    secondaryHex: '#8AD0FF',
-    secondaryRGB: '138, 208, 255',
-    greyBlueHex: '#546E80',
-    greyBlueRGB: '84, 110, 128',
+    bgHex: '#D6EEFF',
+    bgRGB: '214, 238, 255',
+    secondaryHex: '#99D5FF',
+    secondaryRGB: '153, 213, 255',
+    greyBlueHex: '#A1B3BF',
+    greyBlueRGB: '161, 179, 191',
     textHex: '#000',
     textRGB: '0, 0, 0'
   });

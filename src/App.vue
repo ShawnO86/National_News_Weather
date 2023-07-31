@@ -16,18 +16,21 @@
       @click="toggleCurrentWeatherOpen"
       :class="currentWeatherOpen ? 'active' : ''"
       class="toggle"
+      aria-label="Current Weather"
     ></button>
     <button
       @click="toggleDailyWeatherOpen"
       :class="dailyWeatherOpen ? 'active' : ''"
       class="toggle"
+      aria-label="Daily Forecast"
     ></button>
     <button
       @click="toggleHourlyWeatherOpen"
       :class="hourlyWeatherOpen ? 'active' : ''"
       class="toggle"
+      aria-label="Hourly Forecast"
     ></button>
-    <button @click="toggleRadarOpen" :class="radarOpen ? 'active' : ''" class="toggle"></button>
+    <button @click="toggleRadarOpen" :class="radarOpen ? 'active' : ''" class="toggle" aria-label="Radar Maps"></button>
   </nav>
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
@@ -157,7 +160,7 @@ function changeTheme(color) {
 
 <style>
 :root {
-  --bg-hex: #273745;
+  --bg-hex: #D5EEFF;
   --bg-rgb: 39, 55, 69;
   --secondary-hex: #7cb0de;
   --secondary-rgb: 124, 175, 222;
@@ -295,6 +298,8 @@ nav button:hover {
 }
 .weatherIcon {
   border-radius: 0.25rem;
+  width: 3.5rem;
+  height: 3.5rem;
 }
 details {
   background: rgba(var(--secondary-rgb), 0.25);
@@ -322,7 +327,7 @@ details summary {
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
-  color: #fff;
+  color: var(--text-hex);
 }
 details summary .summaryIcon {
   transition: transform 0.2s;
