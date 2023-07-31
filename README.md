@@ -1,6 +1,6 @@
 # National_Weather
 
-Weather web app built using Node.js, Express.js, Vue.js, and bundled using Vite.
+Weather web app built using Node.js, Express.js, Vue.js, CSS and bundled using Vite.
 
 Users can search for any location in the US by entering a city name and state or a ZIP code. The app will retrieve the weather data for the specified location and display it on the interface.
 
