@@ -25,8 +25,8 @@ Air Quality API: https://docs.airnowapi.org/ API providing forecast and real-tim
 Hosted at: https://weather-app-e871.onrender.com/ 
 
 ### TO DO: 
-Nighttime color styling and ability to switch automatically based on local time,
-Learn and implement chart.js for vue to display graphs of different weather info.
+- []Nighttime color styling and ability to switch automatically based on local time,
+- []Learn and implement chart.js for vue to display graphs of different weather info.
 
 
 ### Project Setup
