@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import dotenv from 'dotenv';
 import WeatherData from './weatherData.js';
-import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime, separateByDate, extractHourlyBaseURL } from './weatherUtils.js'
+import { cToF, get12HourFormat, dateFormat, hourFormat, removeTime, separateByDate, extractHourlyBaseURL, extractDailyBaseURL } from './weatherUtils.js'
 
 dotenv.config();
 const geoKey = process.env.geonames_key;
@@ -102,7 +102,7 @@ const getDailyForcastData = async (url, retryCount = 0) => {
                 windDirection: day.windDirection,
                 shortDesc: day.shortForecast,
                 detailDesc: day.detailedForecast,
-                icon: day.icon
+                icon: extractDailyBaseURL(day.icon)
             })
         };
         projectData.weatherData.dailyForecast = separateByDate(forecast);

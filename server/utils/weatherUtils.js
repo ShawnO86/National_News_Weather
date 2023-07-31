@@ -51,5 +51,10 @@ export function separateByDate(data) {
     // The first part of the split array will be the base URL
     const baseURL = parts[0];
     
-    return baseURL + "?size=medium";
+    return baseURL + "?size=small";
+  }
+  export function extractDailyBaseURL(url) {
+    const part = url.split('?');
+    const baseURL = part[0];
+    return baseURL + "?size=small"
   }

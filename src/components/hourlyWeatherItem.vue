@@ -1,7 +1,8 @@
 <template>
   <details>
     <summary>
-      <change-weather-icon :desc="props.weatherItem.shortDesc" :time="props.weatherItem.isDaytime"></change-weather-icon>
+      <img v-if="weatherIconUrl" :src="weatherIconUrl" class="weatherIcon" />
+<!--       <change-weather-icon :desc="props.weatherItem.shortDesc" :time="props.weatherItem.isDaytime"></change-weather-icon> -->
       <div class="summaryHeader">
         <h4>{{ props.weatherItem.time }} -- {{ props.weatherItem.temp }}</h4>
         <p class="description">{{ props.weatherItem.shortDesc }}</p>

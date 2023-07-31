@@ -1,5 +1,8 @@
 <template>
   <header>
+    <div class="themeSwitcher">
+      <theme-switcher></theme-switcher>
+    </div>
     <div class="search">
       <location-input @location="getWeather" />
     </div>
@@ -56,6 +59,7 @@
 import locationInput from './components/locationInput.vue';
 import currentWeather from './components/currentWeather.vue';
 import alertDisplay from './components/alertDisplay.vue';
+import themeSwitcher from './components/themeSwitcher.vue';
 import { defineAsyncComponent, onMounted, ref } from 'vue';
 
 const weatherForecast = defineAsyncComponent(() => import('./components/weatherForecast.vue'));
