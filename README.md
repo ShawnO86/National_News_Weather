@@ -30,25 +30,25 @@ Hosted at: https://weather-app-e871.onrender.com/
 - [ ] Learn and implement chart.js for vue to display graphs of different weather info.
 ```
 
-### Project Setup
+### Project Setup & Install Package
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Compile and Hot-Reload for Development with Vite
 
 ```sh
 npm run dev
 ```
 
-### Start express server
+### Start express server with Node
 
 ```sh
 npm run serve
 ```
 
-### Compile and Minify for Production
+### Compile and Minify for Production with Vite
 
 ```sh
 npm run build
