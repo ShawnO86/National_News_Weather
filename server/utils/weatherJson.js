@@ -128,6 +128,7 @@ const getHourlyForcastData = async (url, retryCount = 0) => {
             forecastArr.push({
                 date: dateFormat(hour.startTime),
                 time: hourFormat(hour.startTime),
+                isDaytime: hour.isDaytime,
                 temp: hour.temperature + hour.temperatureUnit,
                 precip: hour.probabilityOfPrecipitation.value == null ? 0 + '%' : hour.probabilityOfPrecipitation.value + '%',
                 humidity: hour.relativeHumidity.value + "%",

@@ -116,6 +116,7 @@ async function getData(url = '') {
     return data;
   } catch (e) {
     console.log('error', e);
+    locationMsg.value = 'Error getting weather data. Please try again later.';
   }
 }
 async function getWeather(location) {
@@ -191,10 +192,10 @@ header {
 nav {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(0.25rem, 1vw, 1.25rem);
+  gap: clamp(0.25rem, 1vw, 1rem);
   position: sticky;
   top: 0;
-  background: rgba(var(--greyblue-rgb), 0.65);
+  background: rgb(var(--greyblue-rgb));
   margin: 0 clamp(1rem, 4vw, 4rem) 1.5rem clamp(1rem, 4vw, 4rem);
   padding: 0.5rem 0;
   z-index: 2;
@@ -203,11 +204,19 @@ nav button {
   flex: 1;
   text-align: center;
   cursor: pointer;
-  border: 1px solid rgba(var(--secondary-rgb), 0);
-  background: var(--greyblue-hex);
+  border: none;
+  border-top: 1px solid rgba(var(--secondary-rgb), 0.5);
+  border-bottom: 1px solid rgba(var(--secondary-rgb), 0.5);
+  background: rgba(0, 0, 0, 0.25);
   font-weight: 600;
-  padding: 0.6rem 0.25rem;
-  transition: background 0.2s, border 0.2s;
+  padding: clamp(0.3rem, 1vw, 0.65rem) 0.25rem;
+  transition: background 0.4s, border 0.2s;
+  border-radius: 0.25rem;
+}
+nav button:hover {
+  border-top: 1px solid rgba(var(--secondary-rgb), 1);
+  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
+  color: #fff;
 }
 nav button:nth-of-type(1)::before {
   content: 'Current Weather';
@@ -224,11 +233,10 @@ nav button:nth-of-type(4)::before {
 .toggle {
   color: rgba(255, 255, 255, 0.75);
 }
-.active,
-nav button:hover {
+.active {
   border-top: 1px solid rgba(var(--secondary-rgb), 1);
   border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
-  background: rgba(var(--secondary-rgb), 0.5);
+  background: rgba(var(--secondary-rgb), 0.25);
   color: #fff;
 }
 .currentWeather {
@@ -247,6 +255,7 @@ nav button:hover {
 }
 .dayOutput {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 2rem clamp(1rem, 4vw, 4rem);
@@ -258,15 +267,8 @@ nav button:hover {
   font-size: larger;
 }
 .hourOutput {
-  flex: 45%;
+  flex: 30%;
   min-width: 20rem;
-  max-width: calc(50% - 0.5rem);
-}
-.weatherDetails {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
 }
 .weatherIcon {
   width: 5.5rem;
@@ -288,12 +290,10 @@ details[open]:hover {
   margin-bottom: 0.25rem;
   padding-bottom: 0.25rem;
 }
-
 details summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
   background: var(--greyblue-hex);
   cursor: pointer;
   min-height: 5rem;
@@ -302,28 +302,38 @@ details summary {
   border-bottom: 2px solid rgba(var(--greyblue-rgb), 0.35);
   transition: border 0.2s;
 }
-details summary::after {
-  content: 'Right';
-}
-details[open] summary::after {
-  content: 'Down';
-}
 details[open] summary,
 details summary:hover {
   border-bottom: 2px solid rgba(var(--secondary-rgb), 0.65);
 }
+details summary .summaryIcon {
+  transition: transform 0.2s;
+}
+details[open] summary .summaryIcon {
+  transform: rotate(90deg);
+}
 .summaryHeader {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
+  flex: 2;
+  border-left: 1px solid rgba(var(--secondary-rgb), 0.5);
 }
 .summaryHeader .description {
   font-size: 0.9rem;
   flex: 100%;
+  padding-left: clamp(0.5rem, 2vw, 1.5rem);
+}
+.summaryHeader h4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: clamp(0.5rem, 2vw, 1.5rem);
 }
 .weatherDetails {
   display: flex;
-  align-items: top;
+  align-items: center;
   gap: 1.5rem;
   margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
 }
@@ -339,10 +349,24 @@ details summary:hover {
   gap: 0 0.5rem;
   margin-bottom: 1rem;
 }
+.icon {
+  width: 2.5rem;
+  height: 100%;
+  margin: 0 clamp(0.5rem, 2vw, 1.5rem) 0 0;
+}
 
 @media screen and (max-width: 768px) {
   nav {
     gap: 1px;
+  }
+  nav button {
+    border-radius: 0;
+  }
+  nav button:nth-of-type(1) {
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+  nav button:nth-of-type(4) {
+    border-radius: 0 0.25rem 0.25rem 0;
   }
   nav button:nth-of-type(1)::before {
     content: 'Current';
@@ -361,20 +385,28 @@ details summary:hover {
     min-width: 18rem;
     max-width: none;
   }
+  .icon {
+    width: 2rem;
+  }
 }
 @media screen and (max-width: 425px) {
   nav {
     background: rgba(var(--greyblue-rgb), 0.5);
-    margin: 0 0 2rem 0;
+    margin: 0.5rem 0 2rem 0;
+    padding: 0;
   }
-  nav button {
-    padding: 0.5rem 0.2rem;
+  nav button:nth-of-type(1),
+  nav button:nth-of-type(4) {
+    border-radius: 0;
   }
   header,
   .airQuality,
   .alertDisplay,
   .dayOutput {
     padding: 1rem 0.5rem;
+  }
+  .icon {
+    width: 1.6rem;
   }
 }
 </style>

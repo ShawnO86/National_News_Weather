@@ -1,10 +1,14 @@
 <template>
   <details>
     <summary>
+      <change-weather-icon :desc="props.weatherItem.shortDesc" :time="props.weatherItem.isDaytime"></change-weather-icon>
       <div class="summaryHeader">
-        <h4>{{ props.weatherItem.name }} - {{ props.weatherItem.temp }}</h4>
+        <h4>
+          {{ props.weatherItem.name }} -- {{ props.weatherItem.temp }}
+        </h4>
         <p class="description">{{ props.weatherItem.shortDesc }}</p>
       </div>
+      <font-awesome-icon :icon="['fas', 'caret-right']" class="summaryIcon" />
     </summary>
     <div class="weatherDetails">
       <img v-if="weatherIconUrl" :src="weatherIconUrl" class="weatherIcon" />
@@ -18,8 +22,13 @@
     <div class="weatherDesc">
       <p v-if="!props.weatherItem.isDaytime">Dew Point -- {{ props.weatherItem.dewpoint }}</p>
       <p v-else>
-        <span v-if="props.weatherItem.astro">Sunrise -- {{ convertUtcToLocal(props.weatherItem.astro.sunrise) }}</span> /
-        <span v-if="props.weatherItem.astro">Sunset -- {{ convertUtcToLocal(props.weatherItem.astro.sunset) }}</span>
+        <span v-if="props.weatherItem.astro"
+          >Sunrise -- {{ convertUtcToLocal(props.weatherItem.astro.sunrise) }}</span
+        >
+        /
+        <span v-if="props.weatherItem.astro"
+          >Sunset -- {{ convertUtcToLocal(props.weatherItem.astro.sunset) }}</span
+        >
       </p>
       <p>{{ props.weatherItem.detailDesc }}</p>
     </div>
@@ -28,12 +37,13 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import changeWeatherIcon from './changeWeatherIcon.vue';
 
 const props = defineProps(['weatherItem']);
 const weatherIconUrl = ref(null);
 
 onMounted(async () => {
-    weatherIconUrl.value = props.weatherItem.icon;
+  weatherIconUrl.value = props.weatherItem.icon;
 });
 
 function convertUtcToLocal(utcTime) {

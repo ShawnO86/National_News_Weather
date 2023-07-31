@@ -6,7 +6,7 @@
         <h2>{{ props.selectedHour.temp }}</h2>
       </div>
       <div class="weather_head_right">
-        <p><span class="weather_detail">Rain Chance --</span> {{ props.selectedHour.precip }}</p>
+        <p><span class="weather_detail">Rain Chance -- </span> {{ props.selectedHour.precip }}</p>
         <p><span class="weather_detail">Humidity --</span> {{ props.selectedHour.humidity }}</p>
         <p>
           <span class="weather_detail">Wind --</span> {{ props.selectedHour.windSpeed }}
@@ -90,7 +90,6 @@ const aqiColorMap = computed(() => ({
 .weatherBox_head {
   display: flex;
   align-items: center;
-  background-size: cover;
   background-blend-mode: overlay;
   background: rgba(var(--bg-rgb), 0.75);
   padding: clamp(2rem, 5vw, 5rem) 0;
