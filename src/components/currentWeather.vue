@@ -91,7 +91,7 @@ const aqiColorMap = computed(() => ({
   display: flex;
   align-items: center;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.25);
+  background: rgba(var(--bg-rgb), 0.5);
   padding: clamp(2rem, 5vw, 5rem) 0;
   margin: 0 clamp(1rem, 4vw, 4rem);
   border-radius: 0.5rem;
@@ -104,7 +104,7 @@ const aqiColorMap = computed(() => ({
   justify-content: space-between;
   width: 100%;
   height: fit-content;
-  background: rgba(var(--greyblue-rgb), 0.5);
+  background: rgba(var(--greyblue-rgb), 0.65);
   color: var(--text-hex);
   margin: 0rem clamp(1rem, 4vw, 4rem);
   padding: 2rem clamp(0.5rem, 2vw, 1.5rem);
@@ -126,7 +126,10 @@ const aqiColorMap = computed(() => ({
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: flex-end;
+  align-items: center;
+  background: rgba(var(--bg-rgb), 0.65);
+  padding: clamp(0.5rem, 2vw, 1.5rem);
+  border-radius: 0.25rem;
 }
 .weather_detail {
   font-weight: 400;

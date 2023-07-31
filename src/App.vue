@@ -126,12 +126,12 @@ async function getData(url = '') {
     locationMsg.value = 'Error getting weather data. Please try again later.';
   }
 }
-async function getWeather(/* location */) {
+async function getWeather(location) {
   locationMsg.value = 'Getting weather data...';
-  /*   const fetchWeather = await getData(
+    const fetchWeather = await getData(
     `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
-  ); */
-  const fetchWeather = await getData(`http://localhost:8081/weather/test`);
+  );
+/*   const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
   const dates = Object.keys(hourlyWeatherData.value);
@@ -322,18 +322,22 @@ details summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--greyblue-hex);
+  background: rgba(var(--greyblue-rgb), 1);
   cursor: pointer;
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
   color: var(--text-hex);
+  transition: background 0.2s;
 }
 details summary .summaryIcon {
   transition: transform 0.2s;
 }
 details[open] summary .summaryIcon {
   transform: rotate(90deg) translateX(0.5rem);
+}
+details[open] summary:hover, details summary:hover {
+  background: rgba(var(--greyblue-rgb), 0.75);
 }
 .summaryHeader {
   display: flex;
@@ -376,11 +380,11 @@ details[open] summary .summaryIcon {
 }
 .weatherDetails_line {
   flex: 2;
-  border-bottom: 1px dashed rgba(var(--greyblue-rgb), 0.65);
+  border-bottom: 2px dashed rgba(var(--greyblue-rgb), 0.65);
   margin: 0 1rem;
 }
 .weatherDesc {
-  margin: 1.5rem clamp(1rem, 2vw, 3rem);
+  margin: 1.5rem clamp(1rem, 50%, 3rem);
 }
 .weatherDesc p {
   display: flex;
