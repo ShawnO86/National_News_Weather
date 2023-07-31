@@ -8,6 +8,8 @@ Weather information for the entered location includes temperature, humidity, win
 
 The app is designed to be responsive, adapting to different screen sizes and devices.
 
+## Technologies Used
+
 Node.js: Server-side scripting.
 
 Express.js: Web framework for Node.js, is used to handle routing and middleware integration.
