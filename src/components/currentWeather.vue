@@ -14,9 +14,9 @@
         </p>
         <div v-for="(item, index) in props.currentAir" :key="index">
           <p>
-            <span class="weather_detail">{{ item.type }} -- </span>
+            <span class="weather_detail">{{ item.type }} -- {{ item.value }} -- </span>
             <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
-              {{ item.value }} - {{ item.categoryDesc }}
+              {{ item.categoryDesc }}
               <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
             </span>
           </p>
@@ -56,7 +56,7 @@ function changeBackgroundImage() {
   const matchingWeatherType = weatherTypes.find((item) =>
     item.type.some((type) => weatherType.value.includes(type))
   );
- return `src/assets/${matchingWeatherType.image}`;
+  return `src/assets/${matchingWeatherType.image}`;
 }
 const aqiColorMap = computed(() => ({
   Good: {
@@ -91,7 +91,7 @@ const aqiColorMap = computed(() => ({
   display: flex;
   align-items: center;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.75);
+  background: rgba(var(--bg-rgb), 0.25);
   padding: clamp(2rem, 5vw, 5rem) 0;
   margin: 0 clamp(1rem, 4vw, 4rem);
   border-radius: 0.5rem;
@@ -131,7 +131,7 @@ const aqiColorMap = computed(() => ({
 }
 .aqiDesc {
   position: relative;
-  border-bottom: 1px dotted #fff;
+  border-bottom: 1px dotted var(--text-hex);
   cursor: pointer;
 }
 .aqiToolTip {
@@ -142,10 +142,10 @@ const aqiColorMap = computed(() => ({
   z-index: 1;
   left: -6rem;
   bottom: 1rem;
-  color: #fff;
-  font-weight: 300;
+  color: var(--text-hex);
+  font-weight: 400;
   line-height: 1.5;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
   opacity: 0;
   transition: opacity 0.2s;
 }

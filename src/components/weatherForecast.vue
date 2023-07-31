@@ -6,19 +6,39 @@
       7 day temp, humidity, and precipitation graphs
     </div>
     <div v-for="(item, index) in props.weatherForecast" :key="index" class="dayOutput">
-      <h3>{{ item[0].date }}</h3>
+      <h3>{{ index }}</h3>
 
       <div v-for="(day, dayIndex) in item" :key="dayIndex" class="hourOutput">
-        <daily-weather-item :weatherItem="day" v-if="dailyWeatherOpen"></daily-weather-item>
-        <hourly-weather-item :weatherItem="day" v-else-if="hourlyWeatherOpen"></hourly-weather-item>
+        <weather-item
+          :weatherItem="day"
+          :firstOpen="index === isFirst(props.weatherForecast)"
+          :dailyWeatherOpen="dailyWeatherOpen"
+          v-if="dailyWeatherOpen"
+        ></weather-item>
+        <weather-item
+          :weatherItem="day"
+          :firstOpen="index === isFirst(props.weatherForecast) && (dayIndex == 0 || dayIndex == 1)"
+          :dailyWeatherOpen="dailyWeatherOpen"
+          v-else
+        ></weather-item>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import dailyWeatherItem from './dailyWeatherItem.vue';
-import hourlyWeatherItem from './hourlyWeatherItem.vue';
+import weatherItem from './weatherItem.vue';
+import { onMounted } from 'vue';
 
 const props = defineProps(['weatherForecast', 'dailyWeatherOpen', 'hourlyWeatherOpen']);
+
+
+onMounted(() => {
+  console.log(Object.keys(props.weatherForecast))
+})
+
+function isFirst(forecast) {
+  const firstDate = Object.keys(forecast)
+  return firstDate[0]
+}
 </script>

@@ -13,7 +13,7 @@ export const getGeoData = async (city, lat, long) => {
     //city can be "city,state" or zip
     let geoData = '';
     if (city !== 'no') {
-        geoData = await fetch(`http://api.geonames.org/searchJSON?q=${city}&username=${geoKey}`);
+        geoData = await fetch(`http://api.geonames.org/searchJSON?q=${city}&radius=10&maxRows=1&country=US&username=${geoKey}`);
         try {
             const data = await geoData.json();
             //filtering for only United States zipcode data
@@ -31,7 +31,7 @@ export const getGeoData = async (city, lat, long) => {
         }
     }
     else if (lat !== 'no' && long !== 'no') {
-        geoData = await fetch(`http://api.geonames.org/findNearbyPostalCodesJSON?lat=${lat}&lng=${long}&maxRows=1&username=${geoKey}`);
+        geoData = await fetch(`http://api.geonames.org/findNearbyPostalCodesJSON?lat=${lat}&lng=${long}&radius=10&maxRows=1&country=US&username=${geoKey}`);
         try {
             const data = await geoData.json();
             //console.log(data)

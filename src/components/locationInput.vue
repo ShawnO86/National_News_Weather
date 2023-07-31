@@ -1,16 +1,15 @@
 <template>
   <form @submit.prevent="sendInput">
-    <sub v-if="!locationError">{{ locationError }}</sub>
-    <sub v-else-if="locationError">{{ locationError }}</sub>
     <label for="locationInput">Location Search:</label>
     <input
       type="text"
       name="locationInput"
       id="locationInput"
       v-model="locationInput"
-      placeholder='"City, State" or Zipcode'
+      :placeholder="locationError ? locationError : '(City, State) or Zipcode'"
     />
     <button>Get Weather</button>
+
   </form>
 </template>
 
@@ -35,6 +34,7 @@ function sendInput() {
 
 <style scoped>
 form {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -78,5 +78,10 @@ button:hover {
 input::placeholder {
   padding-left: 0.6rem;
   color: rgba(255, 255, 255, 0.75);
+}
+.locationError {
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
 }
 </style>

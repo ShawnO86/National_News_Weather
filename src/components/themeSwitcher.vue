@@ -1,13 +1,8 @@
 <template>
-  <div class="themeSwitcher">
-    <p>
-      Theme:
-      <span>
-        <font-awesome-icon
-          @click="changeTheme"
-          :icon="lightTheme ? ['fas', 'sun'] : ['fas', 'moon']"
-          class="themeIcon"
-        />
+  <div>
+    <p>Theme:
+      <span @click="changeTheme" class="themeIcon">
+        <font-awesome-icon :icon="lightTheme ? ['fas', 'sun'] : ['fas', 'moon']" />
       </span>
     </p>
   </div>
@@ -15,12 +10,50 @@
 
 <script setup>
 import { ref } from 'vue';
-const lightTheme = ref(true);
+const emit = defineEmits(['colors']);
+const lightTheme = ref(false);
 
 function changeTheme() {
-    lightTheme.value = !lightTheme.value;
+  lightTheme.value = !lightTheme.value;
+  if(!lightTheme.value) {
+    emit('colors', {
+    bgHex: '#273745',
+    bgRGB: '39, 55, 69',
+    secondaryHex: '#7cafde',
+    secondaryRGB: '124, 175, 222',
+    greyBlueHex: '#51585e',
+    greyBlueRGB: '81, 88, 94',
+    textHex: '#fff',
+    textRGB: '255, 255, 255'
+  });
+} else {
+  emit('colors', {
+    bgHex: '#D5EEFF',
+    bgRGB: '213, 238, 255',
+    secondaryHex: '#597C9E',
+    secondaryRGB: '89, 124, 158',
+    greyBlueHex: '#93A0AB',
+    greyBlueRGB: '147, 160, 171',
+    textHex: '#000',
+    textRGB: '0, 0, 0'
+  });
 }
+  }
+
 </script>
 
 <style scoped>
+p {
+  cursor: pointer;
+}
+.themeIcon {
+  border-radius: 20%;
+  padding: 0.5rem;
+  background: var(--greyblue-hex);
+  color: #fff;
+  transition: background 0.2s;
+}
+.themeIcon:hover {
+  background: rgba(var(--secondary-rgb), 0.5);
+}
 </style>

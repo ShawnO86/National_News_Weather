@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="themeSwitcher">
-      <theme-switcher></theme-switcher>
+      <theme-switcher @colors="changeTheme"></theme-switcher>
     </div>
     <div class="search">
       <location-input @location="getWeather" />
@@ -123,11 +123,12 @@ async function getData(url = '') {
     locationMsg.value = 'Error getting weather data. Please try again later.';
   }
 }
-async function getWeather(location) {
+async function getWeather(/* location */) {
   locationMsg.value = 'Getting weather data...';
-  const fetchWeather = await getData(
-    `http://localhost:8081/weather/${location[0]}/${location[1]}/${location[2]}`
-  );
+  /*   const fetchWeather = await getData(
+    `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
+  ); */
+  const fetchWeather = await getData(`http://localhost:8081/weather/test`);
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
   const dates = Object.keys(hourlyWeatherData.value);
@@ -138,18 +139,32 @@ async function getWeather(location) {
     currentAir: fetchWeather.weatherData.airQualityCurrent,
     location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
   };
+  console.log('daily: ', dailyWeatherData.value);
+  console.log('hourly:', hourlyWeatherData.value);
   locationMsg.value = '';
+}
+function changeTheme(color) {
+  document.documentElement.style.setProperty('--bg-hex', color.bgHex);
+  document.documentElement.style.setProperty('--bg-rgb', color.bgRGB);
+  document.documentElement.style.setProperty('--secondary-hex', color.secondaryHex);
+  document.documentElement.style.setProperty('--secondary-rgb', color.secondaryRGB);
+  document.documentElement.style.setProperty('--greyblue-hex', color.greyBlueHex);
+  document.documentElement.style.setProperty('--greyblue-rgb', color.greyBlueRGB);
+  document.documentElement.style.setProperty('--text-hex', color.textHex);
+  document.documentElement.style.setProperty('--text-rgb', color.textRGB);
 }
 </script>
 
 <style>
 :root {
-  --bg-hex: #273746;
-  --bg-rgb: 81, 88, 94;
-  --secondary-hex: #7cafde;
+  --bg-hex: #273745;
+  --bg-rgb: 39, 55, 69;
+  --secondary-hex: #7cb0de;
   --secondary-rgb: 124, 175, 222;
-  --greyblue-hex: #51585e;
-  --greyblue-rgb: 39, 55, 70;
+  --greyblue-hex: #5c6266;
+  --greyblue-rgb: 81, 88, 94;
+  --text-hex: #fff;
+  --text-rgb: 255, 255, 255;
 }
 *,
 *::before,
@@ -171,7 +186,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   background: var(--bg-hex);
-  color: #fff;
+  color: var(--text-hex);
 }
 /* scrollbar styles */
 body::-webkit-scrollbar {
@@ -190,8 +205,12 @@ body::-webkit-scrollbar-thumb {
   max-width: 90rem;
 }
 header {
-  background: rgba(var(--greyblue-rgb), 0.5);
+  background: rgb(var(--bg-rgb));
   padding: 2rem clamp(1rem, 4vw, 4rem);
+}
+.themeSwitcher {
+  text-align: right;
+  z-index: 2;
 }
 nav {
   display: flex;
@@ -199,7 +218,7 @@ nav {
   gap: clamp(0.25rem, 1vw, 1rem);
   position: sticky;
   top: 0;
-  background: rgb(var(--greyblue-rgb));
+  background: rgb(var(--bg-rgb));
   margin: 0 clamp(1rem, 4vw, 4rem) 1.5rem clamp(1rem, 4vw, 4rem);
   padding: 0.5rem 0;
   z-index: 2;
@@ -211,16 +230,11 @@ nav button {
   border: none;
   border-top: 1px solid rgba(var(--secondary-rgb), 0.5);
   border-bottom: 1px solid rgba(var(--secondary-rgb), 0.5);
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.15);
   font-weight: 600;
   padding: clamp(0.3rem, 1vw, 0.65rem) 0.25rem;
-  transition: background 0.4s, border 0.2s;
+  transition: background 0.4s;
   border-radius: 0.25rem;
-}
-nav button:hover {
-  border-top: 1px solid rgba(var(--secondary-rgb), 1);
-  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
-  color: #fff;
 }
 nav button:nth-of-type(1)::before {
   content: 'Current Weather';
@@ -235,13 +249,18 @@ nav button:nth-of-type(4)::before {
   content: 'Radar Maps';
 }
 .toggle {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(var(--text-rgb), 0.75);
+}
+nav button:hover {
+  border-top: 2px solid rgba(var(--secondary-rgb), 1);
+  border-bottom: 2px solid rgba(var(--secondary-rgb), 1);
+  color: rgba(var(--text-rgb), 1);
 }
 .active {
-  border-top: 1px solid rgba(var(--secondary-rgb), 1);
-  border-bottom: 1px solid rgba(var(--secondary-rgb), 1);
+  border-top: 2px solid rgba(var(--secondary-rgb), 1);
+  border-bottom: 2px solid rgba(var(--secondary-rgb), 1);
   background: rgba(var(--secondary-rgb), 0.25);
-  color: #fff;
+  color: rgba(var(--text-rgb), 1);
 }
 .currentWeather {
   display: flex;
@@ -271,28 +290,27 @@ nav button:nth-of-type(4)::before {
   font-size: larger;
 }
 .hourOutput {
-  flex: 30%;
+  flex: 40%;
   min-width: 20rem;
 }
 .weatherIcon {
-  width: 5.5rem;
-  height: 5.5rem;
   border-radius: 0.25rem;
 }
 details {
   background: rgba(var(--secondary-rgb), 0.25);
   border-radius: 0.25rem;
-  padding-bottom: 0.5rem;
+  padding: 0.5rem;
   transition: padding 0.2s, margin-bottom 0.2s;
   margin-bottom: 0;
 }
 details:hover {
-  margin-bottom: -0.25rem;
-  padding-bottom: 0.75rem;
+  margin-bottom: -0.5rem;
+  padding-bottom: 1rem;
 }
 details[open]:hover {
-  margin-bottom: 0.25rem;
-  padding-bottom: 0.25rem;
+  margin-bottom: 0;
+  padding: 0.5rem;
+  transition: none;
 }
 details summary {
   display: flex;
@@ -303,18 +321,12 @@ details summary {
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
-  border-bottom: 2px solid rgba(var(--greyblue-rgb), 0.35);
-  transition: border 0.2s;
-}
-details[open] summary,
-details summary:hover {
-  border-bottom: 2px solid rgba(var(--secondary-rgb), 0.65);
 }
 details summary .summaryIcon {
   transition: transform 0.2s;
 }
 details[open] summary .summaryIcon {
-  transform: rotate(90deg);
+  transform: rotate(90deg) translateX(0.5rem);
 }
 .summaryHeader {
   display: flex;
@@ -322,12 +334,15 @@ details[open] summary .summaryIcon {
   align-items: center;
   gap: 0.5rem;
   flex: 2;
-  border-left: 1px solid rgba(var(--secondary-rgb), 0.5);
 }
 .summaryHeader .description {
   font-size: 0.9rem;
   flex: 100%;
   padding-left: clamp(0.5rem, 2vw, 1.5rem);
+}
+.summaryHeader .description span {
+  font-size: 1rem;
+  font-weight: 500;
 }
 .summaryHeader h4 {
   display: flex;
@@ -339,13 +354,26 @@ details[open] summary .summaryIcon {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  margin: 1rem clamp(0.5rem, 2vw, 1.5rem);
+  margin: 1rem clamp(1rem, 50%, 3rem);
 }
 .weatherDetails ul {
   list-style: none;
+  width: 100%;
+  margin: auto;
+}
+.weatherDetails ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.weatherDetails_line {
+  flex: 2;
+  border-bottom: 1px dashed rgba(var(--greyblue-rgb), 0.65);
+  margin: 0 1rem;
 }
 .weatherDesc {
-  padding: 1rem clamp(0.5rem, 2vw, 1.5rem);
+  margin: 1.5rem clamp(1rem, 2vw, 3rem);
 }
 .weatherDesc p {
   display: flex;
@@ -384,6 +412,19 @@ details[open] summary .summaryIcon {
   nav button:nth-of-type(4)::before {
     content: 'Radar';
   }
+  details {
+    background: rgba(var(--secondary-rgb), 0.25);
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    margin-bottom: 0;
+    transition: none;
+  }
+  details:hover,
+  details[open]:hover {
+    margin-bottom: 0;
+    padding: 0.25rem;
+  }
+
   .hourOutput {
     flex: 100%;
     min-width: 18rem;
@@ -411,6 +452,12 @@ details[open] summary .summaryIcon {
   }
   .icon {
     width: 1.6rem;
+  }
+  .weatherDetails {
+    margin: 0.75rem;
+  }
+  .weatherDesc {
+    margin: 1rem 0.75rem;
   }
 }
 </style>
