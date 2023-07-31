@@ -30,10 +30,10 @@ function changeTheme() {
   emit('colors', {
     bgHex: '#D5EEFF',
     bgRGB: '213, 238, 255',
-    secondaryHex: '#597C9E',
-    secondaryRGB: '89, 124, 158',
-    greyBlueHex: '#93A0AB',
-    greyBlueRGB: '147, 160, 171',
+    secondaryHex: '#8AD0FF',
+    secondaryRGB: '138, 208, 255',
+    greyBlueHex: '#546E80',
+    greyBlueRGB: '84, 110, 128',
     textHex: '#000',
     textRGB: '0, 0, 0'
   });

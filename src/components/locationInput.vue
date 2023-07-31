@@ -54,7 +54,7 @@ input,
 button {
   border-radius: 0.25rem;
   padding: 0.6rem 0.25rem;
-  color: var(--text-hex);
+  color: #fff;
 }
 input {
   flex: 4;
@@ -72,12 +72,12 @@ button {
   transition: background 0.2s, border 0.2s;
 }
 button:hover {
-  border: 1px solid #fff;
+  border: 1px solid var(--greyblue-hex);
   background: rgba(var(--secondary-rgb), 0.5);
 }
 input::placeholder {
   padding-left: 0.6rem;
-  color: rgba(var(--text-rgb), 0.75);
+  color: rgba(255,255,255, 0.75);
 }
 .locationError {
   position: absolute;

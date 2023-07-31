@@ -298,6 +298,7 @@ nav button:hover {
 }
 details {
   background: rgba(var(--secondary-rgb), 0.25);
+  border: 1px solid var(--greyblue-hex);
   border-radius: 0.25rem;
   padding: 0.5rem;
   transition: padding 0.2s, margin-bottom 0.2s;
@@ -321,6 +322,7 @@ details summary {
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
+  color: #fff;
 }
 details summary .summaryIcon {
   transition: transform 0.2s;
