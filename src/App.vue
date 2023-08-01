@@ -9,7 +9,7 @@
     <div v-if="locationMsg">
       <h1>{{ locationMsg }}</h1>
     </div>
-    <h1 v-if="currentWeatherData">{{ currentWeatherData.location }}</h1>
+    <h1 v-if="location">{{ location }}</h1>
   </header>
   <nav v-if="dailyWeatherData">
     <button
@@ -30,18 +30,18 @@
       class="toggle"
       aria-label="Hourly Forecast"
     ></button>
-    <button @click="toggleRadarOpen" :class="radarOpen ? 'active' : ''" class="toggle" aria-label="Radar Maps"></button>
+    <button
+      @click="toggleRadarOpen"
+      :class="radarOpen ? 'active' : ''"
+      class="toggle"
+      aria-label="Radar Maps"
+    ></button>
   </nav>
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
-      :selectedHour="currentWeatherData.current"
-      :currentAir="currentWeatherData.currentAir"
-      v-if="currentWeatherData.current"
+      :currentWeather="currentWeatherData"
+      v-if="currentWeatherData"
     ></current-weather>
-    <alert-display
-      v-if="currentWeatherData.alerts"
-      :alerts="currentWeatherData.alerts"
-    ></alert-display>
   </section>
   <section class="forecastWeather" v-if="hourlyWeatherOpen || dailyWeatherOpen || radarOpen">
     <weather-forecast
@@ -61,7 +61,6 @@
 <script setup>
 import locationInput from './components/locationInput.vue';
 import currentWeather from './components/currentWeather.vue';
-import alertDisplay from './components/alertDisplay.vue';
 import themeSwitcher from './components/themeSwitcher.vue';
 import { defineAsyncComponent, onMounted, ref } from 'vue';
 
@@ -69,6 +68,7 @@ const weatherForecast = defineAsyncComponent(() => import('./components/weatherF
 const radarDisplay = defineAsyncComponent(() => import('./components/radarDisplay.vue'));
 
 const locationMsg = ref('');
+const location = ref('');
 const currentWeatherData = ref('');
 const dailyWeatherData = ref('');
 const hourlyWeatherData = ref('');
@@ -126,22 +126,24 @@ async function getData(url = '') {
     locationMsg.value = 'Error getting weather data. Please try again later.';
   }
 }
-async function getWeather(location) {
+async function getWeather(/* location */) {
   locationMsg.value = 'Getting weather data...';
-    const fetchWeather = await getData(
+  /*     const fetchWeather = await getData(
     `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
-  );
-/*   const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
+  ); */
+  const fetchWeather = await getData(`http://localhost:8081/weather/test`);
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
+  location.value = `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`;
   const dates = Object.keys(hourlyWeatherData.value);
   currentWeatherData.value = {
     current: hourlyWeatherData.value[dates[0]][0],
     alerts:
       fetchWeather.weatherData.alerts.length >= 1 ? fetchWeather.weatherData.alerts : 'No alerts',
     currentAir: fetchWeather.weatherData.airQualityCurrent,
-    location: `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`
+    futureAir: fetchWeather.weatherData.airQualityForecast
   };
+  console.log('current', currentWeatherData.value)
   console.log('daily: ', dailyWeatherData.value);
   console.log('hourly:', hourlyWeatherData.value);
   locationMsg.value = '';
@@ -322,7 +324,7 @@ details summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(var(--greyblue-rgb), 1);
+  background: rgba(var(--greyblue-rgb), 0.75);
   cursor: pointer;
   min-height: 5rem;
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
@@ -336,8 +338,9 @@ details summary .summaryIcon {
 details[open] summary .summaryIcon {
   transform: rotate(90deg) translateX(0.5rem);
 }
-details[open] summary:hover, details summary:hover {
-  background: rgba(var(--greyblue-rgb), 0.75);
+details[open] summary:hover,
+details summary:hover {
+  background: rgba(var(--greyblue-rgb), 1);
 }
 .summaryHeader {
   display: flex;

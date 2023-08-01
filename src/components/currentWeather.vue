@@ -2,35 +2,59 @@
   <div class="weatherBox_head" :style="{ backgroundImage: 'url(' + bgImage + ')' }">
     <div class="weather_head_data">
       <div class="weather_head_left">
-        <p>{{ props.selectedHour.shortDesc }}</p>
-        <h2>{{ props.selectedHour.temp }}</h2>
+        <p>{{ props.currentWeather.current.shortDesc }}</p>
+        <h2>{{ props.currentWeather.current.temp }}</h2>
       </div>
       <div class="weather_head_right">
-        <p><span class="weather_detail">Rain Chance -- </span> {{ props.selectedHour.precip }}</p>
-        <p><span class="weather_detail">Humidity --</span> {{ props.selectedHour.humidity }}</p>
         <p>
-          <span class="weather_detail">Wind --</span> {{ props.selectedHour.windSpeed }}
-          {{ props.selectedHour.windDirection }}
+          <span class="weather_detail">Rain Chance -- </span>
+          {{ props.currentWeather.current.precip }}
         </p>
-        <div v-for="(item, index) in props.currentAir" :key="index">
-          <p>
-            <span class="weather_detail">{{ item.type }} -- {{ item.value }} -- </span>
-            <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
-              {{ item.categoryDesc }}
-              <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
-            </span>
-          </p>
+        <p>
+          <span class="weather_detail">Humidity --</span>
+          {{ props.currentWeather.current.humidity }}
+        </p>
+        <p>
+          <span class="weather_detail">Wind --</span> {{ props.currentWeather.current.windSpeed }}
+          {{ props.currentWeather.windDirection }}
+        </p>
+        <div v-if="props.currentWeather.currentAir.length != 0">
+          <div v-for="(item, index) in props.currentWeather.currentAir" :key="index">
+            <p>
+              <span class="weather_detail">{{ item.type }} -- {{ item.value }} -- </span>
+              <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
+                {{ item.categoryDesc }}
+                <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span> </span
+              >hello currentair
+            </p>
+          </div>
+        </div>
+        <div v-else-if="props.currentWeather.futureAir.length != 0">
+          <div v-for="(item, index) in props.currentWeather.futureAir" :key="index">
+            <p v-if="index == 0 || index == 1">
+              <span class="weather_detail">{{ item.type }} -- </span>
+              <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
+                {{ item.categoryDesc }}
+                <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <alert-display
+    v-if="props.currentWeather.alerts"
+    :alerts="props.currentWeather.alerts"
+  ></alert-display>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import alertDisplay from './alertDisplay.vue';
 
-const props = defineProps(['selectedHour', 'currentAir']);
-let weatherType = computed(() => props.selectedHour.shortDesc);
+const props = defineProps(['currentWeather']);
+let weatherType = computed(() => props.currentWeather.current.shortDesc);
 const bgImage = computed(changeBackgroundImage);
 
 //optimize images after crop to .webp and maybe lower res
@@ -112,7 +136,7 @@ const aqiColorMap = computed(() => ({
   border-radius: 0.25rem;
   line-height: 2.5;
   gap: 2rem;
-  box-shadow: 3px 3px 6px -3px var(--secondary-hex),-3px -3px 6px -3px var(--secondary-hex);
+  box-shadow: 3px 3px 6px -3px var(--secondary-hex), -3px -3px 6px -3px var(--secondary-hex);
 }
 .weather_head_left {
   display: flex;
