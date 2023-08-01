@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faCaretRight, faSun, faMoon} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCaretRight, faSun, faMoon);
+
 const app = createApp(App);
+
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');

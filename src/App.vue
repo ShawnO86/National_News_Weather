@@ -160,7 +160,7 @@ function changeTheme(color) {
 
 <style>
 :root {
-  --bg-hex: #D5EEFF;
+  --bg-hex: #273745;
   --bg-rgb: 39, 55, 69;
   --secondary-hex: #7cb0de;
   --secondary-rgb: 124, 175, 222;

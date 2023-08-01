@@ -11,7 +11,7 @@
       </div>
     </details>
   </div>
-  <div class="alertDisplay"><h3>No alerts for this area</h3></div>
+  <div class="alertDisplay" v-else><h3>No alerts for this area</h3></div>
 </template>
 
 <script setup>

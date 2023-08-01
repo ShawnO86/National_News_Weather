@@ -79,9 +79,4 @@ input::placeholder {
   padding-left: 0.6rem;
   color: rgba(var(--text-rgb), 0.75);
 }
-.locationError {
-  position: absolute;
-  top: 1.5rem;
-  right: 0;
-}
 </style>

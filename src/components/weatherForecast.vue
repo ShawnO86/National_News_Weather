@@ -28,14 +28,8 @@
 
 <script setup>
 import weatherItem from './weatherItem.vue';
-import { onMounted } from 'vue';
 
 const props = defineProps(['weatherForecast', 'dailyWeatherOpen', 'hourlyWeatherOpen']);
-
-
-onMounted(() => {
-  console.log(Object.keys(props.weatherForecast))
-})
 
 function isFirst(forecast) {
   const firstDate = Object.keys(forecast)
