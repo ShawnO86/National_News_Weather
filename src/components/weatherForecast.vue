@@ -3,11 +3,12 @@
     <div class="forecast_graphs">
       <h2 v-if="dailyWeatherOpen">Daily Forecast</h2>
       <h2 v-else-if="hourlyWeatherOpen">Hourly Forecast</h2>
-      <p>
-        <span v-if="dailyWeatherOpen">7-Day</span>
-        <span v-else-if="hourlyWeatherOpen">Hourly</span> temp, humidity, and precipitation graphs
-      </p>
-      <forecast-chart :weatherData="weatherForecast" :dailyWeatherOpen="dailyWeatherOpen" :hourlyWeatherOpen="hourlyWeatherOpen"></forecast-chart>
+      <forecast-chart
+        :weatherData="weatherForecast"
+        :dailyWeatherOpen="dailyWeatherOpen"
+        :hourlyWeatherOpen="hourlyWeatherOpen"
+        :theme="themeName"
+      ></forecast-chart>
     </div>
     <div v-for="(item, index) in props.weatherForecast" :key="index" class="dayOutput">
       <h3>{{ index }}</h3>
@@ -34,7 +35,7 @@
 import weatherItem from './weatherItem.vue';
 import forecastChart from './forecastChart.vue';
 
-const props = defineProps(['weatherForecast', 'dailyWeatherOpen', 'hourlyWeatherOpen']);
+const props = defineProps(['weatherForecast', 'dailyWeatherOpen', 'hourlyWeatherOpen', 'themeName']);
 
 function isFirst(forecast) {
   const firstDate = Object.keys(forecast);

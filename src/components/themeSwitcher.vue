@@ -19,7 +19,7 @@
 
 <script setup>
 import { ref } from 'vue';
-const emit = defineEmits(['colors']);
+const emit = defineEmits(['colors', 'theme']);
 const lightTheme = ref(false);
 const themeName = ref('Dark');
 
@@ -27,6 +27,7 @@ function changeTheme() {
   lightTheme.value = !lightTheme.value;
   if (!lightTheme.value) {
     themeName.value = 'Dark';
+    emit('theme', themeName.value);
     emit('colors', {
       bgHex: '#273745',
       bgRGB: '39, 55, 69',
@@ -39,6 +40,7 @@ function changeTheme() {
     });
   } else {
     themeName.value = 'Light';
+    emit('theme', themeName.value);
     emit('colors', {
       bgHex: '#D6EEFF',
       bgRGB: '214, 238, 255',

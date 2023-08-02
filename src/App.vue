@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="themeSwitcher">
-      <theme-switcher @colors="changeTheme"></theme-switcher>
+      <theme-switcher @colors="changeThemeColors" @theme="changeThemeName"></theme-switcher>
     </div>
     <div class="search">
       <location-input @location="getWeather" />
@@ -42,11 +42,13 @@
       v-if="hourlyWeatherOpen"
       :weatherForecast="hourlyWeatherData"
       :hourlyWeatherOpen="hourlyWeatherOpen"
+      :themeName = "currentTheme"
     ></weather-forecast>
     <weather-forecast
       v-else-if="dailyWeatherOpen"
       :weatherForecast="dailyWeatherData"
       :dailyWeatherOpen="dailyWeatherOpen"
+      :themeName = "currentTheme"
     ></weather-forecast>
   </section>
 </template>
@@ -64,6 +66,7 @@ const location = ref('');
 const currentWeatherData = ref('');
 const dailyWeatherData = ref('');
 const hourlyWeatherData = ref('');
+const currentTheme = ref('');
 
 //for toggle of displayed weather data
 const currentWeatherOpen = ref(true);
@@ -125,12 +128,12 @@ async function getWeather(/* location */) {
     currentAir: fetchWeather.weatherData.airQualityCurrent,
     futureAir: fetchWeather.weatherData.airQualityForecast
   };
-  console.log('current', currentWeatherData.value)
+  console.log('current', currentWeatherData.value);
   console.log('daily: ', dailyWeatherData.value);
   console.log('hourly:', hourlyWeatherData.value);
   locationMsg.value = '';
 }
-function changeTheme(color) {
+function changeThemeColors(color) {
   document.documentElement.style.setProperty('--bg-hex', color.bgHex);
   document.documentElement.style.setProperty('--bg-rgb', color.bgRGB);
   document.documentElement.style.setProperty('--secondary-hex', color.secondaryHex);
@@ -139,6 +142,9 @@ function changeTheme(color) {
   document.documentElement.style.setProperty('--greyblue-rgb', color.greyBlueRGB);
   document.documentElement.style.setProperty('--text-hex', color.textHex);
   document.documentElement.style.setProperty('--text-rgb', color.textRGB);
+}
+function changeThemeName(theme) {
+  currentTheme.value = theme;
 }
 </script>
 
@@ -176,13 +182,14 @@ body {
   color: var(--text-hex);
 }
 /* scrollbar styles */
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 0.65rem;
+  height: 0.65rem;
 }
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: var(--greyblue-hex);
 }
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: var(--secondary-hex);
   border-radius: 0.25rem;
 }
@@ -255,7 +262,6 @@ nav button:hover {
   padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
 }
 .forecast_graphs {
-
   padding: 0 clamp(1rem, 4vw, 4rem);
 }
 .dayOutput {
