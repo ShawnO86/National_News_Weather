@@ -96,11 +96,13 @@ const getLowestTemp = (tempsArr) => {
 };
 
 const changeTime = (timeOfDay) => {
-  myChart.destroy();
+  if(timeOfDay != time.value) {
+    myChart.destroy();
   time.value = timeOfDay;
   getDayWeatherTempArr(time.value);
   getWeatherLabelArr(time.value);
   createGraph();
+  } 
 };
 
 const createGraph = () => {
@@ -128,9 +130,6 @@ const createGraph = () => {
         legend: {
           display: false
         },
-        colors: {
-          forceOverride: true
-        }
       },
       maintainAspectRatio: false,
       elements: {
@@ -171,7 +170,16 @@ onMounted(() => {
 ul {
   list-style: none;
   display: flex;
-  justify-content: right;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: clamp(0.25rem, 1vw, 1rem);
+  background: rgba(0,0,0, 0.1);
+  padding: 0.5rem clamp(0.25rem, 1vw, 1rem);
+}
+li {
+  cursor: pointer;
+  text-decoration: underline;
+}
+li:hover {
+  color: var(--greyblue-hex);
 }
 </style>
