@@ -2,9 +2,9 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCaretRight, faSun, faMoon} from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faCaretRight, faSun, faMoon);
+library.add(faCaretRight);
 
 const app = createApp(App);
 

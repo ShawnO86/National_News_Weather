@@ -30,12 +30,6 @@
       class="toggle"
       aria-label="Hourly Forecast"
     ></button>
-    <button
-      @click="toggleRadarOpen"
-      :class="radarOpen ? 'active' : ''"
-      class="toggle"
-      aria-label="Radar Maps"
-    ></button>
   </nav>
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
@@ -43,7 +37,7 @@
       v-if="currentWeatherData"
     ></current-weather>
   </section>
-  <section class="forecastWeather" v-if="hourlyWeatherOpen || dailyWeatherOpen || radarOpen">
+  <section class="forecastWeather" v-if="hourlyWeatherOpen || dailyWeatherOpen">
     <weather-forecast
       v-if="hourlyWeatherOpen"
       :weatherForecast="hourlyWeatherData"
@@ -54,7 +48,6 @@
       :weatherForecast="dailyWeatherData"
       :dailyWeatherOpen="dailyWeatherOpen"
     ></weather-forecast>
-    <radar-display v-if="radarOpen"></radar-display>
   </section>
 </template>
 
@@ -65,7 +58,6 @@ import themeSwitcher from './components/themeSwitcher.vue';
 import { defineAsyncComponent, onMounted, ref } from 'vue';
 
 const weatherForecast = defineAsyncComponent(() => import('./components/weatherForecast.vue'));
-const radarDisplay = defineAsyncComponent(() => import('./components/radarDisplay.vue'));
 
 const locationMsg = ref('');
 const location = ref('');
@@ -77,33 +69,23 @@ const hourlyWeatherData = ref('');
 const currentWeatherOpen = ref(true);
 const hourlyWeatherOpen = ref(false);
 const dailyWeatherOpen = ref(false);
-const radarOpen = ref(false);
 function toggleCurrentWeatherOpen() {
   currentWeatherOpen.value = true;
   hourlyWeatherOpen.value = false;
   dailyWeatherOpen.value = false;
-  radarOpen.value = false;
 }
 function toggleHourlyWeatherOpen() {
   currentWeatherOpen.value = false;
   hourlyWeatherOpen.value = true;
   dailyWeatherOpen.value = false;
-  radarOpen.value = false;
 }
 function toggleDailyWeatherOpen() {
   currentWeatherOpen.value = false;
   dailyWeatherOpen.value = true;
   hourlyWeatherOpen.value = false;
-  radarOpen.value = false;
-}
-function toggleRadarOpen() {
-  radarOpen.value = true;
-  currentWeatherOpen.value = false;
-  dailyWeatherOpen.value = false;
-  hourlyWeatherOpen.value = false;
 }
 //functions for getting geoloction and sending to server onLoad
-onMounted(function getGeoLocation() {
+onMounted(() => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(sendGeoLocation, locationError);
   }
@@ -250,9 +232,6 @@ nav button:nth-of-type(2)::before {
 nav button:nth-of-type(3)::before {
   content: 'Hourly Forecast';
 }
-nav button:nth-of-type(4)::before {
-  content: 'Radar Maps';
-}
 .toggle {
   color: rgba(var(--text-rgb), 0.75);
 }
@@ -276,9 +255,7 @@ nav button:hover {
   padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
 }
 .forecast_graphs {
-  height: 40vh;
-  max-height: 30rem;
-  min-height: 20rem;
+
   padding: 0 clamp(1rem, 4vw, 4rem);
 }
 .dayOutput {
@@ -411,7 +388,7 @@ details summary:hover {
   nav button:nth-of-type(1) {
     border-radius: 0.25rem 0 0 0.25rem;
   }
-  nav button:nth-of-type(4) {
+  nav button:nth-of-type(3) {
     border-radius: 0 0.25rem 0.25rem 0;
   }
   nav button:nth-of-type(1)::before {
@@ -422,9 +399,6 @@ details summary:hover {
   }
   nav button:nth-of-type(3)::before {
     content: 'Hourly';
-  }
-  nav button:nth-of-type(4)::before {
-    content: 'Radar';
   }
   details {
     background: rgba(var(--secondary-rgb), 0.25);
@@ -455,7 +429,7 @@ details summary:hover {
     padding: 0;
   }
   nav button:nth-of-type(1),
-  nav button:nth-of-type(4) {
+  nav button:nth-of-type(3) {
     border-radius: 0;
   }
   header,
