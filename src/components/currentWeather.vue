@@ -21,11 +21,11 @@
         <div v-if="props.currentWeather.currentAir.length != 0">
           <div v-for="(item, index) in props.currentWeather.currentAir" :key="index">
             <p>
-              <span class="weather_detail">{{ item.type }} -- {{ item.value }} -- </span>
+              <span class="weather_detail">{{ item.type }}: {{ item.value }} -- </span>
               <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
                 {{ item.categoryDesc }}
                 <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span> </span
-              >hello currentair
+              >
             </p>
           </div>
         </div>

@@ -27,18 +27,6 @@ const weatherLabels = ref([]);
 let myChart;
 Chart.defaults.color = props.theme == 'Light' ? '#000' : '#fff';
 
-//change chart color if color theme changes
-watch(
-  () => props.theme,
-  (newTheme) => {
-    Chart.defaults.color = newTheme == 'Light' ? '#000' : '#fff';
-    myChart.destroy();
-    getDayWeatherTempArr(time.value);
-    getWeatherLabelArr(time.value);
-    createGraph();
-  }
-);
-
 const getDayWeatherTempArr = (type) => {
   weatherTemps.value = [];
   weatherArray.forEach((element) => {
@@ -92,23 +80,23 @@ const getLowestTemp = (tempsArr) => {
       lowestTemperature = temperature;
     }
   }
-  return lowestTemperature;
+  return lowestTemperature - 1;
 };
 
 const changeTime = (timeOfDay) => {
-  if(timeOfDay != time.value) {
+  if (timeOfDay != time.value) {
     myChart.destroy();
-  time.value = timeOfDay;
-  getDayWeatherTempArr(time.value);
-  getWeatherLabelArr(time.value);
-  createGraph();
-  } 
+    time.value = timeOfDay;
+    getDayWeatherTempArr(time.value);
+    getWeatherLabelArr(time.value);
+    createGraph();
+  }
 };
 
 const createGraph = () => {
   const ctx = document.getElementById('chart');
   myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: weatherLabels.value,
       datasets: [
@@ -123,24 +111,46 @@ const createGraph = () => {
       scales: {
         y: {
           beginAtZero: false,
-          min: getLowestTemp(weatherTemps.value) - 1
+          min: getLowestTemp(weatherTemps.value) 
         }
       },
       plugins: {
         legend: {
           display: false
-        },
+        }
       },
       maintainAspectRatio: false,
       elements: {
         bar: {
-            //find what to do
+          //find what to do
         }
       }
     }
   });
   myChart;
 };
+
+//change chart color if color theme changes
+watch(
+  () => props.theme,
+  (newTheme) => {
+    Chart.defaults.color = newTheme == 'Light' ? '#000' : '#fff';
+    myChart.destroy();
+    getDayWeatherTempArr(time.value);
+    getWeatherLabelArr(time.value);
+    createGraph();
+  }
+);
+
+watch(
+  () => props.weatherData,
+  () => {
+    myChart.destroy();
+    getDayWeatherTempArr(time.value);
+    getWeatherLabelArr(time.value);
+    createGraph();
+  }
+);
 
 onMounted(() => {
   getDayWeatherTempArr(time.value);
@@ -149,37 +159,3 @@ onMounted(() => {
   createGraph();
 });
 </script>
-
-<style scoped>
-.forecastChart {
-  position: relative;
-  height: 15rem;
-  overflow-x: scroll;
-}
-.forecastChart > canvas {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.chartWrapper {
-    margin: auto;
-  width: 80rem;
-  height: 100%;
-  overflow-x: auto;
-}
-ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: clamp(0.25rem, 1vw, 1rem);
-  background: rgba(0,0,0, 0.1);
-  padding: 0.5rem clamp(0.25rem, 1vw, 1rem);
-}
-li {
-  cursor: pointer;
-  text-decoration: underline;
-}
-li:hover {
-  color: var(--greyblue-hex);
-}
-</style>

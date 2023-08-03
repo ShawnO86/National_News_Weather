@@ -64,12 +64,12 @@ button {
   background: rgb(var(--secondary-rgb));
   color: var(--text-hex);
   border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.35rem;
   transition: background 0.2s;
 }
 svg {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   display: inline;
   fill: var(--bg-hex);
   transition: fill 0.2s;

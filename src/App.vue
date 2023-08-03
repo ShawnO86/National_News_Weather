@@ -1,6 +1,7 @@
 <template>
   <header>
     <div class="themeSwitcher">
+      <p>Theme:</p>
       <theme-switcher @colors="changeThemeColors" @theme="changeThemeName"></theme-switcher>
     </div>
     <div class="search">
@@ -42,13 +43,13 @@
       v-if="hourlyWeatherOpen"
       :weatherForecast="hourlyWeatherData"
       :hourlyWeatherOpen="hourlyWeatherOpen"
-      :themeName = "currentTheme"
+      :themeName="currentTheme"
     ></weather-forecast>
     <weather-forecast
       v-else-if="dailyWeatherOpen"
       :weatherForecast="dailyWeatherData"
       :dailyWeatherOpen="dailyWeatherOpen"
-      :themeName = "currentTheme"
+      :themeName="currentTheme"
     ></weather-forecast>
   </section>
 </template>
@@ -111,12 +112,12 @@ async function getData(url = '') {
     locationMsg.value = 'Error getting weather data. Please try again later.';
   }
 }
-async function getWeather(/* location */) {
+async function getWeather(location) {
   locationMsg.value = 'Getting weather data...';
-  /*     const fetchWeather = await getData(
+  const fetchWeather = await getData(
     `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
-  ); */
-  const fetchWeather = await getData(`http://localhost:8081/weather/test`);
+  );
+  /*   const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
   location.value = `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`;
@@ -203,8 +204,10 @@ header {
   padding: 2rem clamp(1rem, 4vw, 4rem);
 }
 .themeSwitcher {
-  text-align: right;
-  z-index: 2;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 1rem;
 }
 nav {
   display: flex;
@@ -257,12 +260,43 @@ nav button:hover {
   display: flex;
   flex-direction: column;
 }
-/* shared styles for hourlyWeatherItem, dailyWeatherItem & alertDisplay */
+/* shared styles for hourlyWeatherItem, dailyWeatherItem & alertDisplay to use app media queries*/
 .alertDisplay {
   padding: 1.5rem clamp(1rem, 4vw, 4rem) 3rem clamp(1rem, 4vw, 4rem);
 }
 .forecast_graphs {
   padding: 0 clamp(1rem, 4vw, 4rem);
+}
+.forecastChart {
+  position: relative;
+  height: 15rem;
+  overflow-x: scroll;
+}
+.forecastChart > canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.chartWrapper {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+}
+.forecast_graphs ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.25rem, 1vw, 1rem);
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem clamp(0.25rem, 1vw, 1rem);
+}
+.forecast_graphs ul li {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.forecast_graphs ul li:hover {
+  color: var(--greyblue-hex);
 }
 .dayOutput {
   display: flex;
@@ -426,6 +460,17 @@ details summary:hover {
   }
   .icon {
     width: 2rem;
+  }
+  .forecastChart {
+    position: relative;
+    height: 12rem;
+    overflow-x: scroll;
+  }
+  .chartWrapper {
+    margin: auto;
+    width: fit-content;
+    height: 100%;
+    overflow-x: auto;
   }
 }
 @media screen and (max-width: 425px) {
