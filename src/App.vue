@@ -117,7 +117,7 @@ async function getWeather(location) {
   const fetchWeather = await getData(
     `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
   );
-  /*   const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
+/*     const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
   location.value = `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`;
@@ -290,13 +290,16 @@ nav button:hover {
   gap: clamp(0.25rem, 1vw, 1rem);
   background: rgba(0, 0, 0, 0.1);
   padding: 0.5rem clamp(0.25rem, 1vw, 1rem);
+  border-radius: 0.25rem;
 }
 .forecast_graphs ul li {
   cursor: pointer;
   text-decoration: underline;
+  color: var(--text-hex);
+  padding: 0 0.25rem;
 }
 .forecast_graphs ul li:hover {
-  color: var(--greyblue-hex);
+  color: var(--text-hex);
 }
 .dayOutput {
   display: flex;
@@ -486,7 +489,8 @@ details summary:hover {
   header,
   .airQuality,
   .alertDisplay,
-  .dayOutput {
+  .dayOutput,
+  .forecast_graphs {
     padding: 1rem 0.5rem;
   }
   .icon {
@@ -497,6 +501,10 @@ details summary:hover {
   }
   .weatherDesc {
     margin: 1rem 0.75rem;
+  }
+  .weatherIcon {
+    width: 3rem;
+    height: 3rem;
   }
 }
 </style>

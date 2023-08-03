@@ -68,8 +68,8 @@ button {
   transition: background 0.2s;
 }
 svg {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: clamp(1rem, 2vw, 1.25rem);
+  height: clamp(1rem, 2vw, 1.25rem);
   display: inline;
   fill: var(--bg-hex);
   transition: fill 0.2s;

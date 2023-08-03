@@ -1,15 +1,28 @@
 <template>
   <ul>
-    <li>Temperature</li>
+    <li @click="changeDataType('temp'), toggleTempOpen()" :class="tempOpen ? 'active' : ''">
+      Temperature
+    </li>
     <li>|</li>
-    <li>Precipitation</li>
+    <li @click="changeDataType('precip'), togglePrecipOpen()" :class="precipOpen ? 'active' : ''">
+      Precipitation
+    </li>
     <li>|</li>
-    <li>Humidity</li>
+    <li
+      @click="changeDataType('humidity'), toggleHumidityOpen()"
+      :class="humidityOpen ? 'active' : ''"
+    >
+      Humidity
+    </li>
   </ul>
   <ul v-if="dailyWeatherOpen">
-    <li @click="changeTime('Day')">Daytime</li>
+    <li @click="changeTime('Day'), toggleDayOpen()" :class="dayOpen ? 'active' : ''">
+      Daytime
+    </li>
     <li>|</li>
-    <li @click="changeTime('Night')">Nighttime</li>
+    <li @click="changeTime('Night'), toggleNightOpen()" :class="nightOpen ? 'active' : ''">
+      Nighttime
+    </li>
   </ul>
   <div class="forecastChart">
     <div class="chartWrapper"><canvas id="chart"></canvas></div>
@@ -22,31 +35,94 @@ import Chart from 'chart.js/auto';
 const props = defineProps(['weatherData', 'dailyWeatherOpen', 'hourlyWeatherOpen', 'theme']);
 const time = ref(props.dailyWeatherOpen ? 'Day' : 'Hourly');
 const weatherArray = Object.keys(props.weatherData);
-const weatherTemps = ref([]);
+const weatherGraphData = ref([]);
 const weatherLabels = ref([]);
+const weatherDataType = ref('temp');
+const tempOpen = ref(true);
+const precipOpen = ref(false);
+const humidityOpen = ref(false);
+const dayOpen = ref(true);
+const nightOpen = ref(false);
 let myChart;
 Chart.defaults.color = props.theme == 'Light' ? '#000' : '#fff';
 
-const getDayWeatherTempArr = (type) => {
-  weatherTemps.value = [];
+function toggleTempOpen() {
+  tempOpen.value = true;
+  precipOpen.value = false;
+  humidityOpen.value = false;
+}
+function togglePrecipOpen() {
+  tempOpen.value = false;
+  precipOpen.value = true;
+  humidityOpen.value = false;
+}
+function toggleHumidityOpen() {
+  tempOpen.value = false;
+  precipOpen.value = false;
+  humidityOpen.value = true;
+}
+function toggleDayOpen() {
+  dayOpen.value = true;
+  nightOpen.value = false;
+}
+function toggleNightOpen() {
+  dayOpen.value = false;
+  nightOpen.value = true;
+}
+const getDayWeatherDataArr = (time, dataType) => {
+  weatherGraphData.value = [];
   weatherArray.forEach((element) => {
     props.weatherData[element].forEach((arr) => {
-      if (type == 'Day') {
-        if (arr.isDaytime) {
-          let temp = arr.temp.split('F');
-          weatherTemps.value.push(temp[0]);
-        }
-      } else if (type == 'Hourly') {
+      if (dataType == 'temp') {
         let temp = arr.temp.split('F');
-        weatherTemps.value.push(temp[0]);
-      } else if (type == 'Night') {
-        if (!arr.isDaytime) {
-          let temp = arr.temp.split('F');
-          weatherTemps.value.push(temp[0]);
+        if (time == 'Day' && arr.isDaytime) {
+          weatherGraphData.value.push(temp[0]);
+        } else if (time == 'Night' && !arr.isDaytime) {
+          weatherGraphData.value.push(temp[0]);
+        } else if (time == 'Hourly') {
+          weatherGraphData.value.push(temp[0]);
+        }
+      } else if (dataType == 'precip') {
+        let precip = arr.precip.split('%');
+        if (time == 'Day' && arr.isDaytime) {
+          weatherGraphData.value.push(precip[0]);
+        } else if (time == 'Night' && !arr.isDaytime) {
+          weatherGraphData.value.push(precip[0]);
+        } else if (time == 'Hourly') {
+          weatherGraphData.value.push(precip[0]);
+        }
+      } else if (dataType == 'humidity') {
+        let humidity = arr.humidity.split('%');
+        if (time == 'Day' && arr.isDaytime) {
+          weatherGraphData.value.push(humidity[0]);
+        } else if (time == 'Night' && !arr.isDaytime) {
+          weatherGraphData.value.push(humidity[0]);
+        } else if (time == 'Hourly') {
+          weatherGraphData.value.push(humidity[0]);
         }
       }
     });
   });
+};
+
+const changeDataType = (type) => {
+  weatherDataType.value = type;
+};
+
+const expandDataTypeName = (type) => {
+  let dataType;
+  switch (type) {
+    case 'temp':
+      dataType = 'Temperature';
+      break;
+    case 'precip':
+      dataType = '% Precipitation';
+      break;
+    case 'humidity':
+      dataType = '% Humidity';
+      break;
+  }
+  return dataType;
 };
 
 const getWeatherLabelArr = (type) => {
@@ -71,29 +147,29 @@ const getWeatherLabelArr = (type) => {
   });
 };
 
-const getLowestTemp = (tempsArr) => {
-  let lowestTemperature = parseInt(tempsArr[0], 10);
+const getLowestValue = (arr) => {
+  let lowestValue = parseInt(arr[0], 10);
   //parseInt needs number to convert and a base
-  for (let i = 1; i < tempsArr.length; i++) {
-    const temperature = parseInt(tempsArr[i], 10);
-    if (temperature < lowestTemperature) {
-      lowestTemperature = temperature;
+  for (let i = 1; i < arr.length; i++) {
+    const value = parseInt(arr[i], 10);
+    if (value < lowestValue) {
+      lowestValue = value;
     }
   }
-  return lowestTemperature - 1;
+  return lowestValue;
 };
 
 const changeTime = (timeOfDay) => {
   if (timeOfDay != time.value) {
     myChart.destroy();
     time.value = timeOfDay;
-    getDayWeatherTempArr(time.value);
+    getDayWeatherDataArr(time.value, weatherDataType.value);
     getWeatherLabelArr(time.value);
-    createGraph();
+    createGraph(weatherGraphData.value, weatherDataType.value);
   }
 };
 
-const createGraph = () => {
+const createGraph = (data, dataLabel) => {
   const ctx = document.getElementById('chart');
   myChart = new Chart(ctx, {
     type: 'line',
@@ -101,8 +177,8 @@ const createGraph = () => {
       labels: weatherLabels.value,
       datasets: [
         {
-          label: 'Temperature',
-          data: weatherTemps.value,
+          label: expandDataTypeName(dataLabel),
+          data: data,
           borderWidth: 1
         }
       ]
@@ -111,7 +187,7 @@ const createGraph = () => {
       scales: {
         y: {
           beginAtZero: false,
-          min: getLowestTemp(weatherTemps.value) 
+          min: getLowestValue(data)
         }
       },
       plugins: {
@@ -130,32 +206,41 @@ const createGraph = () => {
   myChart;
 };
 
-//change chart color if color theme changes
+watch(
+  () => weatherDataType.value,
+  () => {
+    myChart.destroy();
+    getDayWeatherDataArr(time.value, weatherDataType.value);
+    getWeatherLabelArr(time.value);
+    createGraph(weatherGraphData.value, weatherDataType.value);
+  }
+);
+//recreate chart color if color theme changes
 watch(
   () => props.theme,
   (newTheme) => {
     Chart.defaults.color = newTheme == 'Light' ? '#000' : '#fff';
     myChart.destroy();
-    getDayWeatherTempArr(time.value);
+    getDayWeatherDataArr(time.value, weatherDataType.value);
     getWeatherLabelArr(time.value);
-    createGraph();
+    createGraph(weatherGraphData.value, weatherDataType.value);
   }
 );
-
+//recreate chart if data changes
 watch(
   () => props.weatherData,
   () => {
     myChart.destroy();
-    getDayWeatherTempArr(time.value);
+    getDayWeatherDataArr(time.value, weatherDataType.value);
     getWeatherLabelArr(time.value);
-    createGraph();
+    createGraph(weatherGraphData.value, weatherDataType.value);
   }
 );
-
+//create chart on component load
 onMounted(() => {
-  getDayWeatherTempArr(time.value);
+  getDayWeatherDataArr(time.value, weatherDataType.value);
   getWeatherLabelArr(time.value);
   //console.log('temps:', weatherTemps);
-  createGraph();
+  createGraph(weatherGraphData.value, weatherDataType.value);
 });
 </script>
