@@ -138,9 +138,6 @@ const aqiColorMap = computed(() => ({
 </script>
 
 <style scoped>
-.test {
-  color: rgba(255, 0, 0, 0.5);
-}
 .weatherBox_head {
   display: flex;
   align-items: center;
@@ -160,13 +157,13 @@ const aqiColorMap = computed(() => ({
   justify-content: space-between;
   width: 100%;
   height: fit-content;
-  background: rgba(var(--greyblue-rgb), 0.65);
+  background: rgba(var(--greyblue-rgb), 0.5);
   color: var(--text-hex);
   margin: 0rem clamp(1rem, 4vw, 4rem);
   padding: 2rem clamp(0.5rem, 2vw, 1.5rem);
   font-weight: 500;
   border-radius: 0.25rem;
-  line-height: 2.5;
+  line-height: 2;
   gap: 2rem;
   box-shadow: 3px 3px 6px -3px var(--secondary-hex), -3px -3px 6px -3px var(--secondary-hex);
 }
@@ -183,9 +180,10 @@ const aqiColorMap = computed(() => ({
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background: rgba(var(--bg-rgb), 0.65);
+  background: rgba(var(--bg-rgb), 0.5);
   padding: clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
+  gap: 0.25rem;
 }
 .weather_head_right p {
   width: 100%;
@@ -199,6 +197,7 @@ const aqiColorMap = computed(() => ({
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  gap: 0.25rem;
 }
 .airValue_container {
   display: flex;
@@ -259,11 +258,12 @@ const aqiColorMap = computed(() => ({
     text-align: center;
     align-items: center;
     border-radius: 0 0 0.25rem 0.25rem;
+
   }
   .airContainer {
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 0 0.5rem;
+    gap: 0.25rem 0.5rem;
   }
 
   .aqiToolTip {

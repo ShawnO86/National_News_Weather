@@ -218,8 +218,7 @@ nav {
   position: sticky;
   top: 0;
   background: rgb(var(--bg-rgb));
-  margin: 0 clamp(1rem, 4vw, 4rem) 1.5rem clamp(1rem, 4vw, 4rem);
-  padding: 0.5rem 0;
+  margin: 0.5rem clamp(1rem, 4vw, 4rem) 2rem clamp(1rem, 4vw, 4rem);
   z-index: 2;
 }
 nav button {
@@ -270,7 +269,7 @@ nav button:hover {
 .forecastChart {
   position: relative;
   height: 15rem;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .forecastChart > canvas {
   position: absolute;
@@ -362,7 +361,7 @@ details summary {
 details summary .summaryIcon {
   display: flex;
   align-items: center;
-  width: clamp(0.75rem, 2vw, 1rem);
+  width: clamp(0.5rem, 2vw, 0.75rem);
   height: 100%;
   margin: 0 clamp(0.5rem, 2vw, 1.5rem) 0 0;
   fill: var(--text-hex);
