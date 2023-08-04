@@ -293,11 +293,13 @@ nav button:hover {
 .forecast_graphs ul li {
   cursor: pointer;
   text-decoration: underline;
-  color: var(--text-hex);
   padding: 0 0.25rem;
 }
+.forecastBtn {
+  color: rgba(var(--text-rgb), 0.75);
+}
 .forecast_graphs ul li:hover {
-  color: var(--text-hex);
+  color: rgba(var(--text-rgb), 1);
 }
 .dayOutput {
   display: flex;

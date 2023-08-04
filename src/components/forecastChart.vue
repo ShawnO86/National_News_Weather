@@ -1,25 +1,39 @@
 <template>
   <div class="forecastNav">
     <ul>
-      <li @click="changeDataType('temp'), toggleTempOpen()" :class="tempOpen ? 'active' : ''">
+      <li
+        @click="changeDataType('temp'), toggleTempOpen()"
+        :class="tempOpen ? 'active' : 'forecastBtn'"
+      >
         Temperature
       </li>
       <li>|</li>
-      <li @click="changeDataType('precip'), togglePrecipOpen()" :class="precipOpen ? 'active' : ''">
+      <li
+        @click="changeDataType('precip'), togglePrecipOpen()"
+        :class="precipOpen ? 'active' : 'forecastBtn'"
+      >
         Precipitation
       </li>
       <li>|</li>
       <li
         @click="changeDataType('humidity'), toggleHumidityOpen()"
-        :class="humidityOpen ? 'active' : ''"
+        :class="humidityOpen ? 'active' : 'forecastBtn'"
       >
         Humidity
       </li>
     </ul>
     <ul v-if="dailyWeatherOpen">
-      <li @click="changeTime('Day'), toggleDayOpen()" :class="dayOpen ? 'active' : ''">Daytime</li>
+      <li
+        @click="changeTime('Day'), toggleDayOpen()"
+        :class="dayOpen ? 'active' : 'forecastBtn'"
+      >
+        Daytime
+      </li>
       <li>|</li>
-      <li @click="changeTime('Night'), toggleNightOpen()" :class="nightOpen ? 'active' : ''">
+      <li
+        @click="changeTime('Night'), toggleNightOpen()"
+        :class="nightOpen ? 'active' : 'forecastBtn'"
+      >
         Nighttime
       </li>
     </ul>
@@ -196,12 +210,11 @@ const createGraph = (data, dataLabel) => {
           position: 'bottom',
           maxHeight: '32',
           labels: {
-            usePointStyle: true,
+            usePointStyle: true
           }
-
-        },
+        }
       },
-      maintainAspectRatio: false,
+      maintainAspectRatio: false
     }
   });
   myChart;
