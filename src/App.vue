@@ -7,10 +7,11 @@
     <div class="search">
       <location-input @location="getWeather" />
     </div>
+
     <div v-if="locationMsg">
       <h1>{{ locationMsg }}</h1>
     </div>
-    <h1 v-if="location">{{ location }}</h1>
+    <h1 v-else>{{ locationData }}</h1>
   </header>
   <nav v-if="dailyWeatherData">
     <button
@@ -63,7 +64,7 @@ import { defineAsyncComponent, onMounted, ref } from 'vue';
 const weatherForecast = defineAsyncComponent(() => import('./components/weatherForecast.vue'));
 
 const locationMsg = ref('');
-const location = ref('');
+const locationData = ref('');
 const currentWeatherData = ref('');
 const dailyWeatherData = ref('');
 const hourlyWeatherData = ref('');
@@ -112,15 +113,15 @@ async function getData(url = '') {
     locationMsg.value = 'Error getting weather data. Please try again later.';
   }
 }
-async function getWeather(/* location */) {
+async function getWeather(location) {
   locationMsg.value = 'Getting weather data...';
-/*   const fetchWeather = await getData(
+  const fetchWeather = await getData(
     `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
-  ); */
-    const fetchWeather = await getData(`http://localhost:8081/weather/test`);
+  );
+  /*     const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
-  location.value = `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`;
+  locationData.value = `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`;
   const dates = Object.keys(hourlyWeatherData.value);
   currentWeatherData.value = {
     current: hourlyWeatherData.value[dates[0]][0],
@@ -132,6 +133,7 @@ async function getWeather(/* location */) {
   console.log('current', currentWeatherData.value);
   console.log('daily: ', dailyWeatherData.value);
   console.log('hourly:', hourlyWeatherData.value);
+  console.log('location:', locationData.value);
   locationMsg.value = '';
 }
 function changeThemeColors(color) {
@@ -276,11 +278,11 @@ nav button:hover {
   top: 0;
 }
 .chartWrapper {
-    margin: auto;
-    width: clamp(40rem, 80vw, 80rem);
-    height: 100%;
-    overflow-x: auto;
-  }
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+}
 .forecastNav {
   background: rgba(var(--greyblue-rgb), 0.25);
   padding: 0.5rem clamp(0.25rem, 1vw, 1rem);
@@ -360,7 +362,7 @@ details summary {
 details summary .summaryIcon {
   display: flex;
   align-items: center;
-  width:  clamp(0.75rem, 2vw, 1rem);
+  width: clamp(0.75rem, 2vw, 1rem);
   height: 100%;
   margin: 0 clamp(0.5rem, 2vw, 1.5rem) 0 0;
   fill: var(--text-hex);
@@ -384,8 +386,9 @@ details summary:hover {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+
   flex: 2;
+  margin: 0 0.5rem;
 }
 .summaryHeader .description {
   font-size: 0.9rem;
@@ -481,6 +484,9 @@ details summary:hover {
     position: relative;
     height: 12rem;
   }
+  .chartWrapper {
+    width: 40rem;
+  }
 }
 @media screen and (max-width: 425px) {
   nav {
@@ -511,7 +517,7 @@ details summary:hover {
   }
   .forecastChart {
     position: relative;
-    height: 10rem;
+    height: 11rem;
   }
   .chartWrapper {
     width: 38rem;

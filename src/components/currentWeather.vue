@@ -7,30 +7,38 @@
       </div>
       <div class="weather_head_right">
         <p>
-          <span class="weather_detail">Rain Chance -- </span>
+          <span class="weather_detail">Rain Chance:</span>
           {{ props.currentWeather.current.precip }}
         </p>
         <p>
-          <span class="weather_detail">Humidity --</span>
+          <span class="weather_detail">Humidity:</span>
           {{ props.currentWeather.current.humidity }}
         </p>
         <p>
-          <span class="weather_detail">Wind --</span> {{ props.currentWeather.current.windSpeed }}
+          <span class="weather_detail">Wind:</span> {{ props.currentWeather.current.windSpeed }}
           {{ props.currentWeather.windDirection }}
         </p>
-        <div v-if="props.currentWeather.currentAir.length != 0">
-          <div v-for="(item, index) in props.currentWeather.currentAir" :key="index">
+        <div v-if="props.currentWeather.currentAir.length != 0" class="airContainer">
+          <div
+            v-for="(item, index) in props.currentWeather.currentAir"
+            :key="index"
+            class="airValue_container"
+          >
             <p>
-              <span class="weather_detail">{{ item.type }}: {{ item.value }} -- </span>
+              <span class="weather_detail">{{ item.type }}:</span>
               <span :style="{ background: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
-                {{ item.categoryDesc }}
+                {{ item.value }} - {{ item.categoryDesc }}
                 <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
               </span>
             </p>
           </div>
         </div>
-        <div v-else-if="props.currentWeather.futureAir.length != 0">
-          <div v-for="(item, index) in props.currentWeather.futureAir" :key="index">
+        <div v-else-if="props.currentWeather.futureAir.length != 0" class="airContainer">
+          <div
+            v-for="(item, index) in props.currentWeather.futureAir"
+            :key="index"
+            class="airValue_container"
+          >
             <p v-if="index == 0 || index == 1">
               <span class="weather_detail">{{ item.type }} -- </span>
               <span :style="{ background: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
@@ -60,18 +68,18 @@ const windowWidth = ref(window.innerWidth);
 
 //optimize images after crop to .webp and maybe lower res
 const weatherTypes = [
-  { type: ['Fair', 'Clear', 'Sunny'], image: 'clear' }, //pic done
-  { type: ['Clouds', 'Cloudy'], image: 'cloudy' }, //pic done
-  { type: ['Overcast'], image: 'overcast' }, //pic done
-  { type: ['Snow', 'Blizzard'], image: 'snow' }, //pic done
-  { type: ['Freezing Rain', 'Ice'], image: 'ice' }, //pic done
-  { type: ['Rain', 'Showers'], image: 'rain' }, //done
-  { type: ['Thunderstorm'], image: 'thunderstorm' }, //done
+  { type: ['Fair', 'Clear', 'Sunny'], image: 'clear' }, //done
+  { type: ['Clouds', 'Cloudy'], image: 'cloudy' },
+  { type: ['Overcast'], image: 'overcast' },
+  { type: ['Snow', 'Blizzard'], image: 'snow' },
+  { type: ['Freezing Rain', 'Ice'], image: 'ice' },
+  { type: ['Rain', 'Showers'], image: 'rain' },
+  { type: ['Thunderstorm'], image: 'thunderstorm' },
   { type: ['Tornado', 'Funnel Cloud'], image: 'tornado_funnel_cloud' },
   { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane_tropical_storm' },
   { type: ['Windy', 'Breezy'], image: 'windy_breezy' },
   { type: ['Dust', 'Sand'], image: 'dust_sand' },
-  { type: ['Smoke', 'Haze'], image: 'smoke_haze' }, //pic done
+  { type: ['Smoke', 'Haze'], image: 'smoke_haze' },
   { type: ['Hot'], image: 'hot' },
   { type: ['Cold'], image: 'cold' },
   { type: ['Fog', 'Fog/Mist'], image: 'fog' }
@@ -93,7 +101,7 @@ function changeBackgroundImage() {
   const matchingWeatherType = weatherTypes.find((item) =>
     item.type.some((type) => weatherType.value.includes(type))
   );
-  if(windowWidth.value <= 425) {
+  if (windowWidth.value <= 425) {
     return `src/assets/${matchingWeatherType.image}_mobile.jpg`;
   } else if (windowWidth.value <= 768) {
     return `src/assets/${matchingWeatherType.image}_tablet.jpg`;
@@ -179,6 +187,27 @@ const aqiColorMap = computed(() => ({
   padding: clamp(0.5rem, 2vw, 1.5rem);
   border-radius: 0.25rem;
 }
+.weather_head_right p {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(var(--text-rgb), 0.25);
+  gap: 1rem;
+}
+.airContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.airValue_container {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+.airValue_container p {
+  white-space: nowrap;
+}
 .weather_detail {
   font-weight: 400;
 }
@@ -190,8 +219,9 @@ const aqiColorMap = computed(() => ({
   border-radius: 0.25rem 0.25rem 0 0;
 }
 .aqiToolTip {
+  white-space: wrap;
   visibility: hidden;
-  width: 12rem;
+  width: 13rem;
   position: absolute;
   background: rgb(var(--bg-rgb));
   z-index: 1;
@@ -200,9 +230,10 @@ const aqiColorMap = computed(() => ({
   color: var(--text-hex);
   font-weight: 400;
   line-height: 1.5;
-  padding: 0.5rem;
+  padding: 0.75rem;
   opacity: 0;
   transition: opacity 0.2s;
+  border-radius: 0.25rem;
 }
 .aqiDesc:hover .aqiToolTip {
   visibility: visible;
@@ -214,10 +245,11 @@ const aqiColorMap = computed(() => ({
     border-radius: 0;
   }
   .weather_head_data {
-    margin: 0rem 0.5rem;
-    padding: 0.5rem 0;
+    margin: 0.5rem 0.75rem;
+    padding: 0.5rem 0 0 0;
     line-height: 2;
     flex-direction: column;
+    box-shadow: none;
   }
   .weather_head_left {
     font-size: large;
@@ -226,7 +258,14 @@ const aqiColorMap = computed(() => ({
   .weather_head_right {
     text-align: center;
     align-items: center;
+    border-radius: 0 0 0.25rem 0.25rem;
   }
+  .airContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 0.5rem;
+  }
+
   .aqiToolTip {
     left: -6rem;
   }

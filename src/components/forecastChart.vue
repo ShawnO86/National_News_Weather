@@ -190,13 +190,23 @@ const createGraph = (data, dataLabel) => {
           min: getLowestValue(data)
         }
       },
+      plugins: {
+        legend: {
+          align: 'start',
+          position: 'bottom',
+          maxHeight: '32',
+          labels: {
+            usePointStyle: true,
+          }
+
+        },
+      },
       maintainAspectRatio: false,
-      aspectRatio: 1 | 2,
     }
   });
   myChart;
 };
-
+//recreate chart to selected version
 watch(
   () => weatherDataType.value,
   () => {
@@ -206,7 +216,7 @@ watch(
     createGraph(weatherGraphData.value, weatherDataType.value);
   }
 );
-//recreate chart color if color theme changes
+//recreate chart if color theme changes
 watch(
   () => props.theme,
   (newTheme) => {

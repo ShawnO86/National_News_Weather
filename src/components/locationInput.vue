@@ -77,6 +77,6 @@ button:hover {
 }
 input::placeholder {
   padding-left: 0.6rem;
-  color: rgba(var(--text-rgb), 0.75);
+  color: rgba(255, 255, 255, 0.75);
 }
 </style>
