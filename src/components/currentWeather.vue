@@ -15,8 +15,7 @@
           {{ props.currentWeather.current.humidity }}
         </p>
         <p>
-          <span class="weather_detail">Wind:</span> {{ props.currentWeather.current.windSpeed }}
-          {{ props.currentWeather.windDirection }}
+          <span class="weather_detail">Wind:</span> {{ props.currentWeather.current.windDirection }} - {{ props.currentWeather.current.windSpeed }}
         </p>
         <div v-if="props.currentWeather.currentAir.length != 0" class="airContainer">
           <div
@@ -148,13 +147,12 @@ const aqiColorMap = computed(() => ({
   padding: clamp(2rem, 5vw, 5rem) 0;
   margin: 0 clamp(1rem, 4vw, 4rem);
   border-radius: 0.5rem;
-  height: clamp(20rem, 40vh, 26.25rem);
+  height: clamp(20rem, 40vh, 25rem);
 }
 .weather_head_data {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: fit-content;
   background: rgba(var(--greyblue-rgb), 0.5);
   color: var(--text-hex);
   margin: 0rem clamp(1rem, 4vw, 4rem);
@@ -236,6 +234,11 @@ const aqiColorMap = computed(() => ({
   visibility: visible;
   opacity: 1;
 }
+@media screen and (max-width: 768px) {
+  .weatherBox_head {
+    height: clamp(20rem, 40vh, 21.25rem);
+  }
+}
 @media screen and (max-width: 425px) {
   .weatherBox_head {
     margin: 0;
@@ -256,7 +259,6 @@ const aqiColorMap = computed(() => ({
     text-align: center;
     align-items: center;
     border-radius: 0 0 0.25rem 0.25rem;
-
   }
   .airContainer {
     flex-direction: row;

@@ -36,7 +36,7 @@
         </li>
         <li>
           Wind <span class="weatherDetails_line"></span
-          ><span>{{ props.weatherItem.windSpeed }} {{ props.weatherItem.windDirection }}</span>
+          ><span>{{ props.weatherItem.windDirection }} - {{ props.weatherItem.windSpeed }}</span>
         </li>
         <li v-if="!props.weatherItem.isDaytime && dailyWeatherOpen">
           Dew Point <span class="weatherDetails_line"></span>
