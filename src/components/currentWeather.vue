@@ -148,9 +148,7 @@ const aqiColorMap = computed(() => ({
   padding: clamp(2rem, 5vw, 5rem) 0;
   margin: 0 clamp(1rem, 4vw, 4rem);
   border-radius: 0.5rem;
-  height: 40vh;
-  max-height: 30rem;
-  min-height: 20rem;
+  height: clamp(20rem, 40vh, 26.25rem);
 }
 .weather_head_data {
   display: flex;
