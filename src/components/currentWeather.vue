@@ -67,20 +67,17 @@ const windowWidth = ref(window.innerWidth);
 
 //optimize images after crop to .webp and maybe lower res
 const weatherTypes = [
-  { type: ['Fair', 'Clear', 'Sunny'], image: 'clear' }, //done
+  { type: ['Fair', 'Clear', 'Sunny', 'Hot'], image: 'clear' },
   { type: ['Clouds', 'Cloudy'], image: 'cloudy' },
   { type: ['Overcast'], image: 'overcast' },
   { type: ['Snow', 'Blizzard'], image: 'snow' },
-  { type: ['Freezing Rain', 'Ice'], image: 'ice' },
+  { type: ['Freezing Rain', 'Ice', 'Cold'], image: 'ice' },
   { type: ['Rain', 'Showers'], image: 'rain' },
   { type: ['Thunderstorm'], image: 'thunderstorm' },
-  { type: ['Tornado', 'Funnel Cloud'], image: 'tornado_funnel_cloud' },
-  { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane_tropical_storm' },
-  { type: ['Windy', 'Breezy'], image: 'windy_breezy' },
-  { type: ['Dust', 'Sand'], image: 'dust_sand' },
-  { type: ['Smoke', 'Haze'], image: 'smoke_haze' },
-  { type: ['Hot'], image: 'hot' },
-  { type: ['Cold'], image: 'cold' },
+  { type: ['Tornado', 'Funnel Cloud'], image: 'tornado' },
+  { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane' }, 
+  { type: ['Windy', 'Breezy'], image: 'windy' },
+  { type: ['Smoke', 'Haze', 'Dust', 'Sand'], image: 'smoke_haze' },
   { type: ['Fog', 'Fog/Mist'], image: 'fog' }
 ];
 //monitor widow size and switch header image for that size

@@ -1,16 +1,8 @@
 <template>
   <header>
-    <div class="themeSwitcher">
-      <p>Theme:</p>
-      <theme-switcher @colors="changeThemeColors" @theme="changeThemeName"></theme-switcher>
-    </div>
-    <div class="search">
-      <location-input @location="getWeather" />
-    </div>
-
-    <div v-if="locationMsg">
-      <h1>{{ locationMsg }}</h1>
-    </div>
+    <theme-switcher @colors="changeThemeColors" @theme="changeThemeName"></theme-switcher>
+    <location-input @location="getWeather" />
+    <h1 v-if="locationMsg">{{ locationMsg }}</h1>
     <h1 v-else>{{ locationData }}</h1>
   </header>
   <nav v-if="dailyWeatherData">
@@ -203,7 +195,7 @@ body {
 }
 header {
   background: rgb(var(--bg-rgb));
-  padding: 2rem clamp(1rem, 4vw, 4rem);
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 4vw, 4rem);
 }
 .themeSwitcher {
   display: flex;
@@ -218,7 +210,7 @@ nav {
   position: sticky;
   top: 0;
   background: rgb(var(--bg-rgb));
-  margin: 0.5rem clamp(1rem, 4vw, 4rem) 2rem clamp(1rem, 4vw, 4rem);
+  margin: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 4rem);
   z-index: 2;
 }
 nav button {
@@ -490,7 +482,7 @@ details summary:hover {
 @media screen and (max-width: 425px) {
   nav {
     background: rgba(var(--greyblue-rgb), 0.5);
-    margin: 0.5rem 0 2rem 0;
+    margin: clamp(1rem, 3vw, 2.5rem) 0;
     padding: 0;
   }
   nav button:nth-of-type(1),

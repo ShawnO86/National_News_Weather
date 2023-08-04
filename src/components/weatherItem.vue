@@ -5,7 +5,7 @@
         v-if="weatherIconUrl"
         :src="weatherIconUrl"
         class="weatherIcon"
-        :alt="props.weatherItem.shortDesc + ' image icon'"
+        :alt="props.weatherItem.shortDesc + ' icon'"
       />
       <div class="summaryHeader" v-if="dailyWeatherOpen">
         <h4>{{ props.weatherItem.name }} -- {{ props.weatherItem.temp }}</h4>
