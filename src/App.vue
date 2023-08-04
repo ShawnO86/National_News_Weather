@@ -35,7 +35,7 @@
   <section class="currentWeather" v-if="currentWeatherOpen">
     <current-weather
       :currentWeather="currentWeatherData"
-      v-if="currentWeatherData"
+      v-if="currentWeatherData.length != 0"
     ></current-weather>
   </section>
   <section class="forecastWeather" v-if="hourlyWeatherOpen || dailyWeatherOpen">
@@ -112,12 +112,12 @@ async function getData(url = '') {
     locationMsg.value = 'Error getting weather data. Please try again later.';
   }
 }
-async function getWeather(location) {
+async function getWeather(/* location */) {
   locationMsg.value = 'Getting weather data...';
-  const fetchWeather = await getData(
+/*   const fetchWeather = await getData(
     `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
-  );
-/*     const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
+  ); */
+    const fetchWeather = await getData(`http://localhost:8081/weather/test`);
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
   location.value = `${fetchWeather.zoneData.name}, ${fetchWeather.zoneData.local}`;
@@ -227,11 +227,12 @@ nav button {
   border: none;
   border-top: 1px solid rgba(var(--secondary-rgb), 0.5);
   border-bottom: 1px solid rgba(var(--secondary-rgb), 0.5);
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(var(--greyblue-rgb), 0.25);
   font-weight: 600;
   padding: clamp(0.3rem, 1vw, 0.65rem) 0.25rem;
   transition: background 0.4s;
   border-radius: 0.25rem;
+  color: rgba(var(--text-rgb), 0.75);
 }
 nav button:nth-of-type(1)::before {
   content: 'Current Weather';
@@ -241,9 +242,6 @@ nav button:nth-of-type(2)::before {
 }
 nav button:nth-of-type(3)::before {
   content: 'Hourly Forecast';
-}
-.toggle {
-  color: rgba(var(--text-rgb), 0.75);
 }
 nav button:hover {
   border-top: 2px solid rgba(var(--secondary-rgb), 1);
@@ -278,19 +276,26 @@ nav button:hover {
   top: 0;
 }
 .chartWrapper {
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  overflow-x: auto;
+    margin: auto;
+    width: clamp(40rem, 80vw, 80rem);
+    height: 100%;
+    overflow-x: auto;
+  }
+.forecastNav {
+  background: rgba(var(--greyblue-rgb), 0.25);
+  padding: 0.5rem clamp(0.25rem, 1vw, 1rem);
+  border-radius: 0.25rem;
+  margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
+}
+.forecast_graphs ul:nth-of-type(2) {
+  margin-top: clamp(0.75rem, 2vh, 1.25rem);
 }
 .forecast_graphs ul {
   list-style: none;
   display: flex;
   justify-content: center;
   gap: clamp(0.25rem, 1vw, 1rem);
-  background: rgba(0, 0, 0, 0.1);
-  padding: 0.5rem clamp(0.25rem, 1vw, 1rem);
-  border-radius: 0.25rem;
+  margin: 0.5rem 0;
 }
 .forecast_graphs ul li {
   cursor: pointer;
@@ -315,7 +320,7 @@ nav button:hover {
   font-size: larger;
 }
 .hourOutput {
-  flex: 40%;
+  flex: 30%;
   min-width: 20rem;
 }
 .weatherIcon {
@@ -353,11 +358,24 @@ details summary {
   transition: background 0.2s;
 }
 details summary .summaryIcon {
-  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  width:  clamp(0.75rem, 2vw, 1rem);
+  height: 100%;
+  margin: 0 clamp(0.5rem, 2vw, 1.5rem) 0 0;
+  fill: var(--text-hex);
+  transition: transform 0.2s, fill 0.2s;
+}
+details summary:hover .summaryIcon {
+  transform: translateX(0.5rem);
 }
 details[open] summary .summaryIcon {
   transform: rotate(90deg) translateX(0.5rem);
 }
+details[open] summary:hover .summaryIcon {
+  transform: rotate(90deg) translateX(0rem);
+}
+details[open] summary,
 details[open] summary:hover,
 details summary:hover {
   background: rgba(var(--greyblue-rgb), 1);
@@ -388,7 +406,7 @@ details summary:hover {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  margin: 1rem clamp(1rem, 50%, 3rem);
+  margin: 1rem clamp(1rem, 4vw, 3rem);
 }
 .weatherDetails ul {
   list-style: none;
@@ -414,11 +432,6 @@ details summary:hover {
   flex-wrap: wrap;
   gap: 0 0.5rem;
   margin-bottom: 1rem;
-}
-.icon {
-  width: 2.5rem;
-  height: 100%;
-  margin: 0 clamp(0.5rem, 2vw, 1.5rem) 0 0;
 }
 
 @media screen and (max-width: 768px) {
@@ -467,13 +480,6 @@ details summary:hover {
   .forecastChart {
     position: relative;
     height: 12rem;
-    overflow-x: scroll;
-  }
-  .chartWrapper {
-    margin: auto;
-    width: fit-content;
-    height: 100%;
-    overflow-x: auto;
   }
 }
 @media screen and (max-width: 425px) {
@@ -493,9 +499,6 @@ details summary:hover {
   .forecast_graphs {
     padding: 1rem 0.5rem;
   }
-  .icon {
-    width: 1.6rem;
-  }
   .weatherDetails {
     margin: 0.75rem;
   }
@@ -505,6 +508,13 @@ details summary:hover {
   .weatherIcon {
     width: 3rem;
     height: 3rem;
+  }
+  .forecastChart {
+    position: relative;
+    height: 10rem;
+  }
+  .chartWrapper {
+    width: 38rem;
   }
 }
 </style>

@@ -1,29 +1,29 @@
 <template>
-  <ul>
-    <li @click="changeDataType('temp'), toggleTempOpen()" :class="tempOpen ? 'active' : ''">
-      Temperature
-    </li>
-    <li>|</li>
-    <li @click="changeDataType('precip'), togglePrecipOpen()" :class="precipOpen ? 'active' : ''">
-      Precipitation
-    </li>
-    <li>|</li>
-    <li
-      @click="changeDataType('humidity'), toggleHumidityOpen()"
-      :class="humidityOpen ? 'active' : ''"
-    >
-      Humidity
-    </li>
-  </ul>
-  <ul v-if="dailyWeatherOpen">
-    <li @click="changeTime('Day'), toggleDayOpen()" :class="dayOpen ? 'active' : ''">
-      Daytime
-    </li>
-    <li>|</li>
-    <li @click="changeTime('Night'), toggleNightOpen()" :class="nightOpen ? 'active' : ''">
-      Nighttime
-    </li>
-  </ul>
+  <div class="forecastNav">
+    <ul>
+      <li @click="changeDataType('temp'), toggleTempOpen()" :class="tempOpen ? 'active' : ''">
+        Temperature
+      </li>
+      <li>|</li>
+      <li @click="changeDataType('precip'), togglePrecipOpen()" :class="precipOpen ? 'active' : ''">
+        Precipitation
+      </li>
+      <li>|</li>
+      <li
+        @click="changeDataType('humidity'), toggleHumidityOpen()"
+        :class="humidityOpen ? 'active' : ''"
+      >
+        Humidity
+      </li>
+    </ul>
+    <ul v-if="dailyWeatherOpen">
+      <li @click="changeTime('Day'), toggleDayOpen()" :class="dayOpen ? 'active' : ''">Daytime</li>
+      <li>|</li>
+      <li @click="changeTime('Night'), toggleNightOpen()" :class="nightOpen ? 'active' : ''">
+        Nighttime
+      </li>
+    </ul>
+  </div>
   <div class="forecastChart">
     <div class="chartWrapper"><canvas id="chart"></canvas></div>
   </div>
@@ -190,17 +190,8 @@ const createGraph = (data, dataLabel) => {
           min: getLowestValue(data)
         }
       },
-      plugins: {
-        legend: {
-          display: false
-        }
-      },
       maintainAspectRatio: false,
-      elements: {
-        bar: {
-          //find what to do
-        }
-      }
+      aspectRatio: 1 | 2,
     }
   });
   myChart;

@@ -1,8 +1,6 @@
 <template>
   <div class="forecast">
     <div class="forecast_graphs">
-      <h2 v-if="dailyWeatherOpen">7 Day Forecast</h2>
-      <h2 v-else-if="hourlyWeatherOpen">48 Hour Forecast</h2>
       <forecast-chart
         :weatherData="weatherForecast"
         :dailyWeatherOpen="dailyWeatherOpen"

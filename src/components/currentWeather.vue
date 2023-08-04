@@ -22,10 +22,10 @@
           <div v-for="(item, index) in props.currentWeather.currentAir" :key="index">
             <p>
               <span class="weather_detail">{{ item.type }}: {{ item.value }} -- </span>
-              <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
+              <span :style="{ background: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
                 {{ item.categoryDesc }}
-                <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span> </span
-              >
+                <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
+              </span>
             </p>
           </div>
         </div>
@@ -33,7 +33,7 @@
           <div v-for="(item, index) in props.currentWeather.futureAir" :key="index">
             <p v-if="index == 0 || index == 1">
               <span class="weather_detail">{{ item.type }} -- </span>
-              <span :style="{ color: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
+              <span :style="{ background: aqiColorMap[item.categoryDesc].color }" class="aqiDesc">
                 {{ item.categoryDesc }}
                 <span class="aqiToolTip">{{ aqiColorMap[item.categoryDesc].txt }}</span>
               </span>
@@ -50,72 +50,96 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
 import alertDisplay from './alertDisplay.vue';
 
 const props = defineProps(['currentWeather']);
 let weatherType = computed(() => props.currentWeather.current.shortDesc);
 const bgImage = computed(changeBackgroundImage);
+const windowWidth = ref(window.innerWidth);
 
 //optimize images after crop to .webp and maybe lower res
 const weatherTypes = [
-  { type: ['Fair', 'Clear', 'Sunny'], image: 'clear.jpg' }, //pic done
-  { type: ['Clouds', 'Cloudy'], image: 'cloudy.jpg' }, //pic done
-  { type: ['Overcast'], image: 'overcast.jpg' }, //pic done
-  { type: ['Snow', 'Blizzard'], image: 'snow.jpg' }, //pic done
-  { type: ['Freezing Rain', 'Ice'], image: 'ice.jpg' }, //pic done
-  { type: ['Rain', 'Showers'], image: 'rain.jpg' }, //done
-  { type: ['Thunderstorm'], image: 'thunderstorm.jpg' }, //done
-  { type: ['Tornado', 'Funnel Cloud'], image: 'tornado_funnel_cloud.jpg' },
-  { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane_tropical_storm.jpg' },
-  { type: ['Windy', 'Breezy'], image: 'windy_breezy.jpg' },
-  { type: ['Dust', 'Sand'], image: 'dust_sand.jpg' },
-  { type: ['Smoke', 'Haze'], image: 'smoke_haze.jpg' }, //pic done
-  { type: ['Hot'], image: 'hot.jpg' },
-  { type: ['Cold'], image: 'cold.jpg' },
-  { type: ['Fog', 'Fog/Mist'], image: 'fog.jpg' }
+  { type: ['Fair', 'Clear', 'Sunny'], image: 'clear' }, //pic done
+  { type: ['Clouds', 'Cloudy'], image: 'cloudy' }, //pic done
+  { type: ['Overcast'], image: 'overcast' }, //pic done
+  { type: ['Snow', 'Blizzard'], image: 'snow' }, //pic done
+  { type: ['Freezing Rain', 'Ice'], image: 'ice' }, //pic done
+  { type: ['Rain', 'Showers'], image: 'rain' }, //done
+  { type: ['Thunderstorm'], image: 'thunderstorm' }, //done
+  { type: ['Tornado', 'Funnel Cloud'], image: 'tornado_funnel_cloud' },
+  { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane_tropical_storm' },
+  { type: ['Windy', 'Breezy'], image: 'windy_breezy' },
+  { type: ['Dust', 'Sand'], image: 'dust_sand' },
+  { type: ['Smoke', 'Haze'], image: 'smoke_haze' }, //pic done
+  { type: ['Hot'], image: 'hot' },
+  { type: ['Cold'], image: 'cold' },
+  { type: ['Fog', 'Fog/Mist'], image: 'fog' }
 ];
-//checks if the weatherType is in the weatherTypes array and returns the specified image to use for the background of the weatherBox container
+//monitor widow size and switch header image for that size
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+});
+
+function handleResize() {
+  windowWidth.value = window.innerWidth;
+}
+//checks the weatherType returns the specified image to use for background of header image
 function changeBackgroundImage() {
   const matchingWeatherType = weatherTypes.find((item) =>
     item.type.some((type) => weatherType.value.includes(type))
   );
-  return `src/assets/${matchingWeatherType.image}`;
+  if(windowWidth.value <= 425) {
+    return `src/assets/${matchingWeatherType.image}_mobile.jpg`;
+  } else if (windowWidth.value <= 768) {
+    return `src/assets/${matchingWeatherType.image}_tablet.jpg`;
+  } else {
+    return `src/assets/${matchingWeatherType.image}.jpg`;
+  }
 }
 const aqiColorMap = computed(() => ({
   Good: {
-    color: '#22ff22',
+    color: 'rgba(0, 228, 0, 0.5)',
     txt: 'Air quality is satisfactory, and air pollution poses little or no risk.'
   },
   Moderate: {
-    color: '#ffff50',
+    color: 'rgba(255, 255, 0, 0.5)',
     txt: 'Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.'
   },
   'Unhealthy for Sensitive Groups': {
-    color: 'orange',
+    color: 'rgba(255, 126, 0, 0.5)',
     txt: 'Members of sensitive groups may experience health effects. The general public is less likely to be affected.'
   },
   Unhealthy: {
-    color: 'red',
+    color: 'rgba(255, 0, 0, 0.5)',
     txt: 'Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.'
   },
   'Very Unhealthy': {
-    color: 'purple',
+    color: 'rgba(143, 63, 151, 0.5)',
     txt: 'Health alert: The risk of health effects is increased for everyone.'
   },
   Hazardous: {
-    color: 'maroon',
+    color: 'rgba(126, 0, 35, 0.5)',
     txt: 'Health warning of emergency conditions: everyone is more likely to be affected.'
   }
 }));
 </script>
 
 <style scoped>
+.test {
+  color: rgba(255, 0, 0, 0.5);
+}
 .weatherBox_head {
   display: flex;
   align-items: center;
+  background-position: center center;
   background-blend-mode: overlay;
-  background: rgba(var(--bg-rgb), 0.5);
+  background-repeat: no-repeat;
+  background: rgba(var(--greyblue-rgb), 0.25);
   padding: clamp(2rem, 5vw, 5rem) 0;
   margin: 0 clamp(1rem, 4vw, 4rem);
   border-radius: 0.5rem;
@@ -160,8 +184,10 @@ const aqiColorMap = computed(() => ({
 }
 .aqiDesc {
   position: relative;
-  border-bottom: 1px dotted var(--text-hex);
+  border-bottom: 1px dashed var(--text-hex);
   cursor: pointer;
+  padding: 0 0.25rem;
+  border-radius: 0.25rem 0.25rem 0 0;
 }
 .aqiToolTip {
   visibility: hidden;
