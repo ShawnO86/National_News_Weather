@@ -17,13 +17,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(__dirname + '/dist'));
 
-//routes /weather.js
-app.use('/weather', weatherRoute);
-
 //serve production files
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/dist/index.html');
 });
+
+//routes /weather.js
+app.use('/weather', weatherRoute);
 
 //health check
 app.get("/hello", (_req, res) => {

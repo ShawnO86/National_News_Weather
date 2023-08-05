@@ -15,7 +15,9 @@
           {{ props.currentWeather.current.humidity }}
         </p>
         <p>
-          <span class="weather_detail">Wind:</span> {{ props.currentWeather.current.windDirection }} - {{ props.currentWeather.current.windSpeed }}
+          <span class="weather_detail">Wind:</span>
+          {{ props.currentWeather.current.windDirection }} -
+          {{ props.currentWeather.current.windSpeed }}
         </p>
         <div v-if="props.currentWeather.currentAir.length != 0" class="airContainer">
           <div
@@ -75,7 +77,7 @@ const weatherTypes = [
   { type: ['Rain', 'Showers'], image: 'rain' },
   { type: ['Thunderstorm'], image: 'thunderstorm' },
   { type: ['Tornado', 'Funnel Cloud'], image: 'tornado' },
-  { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane' }, 
+  { type: ['Hurricane', 'Tropical Storm'], image: 'hurricane' },
   { type: ['Windy', 'Breezy'], image: 'windy' },
   { type: ['Smoke', 'Haze', 'Dust', 'Sand'], image: 'smoke_haze' },
   { type: ['Fog', 'Fog/Mist'], image: 'fog' }
@@ -98,11 +100,11 @@ function changeBackgroundImage() {
     item.type.some((type) => weatherType.value.includes(type))
   );
   if (windowWidth.value <= 425) {
-    return `src/assets/${matchingWeatherType.image}_mobile.jpg`;
+    return `/bgImages/${matchingWeatherType.image}_mobile.jpg`;
   } else if (windowWidth.value <= 768) {
-    return `src/assets/${matchingWeatherType.image}_tablet.jpg`;
+    return `/bgImages/${matchingWeatherType.image}_tablet.jpg`;
   } else {
-    return `src/assets/${matchingWeatherType.image}.jpg`;
+    return `/bgImages/${matchingWeatherType.image}.jpg`;
   }
 }
 const aqiColorMap = computed(() => ({
