@@ -18,11 +18,11 @@ app.use(morgan('tiny'));
 const port = process.env.PORT || 8081;
 
 
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + './dist'));
 
 //serve production files
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/dist/index.html');
+  res.sendFile(__dirname + './dist/index.html');
 });
 
 //routes /weather.js
