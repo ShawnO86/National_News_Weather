@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import weatherRoute from './routes/weather.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 dotenv.config();
 app.use(express.json());
@@ -13,8 +16,8 @@ app.use(cors());
 app.use(morgan('tiny'));
 
 const port = process.env.PORT || 8081;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
+
 app.use(express.static(__dirname + '/dist'));
 
 //serve production files

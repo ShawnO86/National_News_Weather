@@ -108,8 +108,11 @@ async function getData(url = '') {
 async function getWeather(location) {
   locationMsg.value = 'Getting weather data...';
   const fetchWeather = await getData(
-    `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
+    `https://weather-app-e871.onrender.com/weather/getData${location[0]}/${location[1]}/${location[2]}`
   );
+/*   const fetchWeather = await getData(
+    `http://localhost:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
+  ); */
   /*     const fetchWeather = await getData(`http://localhost:8081/weather/test`); */
   dailyWeatherData.value = fetchWeather.weatherData.dailyForecast;
   hourlyWeatherData.value = fetchWeather.weatherData.hourlyForecast;
