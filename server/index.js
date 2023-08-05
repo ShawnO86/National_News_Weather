@@ -22,7 +22,7 @@ app.use(express.static(__dirname + '/dist'));
 
 //serve production files
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + './dist/index.html');
+  res.sendFile(__dirname + '/dist/index.html');
 });
 
 //routes /weather.js

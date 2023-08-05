@@ -160,6 +160,7 @@ const getAirQuality = async (lat, long, date) => {
         const current_aqiURL = await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${long}&distance=50&API_KEY=${aqiKey}`);
         const forcast_aqiURL = await fetch(`https://www.airnowapi.org/aq/forecast/latLong/?format=application/json&latitude=${lat}&longitude=${long}&date=${date}&distance=25&API_KEY=${aqiKey}`);
         const aqiData = await current_aqiURL.json();
+        console.log(aqiData)
         const forcastAqiData = await forcast_aqiURL.json();
         aqiData.forEach(result => {
             currentAqiArr.push({
