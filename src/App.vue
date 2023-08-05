@@ -125,10 +125,6 @@ async function getWeather(location) {
     currentAir: fetchWeather.weatherData.airQualityCurrent,
     futureAir: fetchWeather.weatherData.airQualityForecast
   };
-  console.log('current', currentWeatherData.value);
-  console.log('daily: ', dailyWeatherData.value);
-  console.log('hourly:', hourlyWeatherData.value);
-  console.log('location:', locationData.value);
   locationMsg.value = '';
 }
 function changeThemeColors(color) {

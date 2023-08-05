@@ -160,9 +160,8 @@ const getAirQuality = async (lat, long, date) => {
         const current_aqiURL = await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${long}&distance=50&API_KEY=${aqiKey}`);
         const forcast_aqiURL = await fetch(`https://www.airnowapi.org/aq/forecast/latLong/?format=application/json&latitude=${lat}&longitude=${long}&date=${date}&distance=25&API_KEY=${aqiKey}`);
         const aqiData = await current_aqiURL.json();
-        console.log(aqiData)
         const forcastAqiData = await forcast_aqiURL.json();
-        aqiData.forEach(result => {
+        for (const result of aqiData) {
             currentAqiArr.push({
                 hour: get12HourFormat(result.HourObserved),
                 type: result.ParameterName === "O3" ? "Ozone" : result.ParameterName,
@@ -170,15 +169,15 @@ const getAirQuality = async (lat, long, date) => {
                 categoryValue: result.Category.Number,
                 categoryDesc: result.Category.Name
             })
-        });
-        forcastAqiData.forEach(result => {
+        };
+        for (const result of forcastAqiData) {
             forcastAqiArr.push({
                 date: dateFormat(result.DateForecast),
                 type: result.ParameterName === "O3" ? "Ozone" : result.ParameterName,
                 categoryValue: result.Category.Number,
                 categoryDesc: result.Category.Name
             })
-        });
+        };
         projectData.weatherData.airQualityCurrent = currentAqiArr;
         projectData.weatherData.airQualityForecast = forcastAqiArr;
     } catch (e) {
