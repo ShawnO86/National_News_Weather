@@ -1,12 +1,12 @@
 # National_Weather
 
-Weather web app built using Node.js, Express.js, Vue.js, CSS and bundled using Vite.
+Weather web app built using Javascript and frameworks Node.js, Express.js, and Vue.js. Styling is with vanilla CSS, and the application is bundled using Vite.
 
-Users can search for any location in the US by entering a city name and state or a ZIP code. The app will retrieve the weather data for the specified location and display it on the interface.
+Users can search for any location in the US by entering a city name and state or a ZIP code. The express server will retrieve the weather data from the external APIs weather.gov, airnow.gov, and geonames.org for the specified location and send it to the front-end to display on the interface.
 
-Weather information for the entered location includes temperature, humidity, wind speed/direction, rain chance, dewpoint, sunrise/sunset times, weather conditions (e.g., sunny, cloudy, rainy), weather alerts, and current air quality in 7-day forecast, current conditions, and a hourly forecast of the next 48 hours.
+Weather information for the entered location includes temperature, humidity, wind speed/direction, rain chance, dewpoint, sunrise/sunset times, weather conditions (e.g., sunny, cloudy, rainy), weather alerts, and current air quality in 7-day forecast, current conditions, and an hourly forecast of the next 48 hours.
 
-The app is designed to be responsive, adapting to different screen sizes and devices.
+The app is also designed to be responsive, adapting to different screen sizes and devices.
 
 ## Technologies Used
 
