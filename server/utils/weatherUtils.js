@@ -13,7 +13,6 @@ export function get12HourFormat(time) {
 export function dateFormat(date) {
   const d = new Date(removeTime(date));
   const monthValues = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  console.log(`init date: ${date} d: ${d} -- return: ${monthValues[d.getMonth()]} ${d.getDate()}`)
   return `${monthValues[d.getMonth()]} ${d.getDate()}`;
 };
 //changes ISO to yyyy-mm-dd format
