@@ -88,7 +88,7 @@ onMounted(() => {
   }
 });
 function locationError(code) {
-  locationMsg.value = code.message;
+  locationMsg.value = code.message + ', please enable phone location or enter one in the box above. Use format of (City, + State) or Zipcode.';
 }
 function sendGeoLocation(position) {
   getWeather(['no', position.coords.latitude, position.coords.longitude]);
@@ -106,7 +106,7 @@ async function getData(url = '') {
   }
 }
 async function getWeather(location) {
-  locationMsg.value = 'Getting weather data...';
+  locationMsg.value = 'Getting weather data... Please wait.';
   const fetchWeather = await getData(
     `https://weather-app-e871.onrender.com/weather/getData${location[0]}/${location[1]}/${location[2]}`
   );
