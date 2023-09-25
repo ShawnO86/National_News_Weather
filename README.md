@@ -28,8 +28,10 @@ Hosted at: https://weather-app-e871.onrender.com/
 
 ```[tasklist]
 ### TO DO: 
-- [ ] Nighttime color styling and ability to switch automatically based on local time,
-- [ ] Learn and implement chart.js for vue to display graphs of different weather info.
+- [x] Nighttime color styling and ability to switch automatically based on local time,
+- [x] Learn and implement chart.js for vue to display graphs of different weather info,
+- [ ] Setup autocomplete for zipcode or city input,
+- [ ] Move to AWS.
 ```
 
 ### Project Setup & Install Package
