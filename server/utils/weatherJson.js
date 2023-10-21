@@ -12,6 +12,7 @@ const projectData = new WeatherData();
 export const getGeoData = async (city, lat, long) => {
     //city can be "city,state" or zip
     let geoData = '';
+    console.log(geoKey)
     if (city !== 'no') {
         geoData = await fetch(`http://api.geonames.org/searchJSON?q=${city}&radius=10&maxRows=1&country=US&username=${geoKey}`);
         try {
