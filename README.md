@@ -24,15 +24,9 @@ Weather API: https://www.weather.gov API to fetch real-time weather data. The AP
 
 Air Quality API: https://docs.airnowapi.org/ API providing forecast and real-time observed air quality information across the United States.
 
-Hosted at: https://weather-app-e871.onrender.com/ 
+Hosted at: https://weather-app-e871.onrender.com/  -- Please allow a minute for the server to spin up. 
 
-```[tasklist]
-### TO DO: 
-- [x] Nighttime color styling and ability to switch automatically based on local time,
-- [x] Learn and implement chart.js for vue to display graphs of different weather info,
-- [ ] Setup autocomplete for zipcode or city input,
-- [ ] Move to AWS.
-```
+
 
 ### Project Setup & Install Package
 
