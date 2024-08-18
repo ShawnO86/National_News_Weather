@@ -19,7 +19,7 @@
           {{ props.currentWeather.current.windDirection }} -
           {{ props.currentWeather.current.windSpeed }}
         </p>
-        <div v-if="props.currentWeather.currentAir.length != 0" class="airContainer">
+        <div v-if="props.currentWeather.currentAir != 0" class="airContainer">
           <div
             v-for="(item, index) in props.currentWeather.currentAir"
             :key="index"
@@ -84,6 +84,7 @@ const weatherTypes = [
 ];
 //monitor widow size and switch header image for that size
 onMounted(() => {
+  console.log("current", props.currentWeather)
   window.addEventListener('resize', handleResize);
 });
 

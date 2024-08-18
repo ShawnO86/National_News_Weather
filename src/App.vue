@@ -107,6 +107,7 @@ async function getData(url = '') {
 }
 async function getWeather(location) {
   locationMsg.value = 'Getting weather data... Please wait.';
+  console.log(location)
   const fetchWeather = await getData(
     //`http://3.144.174.11:8081/weather/getData${location[0]}/${location[1]}/${location[2]}`
     `https://weather-app-e871.onrender.com/weather/getData${location[0]}/${location[1]}/${location[2]}`
@@ -127,6 +128,7 @@ async function getWeather(location) {
     futureAir: fetchWeather.weatherData.airQualityForecast
   };
   locationMsg.value = '';
+  console.log("daily", dailyWeatherData)
 }
 function changeThemeColors(color) {
   document.documentElement.style.setProperty('--bg-hex', color.bgHex);
